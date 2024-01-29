@@ -1,6 +1,11 @@
 # PrepPal
+Recipe app and meal planner web application.
 
-Recipe app and meal planner web app for COMP 4350 project.
+# Project Proposal
+[Project Proposal](https://github.com/algorizan/PrepPal/wiki/Project-Proposal)
+
+# Architecture
+[Architecture](https://github.com/algorizan/PrepPal/blob/main/documentation/architecture.png)
 
 ## Contributors
 | Name | Username |
