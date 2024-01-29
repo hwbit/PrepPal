@@ -1,4 +1,4 @@
-# meal-planner
+# PrepPal
 
 Recipe app and meal planner web app for COMP 4350 project.
 
