@@ -10,7 +10,7 @@ function NavBar() {
       <Container>
         <div className="container">
           <Navbar.Brand className="nav-item" href="home">
-            <img src={require("../../images/logo.png")} width="50" height="36" alt="preppal"></img>
+            <img src={require("../../assets/logo.png")} width="50" height="36" alt="preppal"></img>
           </Navbar.Brand>
           <Form>
             <Form.Control
