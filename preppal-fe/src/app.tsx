@@ -1,10 +1,11 @@
 import './app.css';
-import { Banner } from './components/banner';
+import Home from './pages/home';
+import '../node_modules/bootstrap/dist/css/bootstrap.css';
 
 function App() {
   return (
-    <div className="App">
-      <Banner/>
+    <div className="app">
+      <Home></Home>
     </div>
   );
 }
