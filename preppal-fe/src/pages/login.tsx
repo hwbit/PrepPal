@@ -10,9 +10,8 @@ const LoginPage = () => {
                 <Card className="p-4" style={{ backgroundColor: "#F2E8DC" }}>
                     <div className="text-center mb-4">
                         <Image src={logo} alt="Logo" rounded />
-
                     </div>
-                    <h2 className="text-center mb-4">Login</h2>
+                    <h2 className="text-center mb-4">Sign into PrepPal</h2>
                     <Form>
                         <Form.Group controlId="formUser" style={{ paddingBottom: '16px' }}>
                             <Form.Control type="text" placeholder="Username" />
@@ -30,7 +29,6 @@ const LoginPage = () => {
                                 Login
                             </Button>
                         </div>
-
                     </Form>
                     <div className="mt-3 text-center">
                         <p>Don't have an account? <a href="/register">Register here</a></p>
