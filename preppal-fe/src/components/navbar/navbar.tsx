@@ -9,7 +9,7 @@ function NavBar() {
     <Navbar expand="lg" className="nav-bar">
       <Container>
         <div className="container">
-          <Navbar.Brand className="nav-item" href="home">
+          <Navbar.Brand className="nav-item" href="/">
             <img src={require("../../assets/logo.png")} width="50" height="36" alt="preppal"></img>
           </Navbar.Brand>
           <Form>
