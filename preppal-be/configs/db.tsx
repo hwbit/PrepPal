@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 const secrets = require('./secrets.tsx');
 
 const uri = secrets.mongoURI;
 
-mongoose.set("strictQuery", true, "useNewUrlParser", true);
+mongoose.set("strictQuery", true);
 
 const connectDB = async() => {
   try {
