@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const secrets = require('./secrets.tsx');
+const secrets = require('./secrets.ts');
 
 const uri = secrets.mongoURI;
 

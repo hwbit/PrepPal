@@ -1,5 +1,5 @@
 const express = require('express');
-const connectToDB = require('./configs/db.tsx');
+const connectToDB = require('./configs/db.ts');
 const app = express();
 
 app.get('/', (req, res) => res.send('Hello world!'));
