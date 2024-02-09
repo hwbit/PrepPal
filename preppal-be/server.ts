@@ -1,13 +1,13 @@
-const express = require('express');
+const expressServer = require('express');
+// import app from './app.ts';
 const connectToDB = require('./configs/db.ts');
-const app = express();
+const appServer = require("./app.ts");
 
 const port = process.env.PORT || 9001;
 
 connectToDB.connectDB();
 
-app.get('/', (req, res) => res.send('Hello world!'));
+appServer.get('/', (req, res) => res.send('Hello  111!'));
 
-app.listen(port, () => console.log(`Server running on port ${port}`));
 
-module.exports = app;
+appServer.listen(port, () => console.log(`Server running on port ${port}`));
