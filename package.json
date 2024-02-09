@@ -8,5 +8,8 @@
     "eslint-plugin-json": "^3.1.0",
     "eslint-plugin-md": "^1.0.19",
     "markdown-eslint-parser": "^1.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.16"
   }
 }
