@@ -1,6 +1,6 @@
 // Import necessary React and TypeScript modules
 import React from 'react';
-import { Card, Container } from 'react-bootstrap';
+import { Card, Col, Row } from 'react-bootstrap';
 import './home.css';
 
 // Define a type for recipe data
@@ -34,19 +34,21 @@ const ExplorePage: React.FC = () => {
   return (
     <div className="explore-page">
       <h1 style={{margin:'20px'}}>Explore</h1>
-      <Container className="recipe-grid">
+      <Row className="g-4" xs={1} md={2}>
         {recipes.map((recipe) => (
-          <Card className="recipe-card" key={recipe.id} style={{width: '18rem', height: '25rem', padding:'10px', margin:'10px'}}>
-            <a href={recipe.link} target="_blank" rel="noopener noreferrer">
-              <Card.Img className='recipe-img' variant='top' src={recipe.imageUrl} alt={recipe.title} style={{ maxWidth: '18rem', maxHeight: '15rem', objectFit: 'cover', borderRadius: '5px' }}/>
-            </a>
-            <Card.Body>
-              <Card.Title>{recipe.title}</Card.Title>
-              <Card.Text className='text-truncate' style={{height:'3em'}}>{recipe.description}</Card.Text>
-            </Card.Body>
-          </Card>
+          <Col key={recipe.id}>
+            <Card className="recipe-card" style={{width: '18rem', height: '25rem', padding:'10px', margin:'10px'}}>
+              <a href={recipe.link} target="_blank" rel="noopener noreferrer">
+                <Card.Img className='recipe-img' variant='top' src={recipe.imageUrl} alt={recipe.title} style={{ maxWidth: '18rem', maxHeight: '15rem', objectFit: 'cover', borderRadius: '5px' }}/>
+              </a>
+              <Card.Body>
+                <Card.Title>{recipe.title}</Card.Title>
+                <Card.Text className='text-truncate' style={{height:'3em'}}>{recipe.description}</Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
         ))}
-      </Container>
+      </Row>
     </div>
   );
 };
