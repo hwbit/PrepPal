@@ -1,6 +1,4 @@
-// import express from "express";
 const expressApp = require('express');
-// import cors from "cors";
 const cors = require("cors");
 const app = expressApp();
 
