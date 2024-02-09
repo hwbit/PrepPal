@@ -36,25 +36,13 @@ function Signup() {
                 </div>
                 <h2 className="text-center mb-4">Create your account</h2>
                 <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                    <Form.Group controlId="formFirstName" style={{ paddingBottom: '16px' }}>
-                        <Form.Label>First name</Form.Label>
-                        <Form.Control required type="text" placeholder="First name" />
-                        <Form.Control.Feedback type="invalid">Please enter your first name.</Form.Control.Feedback>
-                    </Form.Group>
-
-                    <Form.Group controlId="formLastName" style={{ paddingBottom: '8px' }}>
-                        <Form.Label>Last name</Form.Label>
-                        <Form.Control required type="text" placeholder="Last name" />
-                        <Form.Control.Feedback type="invalid">Please enter your last name.</Form.Control.Feedback>
-                    </Form.Group>
-
                     <Form.Group controlId="formUser" style={{ paddingBottom: '16px' }}>
                         <Form.Label>Username</Form.Label>
                         <Form.Control required type="text" placeholder="Username" />
                         <Form.Control.Feedback type="invalid">Please enter a Username.</Form.Control.Feedback>
                     </Form.Group>
 
-                    <Form.Group controlId="formBasicPassword" style={{ paddingBottom: '8px' }}>
+                    <Form.Group controlId="formBasicPassword" style={{ paddingBottom: '16px' }}>
                         <Form.Label>Password</Form.Label>
                         <Form.Control required type="password" placeholder="Password" />
                         <Form.Control.Feedback type="invalid">Please enter a password.</Form.Control.Feedback>
