@@ -40,15 +40,6 @@ const RecipeSchema = new Schema({
     },
     modifiedDate: {
         type: Date
-    },
-    rating: {
-        type: Array
-    },
-    saved: {
-        type: Number
-    },
-    comments: {
-        type: Array
     }
 })
 
