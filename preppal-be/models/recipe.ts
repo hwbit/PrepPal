@@ -1,5 +1,5 @@
 import { UUID } from "mongodb";
-import mongoose from "mongoose";
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const RecipeSchema = new Schema({
