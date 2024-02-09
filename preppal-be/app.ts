@@ -5,6 +5,7 @@ const cors = require("cors");
 const app = expressApp();
 
 app.use(cors());
+app.use(expressApp.json());
 
 // defined paths
 const userApi = require('./routes/userApi.ts');

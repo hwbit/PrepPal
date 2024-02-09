@@ -4,33 +4,24 @@ const router = express.Router();
 
 const User = require('../models/user.ts');
 
-router.get('/', (req, res) => res.send('user api testing!'));
+// router.get('/', (req, res) => res.send('user api testing!'));
 
-// router.get("/", async (req, res) => {
-//     try {
-//         const users = await User.find();
-//         res.json(users);
-//     } catch (error) {
-//         console.error(error.message);
-//         res.status(500).send("Server error")
-//     }
-// });
+router.get("/", async (req, res) => {
+    try {
+        const users = await User.find();
+        res.json(users);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Server error")
+    }
+});
 
 
-// register 
 router.post("/createUser", async (req, res) => {
     try {
-        // // const errors = validationResult(req);
-        // console.log(req);
-        // // console.log(UserModel)
-        // // return res.status(400).json(
-        // //     {
-        // //         msg: req
-        // //     }
-        // // )
-        // const {username, password} = req.body;
-        let username = "test";
-        let password = "password";
+        const errors = validationResult(req);
+
+        const {username, password} = req.body;
 
         let user = await User.findOne({username: username});
         if (user) {
