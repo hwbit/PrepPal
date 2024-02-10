@@ -64,7 +64,7 @@ routerUserApi.post("/createUser", async (req, res) => {
         res.status(201).json({newUser});
     } catch (error) {
         console.error(error);
-        res.status(500).json("Server error.");
+        res.status(500).send("Server error.");
     }
 });
 
