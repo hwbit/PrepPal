@@ -37,13 +37,11 @@ function Signup() {
                 <h2 className="text-center mb-4">Create your account</h2>
                 <Form noValidate validated={validated} onSubmit={handleSubmit}>
                     <Form.Group controlId="formUser" style={{ paddingBottom: '16px' }}>
-                        <Form.Label>Username</Form.Label>
                         <Form.Control required type="text" placeholder="Username" />
                         <Form.Control.Feedback type="invalid">Please enter a Username.</Form.Control.Feedback>
                     </Form.Group>
 
                     <Form.Group controlId="formBasicPassword" style={{ paddingBottom: '16px' }}>
-                        <Form.Label>Password</Form.Label>
                         <Form.Control required type="password" placeholder="Password" />
                         <Form.Control.Feedback type="invalid">Please enter a password.</Form.Control.Feedback>
                     </Form.Group>
