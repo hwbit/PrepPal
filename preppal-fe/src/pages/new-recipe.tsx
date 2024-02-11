@@ -6,7 +6,7 @@ const LoginPage = () => {
 
     return (
         <Container className="d-flex justify-content-center">
-            <div className="w-100" style={{ maxWidth: '400px' }}>
+            <div className="w-100" style={{ maxWidth: '400px', paddingTop: '16px'}}>
                 <h2 className="text-center mb-4">Create Recipe</h2>
                 <Form>
                     <Form.Group controlId="recipeName" style={{ paddingBottom: '16px' }}>
@@ -79,14 +79,6 @@ const LoginPage = () => {
                         </Stack>
                     </Form.Group>
 
-                    <Form.Group controlId="recipeNutritionFacts" style={{ paddingBottom: '24px' }}>
-                        Nutrition Facts
-                        <Form.Control type="calories" placeholder='Calories'/>
-                        <Form.Control type="fat" placeholder='Fat'/>
-                        <Form.Control type="protein" placeholder='Protein'/>
-                        <Form.Control type="carbohydrates" placeholder='Carbohydrates'/>
-                    </Form.Group>
-                    
                     <div className="float-end">
                         <Button className="mx-auto" variant="tertiary" title="Cancel" size="lg">
                             Cancel
