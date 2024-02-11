@@ -12,6 +12,6 @@ const userApi = require("./routes/userApi.ts");
 // defined apis
 app.get("/", (req, res) =>  res.send("App is running"));
 app.use("/api/auth", authApi);
-app.use("/api/user", userApi);
+app.use("/api/users", userApi);
 
 module.exports = app;
