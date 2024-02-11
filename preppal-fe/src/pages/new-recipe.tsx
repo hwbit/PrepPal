@@ -79,7 +79,7 @@ const LoginPage = () => {
                         </Stack>
                     </Form.Group>
 
-                    <div className="float-end">
+                    <div className="float-end" style={{ paddingBottom: '16px' }}>
                         <Button className="mx-auto" variant="tertiary" title="Cancel" size="lg">
                             Cancel
                         </Button>
