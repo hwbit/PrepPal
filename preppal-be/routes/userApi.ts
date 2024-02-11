@@ -22,12 +22,11 @@ routerUserApi.get("/", async (req, res) => {
 /**
  * GET - Get an account with corresponding username
  */
-routerUserApi.get("/:username", async (req, res) => {
+routerUserApi.get("/lookup/:username", async (req, res) => {
     let username = req.params.username;
-    let password = req.params.password;
-    const user = await User.find( { username: username}).select("-password");
+    const user = await User.find( { username: username }).select("-password");
     if (!user) {
-        return res.status(400).json({ errors: [{ msg: "user does not exist"}] });
+        return res.status(400).json({ errors: [{ msg: "user does not exist" }] });
     }
 
     res.status(201).json({user});
