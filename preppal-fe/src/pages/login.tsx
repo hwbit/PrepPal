@@ -40,7 +40,7 @@ const LoginPage = () => {
                 alert("Wrong username or password");
             }
             else {
-                navigate("/home");
+                navigate("/");
             }
         }
     }
