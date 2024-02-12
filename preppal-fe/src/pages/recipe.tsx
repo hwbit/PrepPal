@@ -61,24 +61,6 @@ export default function Recipe() {
                     <li>???</li>
                     <li>Profit</li>
                 </ol>
-                <h1>Nutrition Facts</h1>
-                <Stack direction="horizontal" gap={3}>
-                    <div>Calories: __</div>
-                    <div>Fat: __</div>
-                    <div>Protein: __</div>
-                    <div>Carbohydrates: __</div>
-                </Stack>
-                <h1>Reviews</h1>
-                <Card>
-                    <div>User 1</div>
-                    <div>
-                        {[...Array(4)].map(star => {
-                            return <FaStar size={10}/>
-                        })}
-                        <FaRegStar size={10}/> 4.2
-                    </div>
-                    <div>no msg? this is a load of spicy chicken(trash)</div>
-                </Card>
             </html>
         </Container>
     )
