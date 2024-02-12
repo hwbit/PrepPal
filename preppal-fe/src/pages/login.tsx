@@ -31,7 +31,7 @@ const LoginPage = () => {
                         </div>
                     </Form>
                     <div className="mt-3 text-center">
-                        <p>Don't have an account? <a href="/register">Register here</a></p>
+                        <p>Don't have an account? <a href="/signup">Sign up</a></p>
                     </div>
                 </Card>
             </div>
