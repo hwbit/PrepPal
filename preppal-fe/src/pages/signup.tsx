@@ -34,12 +34,12 @@ const Signup = () => {
             const res = await fetch("http://localhost:9001/api/users/createUsers", req).then(res => res.json());
             localStorage.setItem("token", res.token);
         } catch (err) {
-            alert("return went wrong");
+            alert("something went wrong");
         }
         const token = localStorage.getItem("token");
         if (token) {
             if (token === "undefined") {
-                alert("something went wrong");
+                alert("username already exists");
             }
             else {
                 navigate("/");
@@ -61,7 +61,7 @@ const Signup = () => {
                     <Form noValidate validated={validated} onSubmit={handleSubmit}>
                         <Form.Group controlId="formUser" style={{ paddingBottom: '16px' }}>
                             <Form.Control required type="text" placeholder="Username" onChange={(event) => setUsername(event.target.value)} />
-                            <Form.Control.Feedback type="invalid">Please enter a Username.</Form.Control.Feedback>
+                            <Form.Control.Feedback type="invalid">Please enter a username.</Form.Control.Feedback>
                         </Form.Group>
 
                         <Form.Group controlId="formBasicPassword" style={{ paddingBottom: '16px' }}>
