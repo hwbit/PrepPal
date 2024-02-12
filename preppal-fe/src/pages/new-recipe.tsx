@@ -2,7 +2,7 @@
 import { Container, Form, Button, Stack } from 'react-bootstrap';
 import { MdCancel } from 'react-icons/md';
 
-const LoginPage = () => {
+const NewRecipe = () => {
 
     return (
         <Container className="d-flex justify-content-center">
@@ -93,4 +93,4 @@ const LoginPage = () => {
     );
 };
 
-export default LoginPage;
+export default NewRecipe;
