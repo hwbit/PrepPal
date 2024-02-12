@@ -1,13 +1,16 @@
-import { UUID } from "mongodb";
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const RecipeSchema = new Schema({
-    recipeId: {
-        type: UUID,
-        required: UUID.generate()
-    },
     author: {
+        type: String,
+        required: true
+    },
+    recipeTitle: {
+        type: String,
+        required: true
+    },
+    recipeTitleUrl: {
         type: String,
         required: true
     },
