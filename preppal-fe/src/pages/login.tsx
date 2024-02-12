@@ -29,10 +29,8 @@ const LoginPage = () => {
 
             const res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
             localStorage.setItem("token", res.token);
-        }
-        catch (err) {
+        } catch (err) {
             console.error(err);
-            console.log("something went wrong");
         }
         const token = localStorage.getItem("token");
         if (token) {
