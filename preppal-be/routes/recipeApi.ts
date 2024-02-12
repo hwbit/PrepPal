@@ -52,7 +52,7 @@ routerRecipeApi.post("/searchName/", async (req, res) => {
     try {
         const { recipeName } = req.body
         const recipes = await Recipe.find({ recipeName: recipeName })
-                                .collation( { locale: 'en', strength: 2 } ); // case insensitive
+                                .collation({ locale: 'en', strength: 2 }); // case insensitive
         res.json(recipes);
     } catch (error) {
         console.error(error.message);
@@ -71,10 +71,10 @@ routerRecipeApi.post("/createRecipe", async (req, res) => {
         const recipe = await new Recipe({ author, recipeTitle, recipeTitleUrl, description, ingredients, instructions, servingSize, prepTime, cookingTime });
 
         // add recipe to the author's array
-        const user = await Author.findOne( {username: author} );
+        const user = await Author.findOne({ username: author });
         const ownRecipes = user.ownRecipes;
         ownRecipes.push(recipe.id);
-        const updatedUser = await Author.findByIdAndUpdate( user.id, {ownRecipes: ownRecipes} );
+        const updatedUser = await Author.findByIdAndUpdate(user.id, { ownRecipes: ownRecipes });
 
         const newRecipe = await recipe.save();
         res.status(201).json({ newRecipe });
@@ -90,12 +90,12 @@ routerRecipeApi.post("/createRecipe", async (req, res) => {
 routerRecipeApi.post("/updateRecipe", async (req, res) => {
     try {
         const { _id, author, recipeTitle, recipeTitleUrl, description, ingredients, instructions, servingSize, prepTime, cookingTime, creationDate } = req.body;
-        const modifiedDate = Date.now();
+        const modifiedDate = new Date().toString();
         const recipe = await new Recipe({ _id, author, recipeTitle, recipeTitleUrl, description, ingredients, instructions, servingSize, prepTime, cookingTime, creationDate, modifiedDate });
-        const newRecipe = await Recipe.findOneAndUpdate ({ _id: _id }, recipe);
+        const newRecipe = await Recipe.findOneAndUpdate ( { _id: _id }, recipe);
 
         if (!newRecipe) {
-            return res.status(400).json({msg:"Recipe was not found."});
+            return res.status(404).json( { msg:"Recipe was not found." } );
         }
 
         res.status(201).json({ recipe });

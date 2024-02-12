@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const date = new Date().toString();
+
 const RecipeSchema = new Schema({
     author: {
         type: String,
@@ -39,7 +41,7 @@ const RecipeSchema = new Schema({
     },
     creationDate: {
         type: Date,
-        default: Date.now()
+        default: date
     },
     modifiedDate: {
         type: Date
