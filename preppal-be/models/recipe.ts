@@ -12,6 +12,7 @@ const RecipeSchema = new Schema({
         type: String,
         required: true
     },
+    // TODO Use this for URL address encoding
     recipeTitleUrl: {
         type: String,
         required: true
