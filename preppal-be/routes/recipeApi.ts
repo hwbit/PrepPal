@@ -11,7 +11,7 @@ const Author = require("../models/user.ts")
 routerRecipeApi.get("/", async (req, res) => {
     try {
         const recipes = await Recipe.find();
-        res.json(recipes);
+        res.status(200).json(recipes);
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Server error.")
@@ -24,7 +24,7 @@ routerRecipeApi.get("/", async (req, res) => {
 routerRecipeApi.get("/lookupId/:id", async (req, res) => {
     try {
         const recipe = await Recipe.findOne({ _id: req.params.id });
-        res.json(recipe);
+        res.status(200).json(recipe);
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Could not find id.");
@@ -37,7 +37,7 @@ routerRecipeApi.get("/lookupId/:id", async (req, res) => {
 routerRecipeApi.get("/lookupAuthor/:author", async (req, res) => {
     try {
         const recipes = await Recipe.find({ author: req.params.author });
-        res.json(recipes);
+        res.status(200).json(recipes);
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Could not look up author.");
@@ -51,9 +51,11 @@ routerRecipeApi.get("/lookupAuthor/:author", async (req, res) => {
 routerRecipeApi.post("/searchName/", async (req, res) => {
     try {
         const { recipeName } = req.body
+        // collation makes the lookup case insensitive
+        // https://www.mongodb.com/docs/manual/reference/collation/ 
         const recipes = await Recipe.find({ recipeName: recipeName })
-                                .collation({ locale: 'en', strength: 2 }); // case insensitive
-        res.json(recipes);
+                                .collation({ locale: 'en', strength: 2 });
+        res.status(200).json(recipes);
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Could not look up name.");
