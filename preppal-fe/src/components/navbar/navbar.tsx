@@ -22,6 +22,7 @@ function NavBar() {
         </div>
         <Nav className="links">
           <Nav.Link className="nav-item" href="collections">Collections</Nav.Link>
+          <Nav.Link className="nav-item" href="new-recipe">New Recipe</Nav.Link>
           <Nav.Link className="nav-item" href="profile">Profile</Nav.Link>
           <Nav.Link className="nav-item" href="login">Login</Nav.Link>
         </Nav>
