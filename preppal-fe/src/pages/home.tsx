@@ -84,7 +84,7 @@ const ExplorePage: React.FC = () => {
                 <Card.Img className='recipe-img' variant='top' src={recipe.imageUrl} alt={recipe.title}/>
               </a>
               <Card.Body>
-                <Card.Title>{recipe.title}</Card.Title>
+                <Card.Title className='recipe-title'>{recipe.title}</Card.Title>
                 <Card.Text className='recipe-text'>{recipe.description}</Card.Text>
               </Card.Body>
             </Card>

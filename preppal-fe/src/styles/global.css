@@ -1,8 +1,14 @@
+.explore-page {
+  margin-left: 50px;
+  margin-right: 10px;
+}
+
 .recipe-card {
   width: 13rem;
   height: 20rem;
-  padding: 10px;
-  margin: 10px;
+  /* top | right | bottom | left */
+  margin: 10px -10px 10px 10px;
+  background-color: #6d5f58;
 }
 
 .recipe-img {
@@ -12,10 +18,20 @@
   border-radius: 5px;
 }
 
+.recipe-title {
+  color: #f9d6b2;
+}
+
 .recipe-text {
+  color: #efeade;
   overflow: hidden;
   width: 100%;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+}
+
+h1 {
+  color: #6d5f58;
+  font-weight: bolder;
 }
