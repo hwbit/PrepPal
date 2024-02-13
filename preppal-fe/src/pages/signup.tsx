@@ -4,24 +4,47 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Image from 'react-bootstrap/Image';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const logo = require('../assets/logo.png')
 
-function Signup() {
+const Signup = () => {
+
+    const navigate = useNavigate();
 
     //Logic to stop submission on incomplete form. 
     //React bootstrap offical validation code for forms
     const [validated, setValidated] = useState(false);
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
 
-    const handleSubmit = (event: { currentTarget: any; preventDefault: () => void; stopPropagation: () => void; }) => {
-        const form = event.currentTarget;
-        if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
+    const handleSubmit = async (event: { currentTarget: any; preventDefault: () => void; stopPropagation: () => void; }) => {
+        event.preventDefault();
+        try {
+            const req = {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    'username': username,
+                    'password': password
+                }),
+            };
+            const res = await fetch("http://localhost:9001/api/users/createUsers", req).then(res => res.json());
+            localStorage.setItem("token", res.token);
+        } catch (err) {
+            alert("something went wrong");
         }
-        else {
-            //custom code if valid
-            //This could take input of form, try insert of user. If success, login and send user to home. Else, fail and retry.
+        const token = localStorage.getItem("token");
+        if (token) {
+            if (token === "undefined") {
+                alert("username already exists");
+            }
+            else {
+                navigate("/");
+            }
+
         }
         setValidated(true);
     };//end of React bootstrap offical validation code for forms
@@ -36,12 +59,12 @@ function Signup() {
                     <h2 className="text-center mb-4">Create your account</h2>
                     <Form noValidate validated={validated} onSubmit={handleSubmit}>
                         <Form.Group controlId="formUser" style={{ paddingBottom: '16px' }}>
-                            <Form.Control required type="text" placeholder="Username" />
-                            <Form.Control.Feedback type="invalid">Please enter a Username.</Form.Control.Feedback>
+                            <Form.Control required type="text" placeholder="Username" onChange={(event) => setUsername(event.target.value)} />
+                            <Form.Control.Feedback type="invalid">Please enter a username.</Form.Control.Feedback>
                         </Form.Group>
 
                         <Form.Group controlId="formBasicPassword" style={{ paddingBottom: '16px' }}>
-                            <Form.Control required type="password" placeholder="Password" />
+                            <Form.Control required type="password" placeholder="Password" onChange={(event) => setPassword(event.target.value)} />
                             <Form.Control.Feedback type="invalid">Please enter a password.</Form.Control.Feedback>
                         </Form.Group>
 
