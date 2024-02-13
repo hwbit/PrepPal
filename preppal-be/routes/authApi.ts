@@ -21,7 +21,7 @@ routerAuthApi.get("/", async (req, res) => {
 /**
  * POST - Login to an account
  */
-routerAuthApi.post("/", async(req, res) => {
+routerAuthApi.post("/", async (req, res) => {
     try {
         const { username, password } = req.body;
         let user = await UserAuth.findOne({ username: username });
@@ -41,8 +41,6 @@ routerAuthApi.post("/", async(req, res) => {
                 res.json({ token });
             }
         );
-        res.status(200).send("logged in");
-
     } catch (error) {
         console.error(error);
         res.status(500).send("Server error.");

@@ -20,9 +20,6 @@ const UserSchema = new Schema({
     savedRecipes: {
         type: Array
     },
-    friends: {
-        type: Array
-    },
     following: {
         type: Array
     }
