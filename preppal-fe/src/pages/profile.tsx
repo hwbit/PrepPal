@@ -8,10 +8,12 @@ function Profile() {
 
     return (
         <div className='py-3'>
-            <Button className='mx-3' variant="custom" type="submit" title="Edit" size="sm" style={{ maxWidth: '100px', color: "401E01", backgroundColor: "#F2E8DC" }}>Edit Profile</Button>
             <Row className='p-3 d-flex'>
                 <div className="w-100" style={{ maxWidth: '2000px' }}>
                     <Card className="p-4 d-flex" style={{ backgroundColor: "#F2E8DC" }}>
+                    <Col className='d-flex justify-content-end'>
+                        <Button className='d-flex' variant="primary" type="submit" title="Edit" size="sm" style={{ maxWidth: '40px', backgroundColor: "#401E01" }}>Edit</Button>
+                    </Col>
                         <Card.Header className='d-flex align-items-center'>
                             <Col className='d-flex justify-content-start align-items-center'>
                                 <Image src={logo} alt="Logo" rounded style={{ maxWidth: '200px' }} />
