@@ -1,3 +1,10 @@
+/* Global Variables */
+:root {
+  --dark-brown: #6d5f58;
+  --normal-text: #efeade;
+  --light-orange: #f9d6b2;
+}
+
 .explore-page {
   margin-left: 50px;
   margin-right: 10px;
@@ -8,7 +15,7 @@
   height: 20rem;
   /* top | right | bottom | left */
   margin: 10px -10px 10px 10px;
-  background-color: #6d5f58;
+  background-color: var(--dark-brown);
 }
 
 .recipe-img {
@@ -19,11 +26,11 @@
 }
 
 .recipe-title {
-  color: #f9d6b2;
+  color: var(--light-orange);
 }
 
 .recipe-text {
-  color: #efeade;
+  color: var(--normal-text);
   overflow: hidden;
   width: 100%;
   display: -webkit-box;
@@ -32,6 +39,6 @@
 }
 
 h1 {
-  color: #6d5f58;
+  color: var(--dark-brown);
   font-weight: bolder;
 }
