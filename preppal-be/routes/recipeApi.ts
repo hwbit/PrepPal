@@ -92,7 +92,7 @@ routerRecipeApi.post("/updateRecipe", async (req, res) => {
         const { _id, author, recipeTitle, recipeTitleUrl, description, ingredients, instructions, servingSize, prepTime, cookingTime, creationDate } = req.body;
         const modifiedDate = new Date().toString();
         const recipe = await new Recipe({ _id, author, recipeTitle, recipeTitleUrl, description, ingredients, instructions, servingSize, prepTime, cookingTime, creationDate, modifiedDate });
-        const newRecipe = await Recipe.findOneAndUpdate ( { _id: _id }, recipe);
+        const newRecipe = await Recipe.findOneAndUpdate ({ _id: _id }, recipe);
 
         if (!newRecipe) {
             return res.status(404).json( { msg:"Recipe was not found." } );
@@ -102,6 +102,51 @@ routerRecipeApi.post("/updateRecipe", async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).send("Could not update recipe.");
+    }
+});
+
+
+/**
+ * DELETE - Delete recipe
+ */
+routerRecipeApi.delete("/deleteRecipe/:id", async (req, res) => {
+    try {
+        // remove the recipe from the author's list
+        const recipeId = req.params.id;
+        const recipe = await Recipe.findOne({ _id: recipeId });
+        const { _id, username, password, bio, ownRecipes, savedRecipes, friends, following } = await Author.findOne({ username: recipe.author });
+        if (!username) {
+            return res.status(400).json({ msg:"Could not find author of recipe." });
+        }
+
+        // removes the item from the author's list
+        const index = ownRecipes.indexOf(recipeId, 0)
+        if (index > -1) {
+            ownRecipes.splice(index, 1);
+        }
+
+        const update = {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                '_id': _id, 
+                'username':  username, 
+                'password': password, 
+                'bio': bio, 
+                'ownRecipes': ownRecipes, 
+                'savedRecipes': savedRecipes, 
+                'friends': friends, 
+                'following': following
+            })
+        };
+        // update the user array
+        await fetch("http://localhost:9001/api/users/updateUsers", update);
+
+        // delete the recipe
+        await Recipe.deleteOne( {_id: req.params.id} );
+        res.status(200).send( "Recipe Deleted" );
+    } catch(err) {
+        res.status(500).send("Could not find recipe.");
     }
 });
 
