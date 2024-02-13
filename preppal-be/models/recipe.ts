@@ -8,17 +8,21 @@ const RecipeSchema = new Schema({
         type: String,
         required: true
     },
-    recipeTitle: {
+    title: {
         type: String,
         required: true
     },
-    // TODO Use this for URL address encoding
-    recipeTitleUrl: {
+    // TODO: Use this for URL address encoding
+    titleUrl: {
         type: String,
         required: true
     },
     description: {
         type: String
+    },
+    image: {
+        type: String,
+        default: '../assets/logo.png'
     },
     ingredients: {
         type: Array,

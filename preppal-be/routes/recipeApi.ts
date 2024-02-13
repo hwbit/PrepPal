@@ -62,15 +62,14 @@ routerRecipeApi.post("/searchName/", async (req, res) => {
     }
 });
 
-
 /**
  * POST - Create recipe
  */
 routerRecipeApi.post("/createRecipe", async (req, res) => {
     try {
-        const { _id, author, recipeTitle, description, ingredients, instructions, servingSize, prepTime, cookingTime } = req.body;
-        const recipeTitleUrl = recipeTitle.toLowerCase().replace(" ", "-");
-        const recipe = await new Recipe({ author, recipeTitle, recipeTitleUrl, description, ingredients, instructions, servingSize, prepTime, cookingTime });
+        const { _id, author, title, description, image, ingredients, instructions, servingSize, prepTime, cookingTime } = req.body;
+        const titleUrl = title.toLowerCase().replace(" ", "-");
+        const recipe = await new Recipe({ author, title, titleUrl, description, image, ingredients, instructions, servingSize, prepTime, cookingTime });
 
         // add recipe to the author's array
         const user = await Author.findOne({ username: author });
@@ -91,9 +90,9 @@ routerRecipeApi.post("/createRecipe", async (req, res) => {
  */
 routerRecipeApi.post("/updateRecipe", async (req, res) => {
     try {
-        const { _id, author, recipeTitle, recipeTitleUrl, description, ingredients, instructions, servingSize, prepTime, cookingTime, creationDate } = req.body;
+        const { _id, author, title, titleUrl, description, image, ingredients, instructions, servingSize, prepTime, cookingTime, creationDate } = req.body;
         const modifiedDate = new Date().toString();
-        const recipe = await new Recipe({ _id, author, recipeTitle, recipeTitleUrl, description, ingredients, instructions, servingSize, prepTime, cookingTime, creationDate, modifiedDate });
+        const recipe = await new Recipe({ _id, author, title, titleUrl, image, description, ingredients, instructions, servingSize, prepTime, cookingTime, creationDate, modifiedDate });
         const newRecipe = await Recipe.findOneAndUpdate({ _id: _id }, recipe);
 
         if (!newRecipe) {
