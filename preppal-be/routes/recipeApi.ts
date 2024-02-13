@@ -94,10 +94,10 @@ routerRecipeApi.post("/updateRecipe", async (req, res) => {
         const { _id, author, recipeTitle, recipeTitleUrl, description, ingredients, instructions, servingSize, prepTime, cookingTime, creationDate } = req.body;
         const modifiedDate = new Date().toString();
         const recipe = await new Recipe({ _id, author, recipeTitle, recipeTitleUrl, description, ingredients, instructions, servingSize, prepTime, cookingTime, creationDate, modifiedDate });
-        const newRecipe = await Recipe.findOneAndUpdate ({ _id: _id }, recipe);
+        const newRecipe = await Recipe.findOneAndUpdate({ _id: _id }, recipe);
 
         if (!newRecipe) {
-            return res.status(404).json({ msg:"Recipe was not found." });
+            return res.status(404).json({ msg: "Recipe was not found." });
         }
 
         res.status(201).json({ recipe });
@@ -146,7 +146,7 @@ routerRecipeApi.delete("/deleteRecipe/:id", async (req, res) => {
 
         // delete the recipe
         await Recipe.deleteOne({ _id: req.params.id });
-        res.status(200).json({ msg: "Recipe Deleted"});
+        res.status(200).json({ msg: "Recipe Deleted" });
     } catch(err) {
         res.status(500).send("Could not find recipe.");
     }
