@@ -68,7 +68,7 @@ routerRecipeApi.post("/searchName/", async (req, res) => {
 routerRecipeApi.post("/createRecipe", async (req, res) => {
     try {
         const { _id, author, title, description, image, ingredients, instructions, servingSize, prepTime, cookingTime } = req.body;
-        const titleUrl = title.toLowerCase().replace(" ", "-");
+        const titleUrl = title.toLowerCase().replaceAll(" ", "-");
         const recipe = await new Recipe({ author, title, titleUrl, description, image, ingredients, instructions, servingSize, prepTime, cookingTime });
 
         // add recipe to the author's array
@@ -90,8 +90,9 @@ routerRecipeApi.post("/createRecipe", async (req, res) => {
  */
 routerRecipeApi.post("/updateRecipe", async (req, res) => {
     try {
-        const { _id, author, title, titleUrl, description, image, ingredients, instructions, servingSize, prepTime, cookingTime, creationDate } = req.body;
+        const { _id, author, title, description, image, ingredients, instructions, servingSize, prepTime, cookingTime, creationDate } = req.body;
         const modifiedDate = new Date().toString();
+        const titleUrl = title.toLowerCase().replaceAll(" ", "-");
         const recipe = await new Recipe({ _id, author, title, titleUrl, image, description, ingredients, instructions, servingSize, prepTime, cookingTime, creationDate, modifiedDate });
         const newRecipe = await Recipe.findOneAndUpdate({ _id: _id }, recipe);
 
