@@ -106,7 +106,6 @@ routerRecipeApi.post("/updateRecipe", async (req, res) => {
     }
 });
 
-
 /**
  * DELETE - Delete recipe
  */
@@ -117,7 +116,7 @@ routerRecipeApi.delete("/deleteRecipe/:id", async (req, res) => {
         const recipe = await Recipe.findOne({ _id: recipeId });
         const { _id, username, password, bio, ownRecipes, savedRecipes, following } = await Author.findOne({ username: recipe.author });
         if (!username) {
-            return res.status(400).json({ msg:"Could not find author of recipe." });
+            return res.status(400).json({ msg: "Could not find author of recipe." });
         }
 
         // removes the item from the author's list

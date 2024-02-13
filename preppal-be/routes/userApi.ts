@@ -85,25 +85,4 @@ routerUserApi.post("/updateUsers", async (req, res) => {
     }
 });
 
-/**
- * POST - Update user
- */
-routerUserApi.post("/updateUser", async (req, res) => {
-    try {
-        const {_id, username, password, bio, ownRecipes, savedRecipes, friends, following} = req.body;
-
-        const user = await new User({ _id, username, password, bio, ownRecipes, savedRecipes, friends, following });
-        const newUser = await User.findOneAndUpdate({ username: username }, user);
-        
-        if (!newUser) {
-            return res.status(400).json({msg:"User was not found"});
-        }
-
-        res.status(200).json(user);
-    } catch (error) {
-        console.error(error);
-        res.status(500).send("Server error.");
-    }
-});
-
 module.exports = routerUserApi;
