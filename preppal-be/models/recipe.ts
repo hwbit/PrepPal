@@ -50,6 +50,12 @@ const RecipeSchema = new Schema({
     },
     modifiedDate: {
         type: Date
+    },
+    tags: {
+        type: Array
+    },
+    visibility: {
+        type: String
     }
 })
 
