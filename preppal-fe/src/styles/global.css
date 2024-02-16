@@ -12,7 +12,7 @@
 
 .recipe-card {
   width: 13rem;
-  height: 20rem;
+  height: 21.5rem;
   /* top | right | bottom | left */
   margin: 10px -10px 10px 10px;
   background-color: var(--dark-brown);
@@ -27,6 +27,11 @@
 
 .recipe-title {
   color: var(--light-orange);
+}
+
+.recipe-author {
+  color: var(--light-orange);
+  font-style: italic;
 }
 
 .recipe-text {

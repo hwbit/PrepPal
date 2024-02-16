@@ -5,70 +5,79 @@ import '../styles/global.css';
 
 // Define a type for recipe data
 type Recipe = {
-  id: number;
+  recipeId: number;
   title: string;
-  imageUrl: string;
+  author: string;
+  image: string;
   description: string;
-  link: string;
+  titleUrl: string;
 };
 
 // Placeholder recipe data
 const recipes: Recipe[] = [
   {
-    id: 1,
+    recipeId: 1,
     title: 'Grilled Cheese Sandwich',
-    imageUrl: 'https://images.media-allrecipes.com/userphotos/2206436.jpg',
+    author: 'Sara',
+    image: 'https://images.media-allrecipes.com/userphotos/2206436.jpg',
     description: 'Learn how to make a grilled cheese sandwich in a nonstick pan with buttered bread and American Cheddar for a classic hot sandwich.',
-    link: 'https://www.allrecipes.com/recipe/23891/grilled-cheese-sandwich/',
+    titleUrl: 'https://www.allrecipes.com/recipe/23891/grilled-cheese-sandwich/',
   },
   {
-    id: 2,
+    recipeId: 2,
     title: 'Simple Macaroni and Cheese',
-    imageUrl: 'https://www.the-girl-who-ate-everything.com/wp-content/uploads/2021/07/stovetop-mac-n-cheese-10.jpg',
+    author: 'g0dluvsugly',
+    image: 'https://www.the-girl-who-ate-everything.com/wp-content/uploads/2021/07/stovetop-mac-n-cheese-10.jpg',
     description: 'Quick, easy, and tasty macaroni and cheese dish. Fancy, designer mac and cheese often costs forty or fifty dollars to prepare when you have so many expensive cheeses, but they aren\'t always the best tasting. This simple recipe is cheap and tasty.',
-    link: 'https://www.allrecipes.com/recipe/238691/simple-macaroni-and-cheese/',
+    titleUrl: 'https://www.allrecipes.com/recipe/238691/simple-macaroni-and-cheese/',
   },
   {
-    id: 3,
+    recipeId: 3,
     title: 'Grilled Cheese Sandwich',
-    imageUrl: 'https://images.media-allrecipes.com/userphotos/2206436.jpg',
+    author: 'Sara',
+    image: 'https://images.media-allrecipes.com/userphotos/2206436.jpg',
     description: 'Learn how to make a grilled cheese sandwich in a nonstick pan with buttered bread and American Cheddar for a classic hot sandwich.',
-    link: 'https://www.allrecipes.com/recipe/23891/grilled-cheese-sandwich/',
+    titleUrl: 'https://www.allrecipes.com/recipe/23891/grilled-cheese-sandwich/',
   },
   {
-    id: 4,
+    recipeId: 4,
     title: 'Simple Macaroni and Cheese',
-    imageUrl: 'https://www.the-girl-who-ate-everything.com/wp-content/uploads/2021/07/stovetop-mac-n-cheese-10.jpg',
+    author: 'g0dluvsugly',
+    image: 'https://www.the-girl-who-ate-everything.com/wp-content/uploads/2021/07/stovetop-mac-n-cheese-10.jpg',
     description: 'Quick, easy, and tasty macaroni and cheese dish. Fancy, designer mac and cheese often costs forty or fifty dollars to prepare when you have so many expensive cheeses, but they aren\'t always the best tasting. This simple recipe is cheap and tasty.',
-    link: 'https://www.allrecipes.com/recipe/238691/simple-macaroni-and-cheese/',
+    titleUrl: 'https://www.allrecipes.com/recipe/238691/simple-macaroni-and-cheese/',
   },
   {
-    id: 5,
+    recipeId: 5,
     title: 'Grilled Cheese Sandwich',
-    imageUrl: 'https://images.media-allrecipes.com/userphotos/2206436.jpg',
+    author: 'Sara',
+    image: 'https://images.media-allrecipes.com/userphotos/2206436.jpg',
     description: 'Learn how to make a grilled cheese sandwich in a nonstick pan with buttered bread and American Cheddar for a classic hot sandwich.',
-    link: 'https://www.allrecipes.com/recipe/23891/grilled-cheese-sandwich/',
+    titleUrl: 'https://www.allrecipes.com/recipe/23891/grilled-cheese-sandwich/',
   },
   {
-    id: 6,
+    recipeId: 6,
     title: 'Simple Macaroni and Cheese',
-    imageUrl: 'https://www.the-girl-who-ate-everything.com/wp-content/uploads/2021/07/stovetop-mac-n-cheese-10.jpg',
+    author: 'g0dluvsugly',
+    image: 'https://www.the-girl-who-ate-everything.com/wp-content/uploads/2021/07/stovetop-mac-n-cheese-10.jpg',
     description: 'Quick, easy, and tasty macaroni and cheese dish. Fancy, designer mac and cheese often costs forty or fifty dollars to prepare when you have so many expensive cheeses, but they aren\'t always the best tasting. This simple recipe is cheap and tasty.',
-    link: 'https://www.allrecipes.com/recipe/238691/simple-macaroni-and-cheese/',
+    titleUrl: 'https://www.allrecipes.com/recipe/238691/simple-macaroni-and-cheese/',
   },
   {
-    id: 7,
+    recipeId: 7,
     title: 'Grilled Cheese Sandwich',
-    imageUrl: 'https://images.media-allrecipes.com/userphotos/2206436.jpg',
+    author: 'Sara',
+    image: 'https://images.media-allrecipes.com/userphotos/2206436.jpg',
     description: 'Learn how to make a grilled cheese sandwich in a nonstick pan with buttered bread and American Cheddar for a classic hot sandwich.',
-    link: 'https://www.allrecipes.com/recipe/23891/grilled-cheese-sandwich/',
+    titleUrl: 'https://www.allrecipes.com/recipe/23891/grilled-cheese-sandwich/',
   },
   {
-    id: 8,
+    recipeId: 8,
     title: 'Simple Macaroni and Cheese',
-    imageUrl: 'https://www.the-girl-who-ate-everything.com/wp-content/uploads/2021/07/stovetop-mac-n-cheese-10.jpg',
+    author: 'g0dluvsugly',
+    image: 'https://www.the-girl-who-ate-everything.com/wp-content/uploads/2021/07/stovetop-mac-n-cheese-10.jpg',
     description: 'Quick, easy, and tasty macaroni and cheese dish. Fancy, designer mac and cheese often costs forty or fifty dollars to prepare when you have so many expensive cheeses, but they aren\'t always the best tasting. This simple recipe is cheap and tasty.',
-    link: 'https://www.allrecipes.com/recipe/238691/simple-macaroni-and-cheese/',
+    titleUrl: 'https://www.allrecipes.com/recipe/238691/simple-macaroni-and-cheese/',
   },
 ];
 
@@ -78,20 +87,27 @@ const ExplorePage: React.FC = () => {
       <h1 style={{margin:'20px'}}>Explore</h1>
       <Row xs="auto" md="auto" lg="auto">
         {recipes.map((recipe) => (
-          <Col key={recipe.id}>
-            <Card className="recipe-card">
-              <a href={recipe.link} target="_blank" rel="noopener noreferrer">
-                <Card.Img className='recipe-img' variant='top' src={recipe.imageUrl} alt={recipe.title}/>
-              </a>
-              <Card.Body>
-                <Card.Title className='recipe-title'>{recipe.title}</Card.Title>
-                <Card.Text className='recipe-text'>{recipe.description}</Card.Text>
-              </Card.Body>
-            </Card>
+          <Col key={recipe.recipeId}>
+            {recipeCard(recipe)}
           </Col>
         ))}
       </Row>
     </div>
+  );
+};
+
+function recipeCard(recipe:Recipe) :JSX.Element {
+  return (
+    <Card className="recipe-card">
+      <a href={recipe.titleUrl} target="_blank" rel="noopener noreferrer">
+        <Card.Img className='recipe-img' variant='top' src={recipe.image} alt={recipe.title}/>
+      </a>
+      <Card.Body>
+        <Card.Title className='recipe-title'>{recipe.title}</Card.Title>
+        <Card.Text className='recipe-text'>{recipe.description}</Card.Text>
+        <Card.Subtitle className='recipe-author'>{recipe.author}</Card.Subtitle>
+      </Card.Body>
+    </Card>
   );
 };
 
