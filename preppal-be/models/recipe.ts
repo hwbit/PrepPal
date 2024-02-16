@@ -1,18 +1,28 @@
-import { UUID } from "mongodb";
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const date = new Date().toString();
+
 const RecipeSchema = new Schema({
-    recipeId: {
-        type: UUID,
-        required: UUID.generate()
-    },
     author: {
+        type: String,
+        required: true
+    },
+    title: {
+        type: String,
+        required: true
+    },
+    // TODO: Use this for URL address encoding
+    titleUrl: {
         type: String,
         required: true
     },
     description: {
         type: String
+    },
+    image: {
+        type: String,
+        default: '../assets/logo.png'
     },
     ingredients: {
         type: Array,
@@ -36,7 +46,7 @@ const RecipeSchema = new Schema({
     },
     creationDate: {
         type: Date,
-        default: Date.now()
+        default: date
     },
     modifiedDate: {
         type: Date

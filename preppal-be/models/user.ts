@@ -12,15 +12,12 @@ const UserSchema = new Schema({
     },
     bio: {
         type: String,
-        required: false
+        default: "Hi!"
     },
     ownRecipes: {
-        type: Array,
-    },
-    savedRecipes: {
         type: Array
     },
-    friends: {
+    savedRecipes: {
         type: Array
     },
     following: {
