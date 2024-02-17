@@ -3,6 +3,7 @@
   --dark-brown: #6d5f58;
   --normal-text: #efeade;
   --light-orange: #f9d6b2;
+  --light-red: #ff907f;
 }
 
 .explore-page {
@@ -46,4 +47,9 @@
 h1 {
   color: var(--dark-brown);
   font-weight: bolder;
+}
+
+img,
+link {
+  color: var(--light-red);
 }
