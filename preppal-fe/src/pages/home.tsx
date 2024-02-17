@@ -31,7 +31,7 @@ const ExplorePage: React.FC = () => {
       <h1 style={{margin:'20px'}}>Explore</h1>
       <Row xs="auto" md="auto" lg="auto">
         {recipes.map((recipe) => (
-          <Col key={recipe.recipeId}>
+          <Col key={recipe._id}>
             {recipeCard(recipe)}
           </Col>
         ))}
