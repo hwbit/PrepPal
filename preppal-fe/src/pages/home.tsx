@@ -42,7 +42,7 @@ const ExplorePage: React.FC = () => {
 function recipeCard(recipe:any) :JSX.Element {
   return (
     <Card className="recipe-card">
-      <a href={recipe.titleUrl} target="_blank" rel="noopener noreferrer">
+      <a href={`${recipe.author}/${recipe.titleUrl}`} target="_blank" rel="noopener noreferrer">
         <Card.Img className='recipe-img' variant='top' src={recipe.image} alt={recipe.title}/>
       </a>
       <Card.Body>
