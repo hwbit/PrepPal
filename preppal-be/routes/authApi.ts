@@ -11,7 +11,7 @@ const UserAuth = require('../models/user.ts');
 routerAuthApi.get("/", async (req, res) => {
     try {
         const users = await UserAuth.find().select("-password");
-        res.json(users);
+        res.status(200).json(users);
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Server error");
@@ -38,7 +38,7 @@ routerAuthApi.post("/", async (req, res) => {
         jwtAuthApi.sign(payload, configAuthApi.jwtSecret, { expiresIn: 3600 * 24 },
             (err, token) => {
                 if (err) throw err;
-                res.json({ token });
+                res.status(200).json({ token });
             }
         );
     } catch (error) {
