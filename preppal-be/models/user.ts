@@ -15,13 +15,13 @@ const UserSchema = new Schema({
         default: "Hi!"
     },
     ownRecipes: {
-        type: Array
+        type: [String]
     },
     savedRecipes: {
-        type: Array
+        type: [String]
     },
     following: {
-        type: Array
+        type: [String]
     }
 });
 

@@ -50,10 +50,10 @@ routerRecipeApi.get("/lookupAuthor/:author", async (req, res) => {
  */
 routerRecipeApi.post("/searchName/", async (req, res) => {
     try {
-        const { recipeName } = req.body
+        const { title } = req.body
         // collation makes the lookup case insensitive
         // https://www.mongodb.com/docs/manual/reference/collation/ 
-        const recipes = await Recipe.find({ recipeName: recipeName })
+        const recipes = await Recipe.find({ title: title })
                                 .collation({ locale: 'en', strength: 2 });
         res.status(200).json(recipes);
     } catch (error) {
@@ -67,7 +67,14 @@ routerRecipeApi.post("/searchName/", async (req, res) => {
  */
 routerRecipeApi.post("/createRecipe", async (req, res) => {
     try {
-        const { _id, author, title, description, image, ingredients, instructions, servingSize, prepTime, cookingTime } = req.body;
+        const { author, title, description, image, ingredients, instructions, servingSize, prepTime, cookingTime } = req.body;
+
+        if (!author) {
+            return res.status(400).json({ msg: "Recipe requires an author." });
+        } else if (!title) {
+            return res.status(400).json({ msg: "Recipe requires a title." });
+        }
+
         const titleUrl = title.toLowerCase().replaceAll(" ", "-");
         const recipe = await new Recipe({ author, title, titleUrl, description, image, ingredients, instructions, servingSize, prepTime, cookingTime });
 
@@ -90,10 +97,21 @@ routerRecipeApi.post("/createRecipe", async (req, res) => {
  */
 routerRecipeApi.post("/updateRecipe", async (req, res) => {
     try {
-        const { _id, author, title, description, image, ingredients, instructions, servingSize, prepTime, cookingTime, creationDate } = req.body;
+        const { _id, author, title, description, image, ingredients, instructions, servingSize, prepTime, cookingTime, creationDate, tags, visibility } = req.body;
+        
+        const verifyRecipe = await Recipe.findOne({ _id: _id });
+
+        if (!verifyRecipe) {
+            return res.status(400).json({ errors: [{ msg: "Invalid Id for recipe."}] });
+        } else if (!author) {
+            return res.status(400).json({ msg: "Recipe requires an author." });
+        } else if (!title) {
+            return res.status(400).json({ msg: "Recipe requires a title." });
+        }
+
         const modifiedDate = new Date().toString();
         const titleUrl = title.toLowerCase().replaceAll(" ", "-");
-        const recipe = await new Recipe({ _id, author, title, titleUrl, image, description, ingredients, instructions, servingSize, prepTime, cookingTime, creationDate, modifiedDate });
+        const recipe = await new Recipe({ _id, author, title, titleUrl, image, description, ingredients, instructions, servingSize, prepTime, cookingTime, creationDate, modifiedDate, tags, visibility });
         const newRecipe = await Recipe.findOneAndUpdate({ _id: _id }, recipe);
 
         if (!newRecipe) {
