@@ -104,9 +104,9 @@ routerRecipeApi.post("/updateRecipe", async (req, res) => {
         if (!verifyRecipe) {
             return res.status(400).json({ errors: [{ msg: "Invalid Id for recipe."}] });
         } else if (!author) {
-            return res.status(404).json({ msg: "Recipe requires an author." });
+            return res.status(400).json({ msg: "Recipe requires an author." });
         } else if (!title) {
-            return res.status(404).json({ msg: "Recipe requires a title." });
+            return res.status(400).json({ msg: "Recipe requires a title." });
         }
 
         const modifiedDate = new Date().toString();
