@@ -22,14 +22,14 @@ const RecipeSchema = new Schema({
     },
     image: {
         type: String,
-        default: '../assets/logo.png'
+        default: 'logo.png'
     },
     ingredients: {
-        type: Array,
+        type: [String],
         required: true
     },
     instructions: {
-        type: Array,
+        type: [String],
         required: true
     },
     servingSize: {
@@ -52,10 +52,11 @@ const RecipeSchema = new Schema({
         type: Date
     },
     tags: {
-        type: Array
+        type: [String]
     },
     visibility: {
-        type: String
+        type: Boolean,
+        default: true
     }
 })
 
