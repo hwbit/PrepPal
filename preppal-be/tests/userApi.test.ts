@@ -48,7 +48,7 @@ describe('userApi test', function() {
                 username: tempUserName,
                 password: "43293taA"
             });
-        expect(res.statusCode).toEqual(200);
+        expect(res.statusCode).toEqual(201);
 
         // clean up
         await UserModel.findOneAndDelete({ username: tempUserName });

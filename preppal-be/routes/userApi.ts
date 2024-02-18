@@ -55,7 +55,7 @@ routerUserApi.post("/createUsers", async (req, res) => {
             jwtUserApi.sign(payload, configUserApi.jwtSecret, { expiresIn: 3600 * 24 },
                 (err, token) => {
                     if (err) throw err;
-                    res.status(200).json({ token });
+                    res.status(201).json({ token });
                 });
         } catch (error) {
             console.error(error);
