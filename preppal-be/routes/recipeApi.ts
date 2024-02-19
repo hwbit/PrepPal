@@ -55,6 +55,7 @@ routerRecipeApi.post("/searchName/", async (req, res) => {
         // https://www.mongodb.com/docs/manual/reference/collation/ 
         const recipes = await Recipe.find({ title: title })
                                 .collation({ locale: 'en', strength: 2 });
+
         res.status(200).json(recipes);
     } catch (error) {
         console.error(error.message);
@@ -73,6 +74,12 @@ routerRecipeApi.post("/createRecipe", async (req, res) => {
             return res.status(400).json({ msg: "Recipe requires an author." });
         } else if (!title) {
             return res.status(400).json({ msg: "Recipe requires a title." });
+        } else if (!ingredients || ingredients.length == 0 || !instructions || instructions.length == 0) {
+            return res.status(400).json({ msg: "Recipe requires a ingredients and/or instructions." });
+        } else if (!servingSize || servingSize <= 0) {
+            return res.status(400).json({ msg: "Recipe requires a serving size." });
+        } else if (!prepTime || prepTime < 0 || !cookingTime || cookingTime < 0) {
+            return res.status(400).json({ msg: "Recipe requires a prep time and/or cooking time." });
         }
 
         const titleUrl = title.toLowerCase().replaceAll(" ", "-");
@@ -98,15 +105,21 @@ routerRecipeApi.post("/createRecipe", async (req, res) => {
 routerRecipeApi.post("/updateRecipe", async (req, res) => {
     try {
         const { _id, author, title, description, image, ingredients, instructions, servingSize, prepTime, cookingTime, creationDate, tags, visibility } = req.body;
-        
+
         const verifyRecipe = await Recipe.findOne({ _id: _id });
 
         if (!verifyRecipe) {
-            return res.status(400).json({ errors: [{ msg: "Invalid Id for recipe."}] });
+            return res.status(400).json({ errors: [{ msg: "Invalid Id for recipe." }] });
         } else if (!author) {
             return res.status(400).json({ msg: "Recipe requires an author." });
         } else if (!title) {
             return res.status(400).json({ msg: "Recipe requires a title." });
+        } else if (!ingredients || ingredients.length == 0 || !instructions || instructions.length == 0) {
+            return res.status(400).json({ msg: "Recipe requires a ingredients and/or instructions." });
+        } else if (!servingSize || servingSize <= 0) {
+            return res.status(400).json({ msg: "Recipe requires a serving size." });
+        } else if (!prepTime || prepTime < 0 || !cookingTime || cookingTime < 0) {
+            return res.status(400).json({ msg: "Recipe requires a prep time and/or cooking time." });
         }
 
         const modifiedDate = new Date().toString();
@@ -134,6 +147,7 @@ routerRecipeApi.delete("/deleteRecipe/:id", async (req, res) => {
         const recipeId = req.params.id;
         const recipe = await Recipe.findOne({ _id: recipeId });
         const { _id, username, password, bio, ownRecipes, savedRecipes, following } = await Author.findOne({ username: recipe.author });
+        
         if (!username) {
             return res.status(400).json({ msg: "Could not find author of recipe." });
         }
@@ -144,26 +158,13 @@ routerRecipeApi.delete("/deleteRecipe/:id", async (req, res) => {
             ownRecipes.splice(index, 1);
         }
 
-        const update = {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                '_id': _id, 
-                'username':  username, 
-                'password': password, 
-                'bio': bio, 
-                'ownRecipes': ownRecipes, 
-                'savedRecipes': savedRecipes, 
-                'following': following
-            })
-        };
-        // update the user array
-        await fetch("http://localhost:9001/api/users/updateUsers", update);
+        // update the author's json
+        const updatedUser = await Author.findByIdAndUpdate(_id, { ownRecipes: ownRecipes });
 
         // delete the recipe
         await Recipe.deleteOne({ _id: req.params.id });
         res.status(200).json({ msg: "Recipe Deleted" });
-    } catch(err) {
+    } catch (err) {
         res.status(500).send("Could not find recipe.");
     }
 });
