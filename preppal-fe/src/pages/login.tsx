@@ -48,7 +48,7 @@ const LoginPage = () => {
             <div className="w-100" style={{ maxWidth: '400px' }}>
                 <Card className="p-4" style={{ backgroundColor: "#F2E8DC" }}>
                     <div className="text-center mb-4">
-                        <Image src={logo} alt="Logo" rounded />
+                        <Image src={logo} alt="Logo" width={200} height={200} rounded />
                     </div>
                     <h2 className="text-center mb-4">Sign in</h2>
                     <Form onSubmit={loginClick}>

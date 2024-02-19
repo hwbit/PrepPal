@@ -1,15 +1,17 @@
-.container {
+.links {
+    margin-right: 80px;
+    margin-left: auto;
+}
+
+.navbar {
+    background-color: #F2E8DC;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
-.links {
-    margin-right: 20px;
-}
-
-.nav-bar {
-    background-color: #F2E8DC;
-    height: 75px;
+.navbar-brand {
+    margin-left: 130px;
 }
 
 .nav-item {
@@ -17,5 +19,6 @@
 }
 
 .search-bar {
-    width: 650px !important;
+    margin-left: 50px;
+    width: 700px;
 }

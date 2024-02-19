@@ -6,27 +6,22 @@ import './navbar.css'
 
 function NavBar() {
   return (
-    <Navbar expand="lg" className="nav-bar">
-      <Container>
-        <div className="container">
-          <Navbar.Brand className="nav-item" href="/">
-            <img src={require("../../assets/logo.png")} width="50" height="36" alt="preppal"></img>
-          </Navbar.Brand>
-          <Form>
-            <Form.Control
-              type="text"
-              placeholder="Search"
-              className="nav-item search-bar"
-            />
-          </Form>
-        </div>
-        <Nav className="links">
-          <Nav.Link className="nav-item" href="collections">Collections</Nav.Link>
-          <Nav.Link className="nav-item" href="new-recipe">New Recipe</Nav.Link>
-          <Nav.Link className="nav-item" href="profile">Profile</Nav.Link>
-          <Nav.Link className="nav-item" href="login">Login</Nav.Link>
-        </Nav>
-      </Container>
+    <Navbar expand="lg">
+      <Navbar.Brand href="/">
+        <img src={require("../../assets/logo.png")} width="50" height="40" alt="preppal"></img>
+      </Navbar.Brand>
+      <Form className="search-bar">
+        <Form.Control
+          type="text"
+          placeholder="Search"
+        />
+      </Form>
+      <Nav className="links">
+        <Nav.Link className="nav-item" href="collections">Collections</Nav.Link>
+        <Nav.Link className="nav-item" href="new-recipe">New Recipe</Nav.Link>
+        <Nav.Link className="nav-item" href="profile">Profile</Nav.Link>
+        <Nav.Link className="nav-item" href="login">Login</Nav.Link>
+      </Nav>
     </Navbar >
   );
 }
