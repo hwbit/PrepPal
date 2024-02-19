@@ -1,67 +1,60 @@
 import { Container, Image, Stack, Row, Col, Card} from 'react-bootstrap';
-import {FaStar, FaRegStar, FaHeart} from 'react-icons/fa';
-const chickenfriedrice = require('../assets/chickenfriedrice.webp')
+import { dateToString } from '../utils/date';
 
-export default function Recipe() {
+const recipeInfo: any = {
+    author: "John Doe",
+    title: "Chicken's Fried Rice",
+    description: "A chicken fried this rice.",
+    image: "logo.png",
+    ingredients: ["Rice","Chicken","Green onion"],
+    instructions: ["Cook chicken","Fry rice"],
+    servingSize: 1,
+    prepTime: 20,
+    cookingTime: 30,
+    modifiedDate: new Date()
+}
+
+const Recipe = () => {
+    const ingredientsArray = (recipeInfo.ingredients).map((ingredient: string) => <li>{ingredient}</li>);
+    const instructionsArray = (recipeInfo.instructions).map((step: string) => <li>{step}</li>)
+    const datePublished = dateToString(recipeInfo.modifiedDate);
     return (
         <Container className="d-flex ">
         <html>
-            <h1>Chicken's Fried Rice</h1>
+            <h1>{recipeInfo.title}</h1>
+            <div>{recipeInfo.description}</div>
             <Stack direction="horizontal">
                 <div className="p-2">
-                    {[...Array(4)].map(star => {
-                        return <FaStar/>
-                    })}
-                    <FaRegStar/> 4.2
+                    Author: {recipeInfo.author}
                 </div>
                 <div className="p-2">
-                    43 Reviews
-                </div>
-                <div className="p-2">
-                    10 Photos
+                    Date published: {datePublished}
                 </div>
             </Stack>
-            <div>No MSG required{"\n"}</div>
-            <Stack direction="horizontal">
-                <div className="p-2">
-                    Author: _
-                </div>
-                <div className="p-2">
-                    Date published: January 1, 2000
-                </div>
-            </Stack>
-            <Stack direction="horizontal" gap={4}>
-                <div>
-                    <FaStar/> Rate
-                </div>
-                <div><FaHeart/> Favourite</div>
-            </Stack>
-            
             <div>
-                <Image src={chickenfriedrice} width={200}/>
+                <Image src={require("../assets/"+recipeInfo.image)} width={200}/>
             </div>
             <Card>
                 <Row className="">
-                    <Col>Prep Time: 20 min</Col>
-                    <Col>Cook Time: 20 min</Col>
+                    <Col>Prep Time: {recipeInfo.prepTime} min</Col>
+                    <Col>Cooking Time: {recipeInfo.cookingTime} min</Col>
                 </Row>
                 <Row>
-                    <Col>Total Time: 40 min</Col>
-                    <Col>Servings: 1</Col>
+                    <Col>Total Time: {recipeInfo.prepTime+recipeInfo.cookingTime} min</Col>
+                    <Col>Serving Size: {recipeInfo.servingSize}</Col>
                 </Row>
             </Card>
                 <h1>Ingredients</h1>
-                <li>Chicken</li>
-                <li>Fried</li>
-                <li>Rice</li>
-                <h1>Directions</h1>
+                <ul>
+                    {ingredientsArray}
+                </ul>
+                <h1>Instructions</h1>
                 <ol>
-                    <li>Cook chicken</li>
-                    <li>Fry rice</li>
-                    <li>???</li>
-                    <li>Profit</li>
+                    {instructionsArray}
                 </ol>
             </html>
         </Container>
     )
 }
+
+export default Recipe;
