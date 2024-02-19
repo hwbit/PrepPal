@@ -23,11 +23,11 @@ const RecipeSchema = new Schema({
         default: "logo.png",
     },
     ingredients: {
-        type: Array,
+        type: [String],
         required: true,
     },
     instructions: {
-        type: Array,
+        type: [String],
         required: true,
     },
     servingSize: {
@@ -47,6 +47,11 @@ const RecipeSchema = new Schema({
         default: date,
     },
     modifiedDate: {type: Date},
+    tags: {type: [String]},
+    visibility: {
+        type: Boolean,
+        default: true,
+    },
 });
 
 const Recipe = mongoose.model("Recipe", RecipeSchema);
