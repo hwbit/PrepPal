@@ -2,8 +2,10 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Form } from 'react-bootstrap';
 import './NavBar.css'
+import { useState } from 'react';
 
 function NavBar() {
+  const [loggedIn] = useState(false)
   return (
     <Navbar expand="lg">
       <Navbar.Brand href="/">
@@ -18,8 +20,10 @@ function NavBar() {
       <Nav className="links">
         <Nav.Link className="nav-item" href="collections">Collections</Nav.Link>
         <Nav.Link className="nav-item" href="new-recipe">New Recipe</Nav.Link>
-        <Nav.Link className="nav-item" href="profile">Profile</Nav.Link>
-        <Nav.Link className="nav-item" href="login">Login</Nav.Link>
+        {loggedIn
+          ? (<Nav.Link className="nav-item" href="profile">Profile</Nav.Link>)
+          : (<Nav.Link className="nav-item" href="login">Login</Nav.Link>)
+        }
       </Nav>
     </Navbar >
   );
