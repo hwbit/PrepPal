@@ -4,7 +4,7 @@ import { Form } from 'react-bootstrap';
 import './NavBar.css'
 import { useState } from 'react';
 
-function NavBar() {
+const NavBar = () => {
   const [loggedIn] = useState(false)
   return (
     <Navbar expand="lg">
