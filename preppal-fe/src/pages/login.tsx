@@ -44,11 +44,11 @@ const LoginPage = () => {
     }
 
     return (
-        <Container className="d-flex align-items-center justify-content-center" style={{ minHeight: '100vh' }}>
-            <div className="w-100" style={{ maxWidth: '400px' }}>
-                <Card className="p-4" style={{ backgroundColor: "#F2E8DC" }}>
-                    <div className="text-center mb-4">
-                        <Image src={logo} alt="Logo" width={200} height={200} rounded />
+        <Container className="d-flex align-items-center justify-content-center" style={{ minHeight: '95vh' }}>
+            <Card className="p-4 w-100" style={{ backgroundColor: "#F2E8DC", maxWidth: '450px' }}>
+                <div style={{ maxWidth: '400px', marginLeft: 'auto', marginRight: 'auto' }}>
+                    <div className="text-center m-4">
+                        <Image src={logo} alt="Logo" width={300} height={250} rounded />
                     </div>
                     <h2 className="text-center mb-4">Sign in</h2>
                     <Form onSubmit={loginClick}>
@@ -72,8 +72,8 @@ const LoginPage = () => {
                     <div className="mt-3 text-center">
                         <p>Don't have an account? <a href="/signup">Sign up</a></p>
                     </div>
-                </Card>
-            </div>
+                </div>
+            </Card>
         </Container>
     );
 };

@@ -7,7 +7,9 @@ const NewRecipe = () => {
     return (
         <Container style={{ display: 'flex', justifyContent: 'center' }}>
             <Form style={{ width: '100%', maxWidth: '500px', paddingTop: '40px' }}>
-                <h2 style={{ textAlign: 'center', marginBottom: '1.5rem' }}>Create Recipe</h2>
+                <h2 style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
+                    Create Recipe
+                </h2>
                 <Form.Group controlId='title' style={{ paddingBottom: '24px' }}>
                     Title
                     <Form.Control type='text' />
