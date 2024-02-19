@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const date = new Date().toString();
@@ -6,60 +6,52 @@ const date = new Date().toString();
 const RecipeSchema = new Schema({
     author: {
         type: String,
-        required: true
+        required: true,
     },
     title: {
         type: String,
-        required: true
+        required: true,
     },
     // TODO: Use this for URL address encoding
     titleUrl: {
         type: String,
-        required: true
+        required: true,
     },
-    description: {
-        type: String
-    },
+    description: {type: String},
     image: {
         type: String,
-        default: 'logo.png'
+        default: "logo.png",
     },
     ingredients: {
         type: [String],
-        required: true
+        required: true,
     },
     instructions: {
         type: [String],
-        required: true
+        required: true,
     },
     servingSize: {
         type: Number,
-        required: true
+        required: true,
     },
     prepTime: {
         type: Number,
-        required: true
+        required: true,
     },
     cookingTime: {
         type: Number,
-        required: true
+        required: true,
     },
     creationDate: {
         type: Date,
-        default: date
+        default: date,
     },
-    modifiedDate: {
-        type: Date
-    },
-    tags: {
-        type: [String]
-    },
-    visibility: {
+    modifiedDate: {type: Date},
+    tags: {type: [String]},
+    isPublic: {
         type: Boolean,
-        default: true
-    }
-})
+        default: true,
+    },
+});
 
-const Recipe = mongoose.model('Recipe', RecipeSchema);
-
-module.exports = Recipe;
+module.exports = mongoose.model("Recipe", RecipeSchema);
