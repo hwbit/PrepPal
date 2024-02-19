@@ -48,12 +48,10 @@ const RecipeSchema = new Schema({
     },
     modifiedDate: {type: Date},
     tags: {type: [String]},
-    visibility: {
+    isPublic: {
         type: Boolean,
         default: true,
     },
 });
 
-const Recipe = mongoose.model("Recipe", RecipeSchema);
-
-module.exports = Recipe;
+module.exports = mongoose.model("Recipe", RecipeSchema);
