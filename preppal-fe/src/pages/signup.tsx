@@ -50,12 +50,11 @@ const Signup = () => {
     };//end of React bootstrap offical validation code for forms
 
     return (
-        <Container className="d-flex align-items-center justify-content-center" style={{ minHeight: '95vh' }}>
-            <Card className="p-4 w-100" style={{ backgroundColor: "#F2E8DC", maxWidth: '450px', height: '650px' }}>
+        <Container className="d-flex align-items-center justify-content-center">
+            <Card className="p-4 w-100" style={{ margin: '40px', backgroundColor: "#F2E8DC", maxWidth: '450px', height: '650px' }}>
                 <div style={{ maxWidth: '400px', marginLeft: 'auto', marginRight: 'auto' }}>
                     <div className="text-center m-4">
-                        <Image src={logo} alt="Logo" width={300} height={250} rounded />
-
+                        <Image src={logo} alt="Logo" width={300} height={250} style={{ maxWidth: '100%', height: 'auto' }} rounded />
                     </div>
                     <h2 className="text-center mb-4" style={{ paddingBottom: '32px' }} > Create your account</h2>
                     <Form noValidate validated={validated} onSubmit={handleSubmit}>
@@ -63,12 +62,10 @@ const Signup = () => {
                             <Form.Control required type="text" placeholder="Username" onChange={(event) => setUsername(event.target.value)} />
                             <Form.Control.Feedback type="invalid">Please enter a username.</Form.Control.Feedback>
                         </Form.Group>
-
                         <Form.Group controlId="formBasicPassword" style={{ paddingBottom: '28px' }}>
                             <Form.Control required type="password" placeholder="Password" onChange={(event) => setPassword(event.target.value)} />
                             <Form.Control.Feedback type="invalid">Please enter a password.</Form.Control.Feedback>
                         </Form.Group>
-
                         <div className="d-grid gap-2">
                             <Button className="mx-auto" variant="primary" type="submit" title="SignUp" size="lg">
                                 Sign up

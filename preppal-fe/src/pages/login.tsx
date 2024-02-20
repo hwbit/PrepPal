@@ -44,11 +44,11 @@ const LoginPage = () => {
     }
 
     return (
-        <Container className="d-flex align-items-center justify-content-center" style={{ minHeight: '95vh' }}>
-            <Card className="p-4 w-100" style={{ backgroundColor: "#F2E8DC", maxWidth: '450px', height: '650px' }}>
+        <Container className="d-flex align-items-center justify-content-center">
+            <Card className="p-4 w-100" style={{ margin: '40px', backgroundColor: "#F2E8DC", maxWidth: '450px', height: '650px' }}>
                 <div style={{ maxWidth: '400px', marginLeft: 'auto', marginRight: 'auto' }}>
                     <div className="text-center m-4">
-                        <Image src={logo} alt="Logo" width={300} height={250} rounded />
+                        <Image src={logo} alt="Logo" width={300} height={250} style={{ maxWidth: '100%', height: 'auto' }} rounded />
                     </div>
                     <h2 className="text-center mb-4">Sign in</h2>
                     <Form onSubmit={loginClick}>
