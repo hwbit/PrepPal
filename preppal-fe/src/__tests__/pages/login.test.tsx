@@ -1,23 +1,23 @@
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import LoginPage from "../../pages/login";
 import { BrowserRouter } from 'react-router-dom';
 
 describe('Login Component tests', () => {
     test('Render standard component --> Buttons', () => {
-        const { queryByTitle } = render(<BrowserRouter><LoginPage /></BrowserRouter>);
+        render(<BrowserRouter><LoginPage /></BrowserRouter>);
 
-        const loginbtn = queryByTitle("Login");
+        const loginbtn = screen.queryByTitle("Login");
         expect(loginbtn).toBeTruthy();
     });
 
     test('Render standard component --> input fields', () => {
-        const { queryByTitle } = render(<BrowserRouter><LoginPage /></BrowserRouter>);
+        render(<BrowserRouter><LoginPage /></BrowserRouter>);
 
-        const username = queryByTitle("inputUsername");
+        const username = screen.queryByTitle("inputUsername");
         expect(username).toBeTruthy();
-        const password = queryByTitle("inputPassword");
+        const password = screen.queryByTitle("inputPassword");
         expect(password).toBeTruthy();
-        const checkboxRemember = queryByTitle("checkboxRememberMe");
+        const checkboxRemember = screen.queryByTitle("checkboxRememberMe");
         expect(checkboxRemember).toBeTruthy();
     });
 })
