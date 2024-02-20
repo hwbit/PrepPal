@@ -1,7 +1,7 @@
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Form } from 'react-bootstrap';
-import './NavBar.css'
+import './nav-bar.css'
 import { useState } from 'react';
 
 const NavBar = () => {
