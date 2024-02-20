@@ -1,0 +1,24 @@
+.links {
+    margin-right: 80px;
+    margin-left: auto;
+}
+
+.navbar {
+    background-color: #F2E8DC;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar-brand {
+    margin-left: 130px;
+}
+
+.nav-item {
+    margin-left: 20px;
+}
+
+.search-bar {
+    margin-left: 50px;
+    width: 700px;
+}
