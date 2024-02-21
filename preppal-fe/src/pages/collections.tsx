@@ -68,7 +68,6 @@ const Collections = () => {
                 onSelect={key => handleSelect(key)}>
                 <Tab eventKey="MyRecipes" title="My Recipes">
                     <Row xs="auto" md="auto" lg="auto">
-                        TESTING MY RECIPES
                         {recipes.filter(recipe => recipe.isPublic).map((recipe) => (
                             <Col key={recipe._id}>
                                 {RecipeCard(recipe)}
@@ -77,7 +76,6 @@ const Collections = () => {
                     </Row>
                 </Tab>
                 <Tab eventKey="Favourites" title="Favourites">
-                    TESTING FAVOURITES
                     <Row xs="auto" md="auto" lg="auto">
                         {recipes.filter(recipe => recipe.isPublic).map((recipe) => (
                             <Col key={recipe._id}>
