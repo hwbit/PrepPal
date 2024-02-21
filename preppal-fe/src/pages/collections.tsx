@@ -3,25 +3,48 @@ import React, { useState } from 'react';
 import RecipeCard from '../components/recipe-card/recipe-card';
 
 const Collections = () => {
-
+    const [username, setUsername] = useState("");
     const [recipes, setRecipes] = useState<any[]>([]);
     const [myRecipes, setMyRecipes] = useState(true);
 
     React.useEffect(() => {
+        getUser();
         fillRecipes(myRecipes);
-    }, [myRecipes]);
+    });
+
+    const getUser = async () => {
+        const token = localStorage.getItem("token");
+        try {
+            if (token) {
+                const req = {
+                    method: "GET",
+                    headers: {
+                        "x-auth-token": token
+                    }
+                };
+
+                const res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
+                setUsername(res.username);
+            }
+
+        } catch (err) {
+
+        }
+    };
 
     const fillRecipes = async (myRecipes: boolean) => {
         try {
-            if (myRecipes) {
+            if (myRecipes && username !== "") {
                 const req = {
                     method: "GET",
                     headers: {
                         'Content-Type': 'application/json'
                     }
                 };
-                const fetchedRecipes = await fetch("http://localhost:9001/api/recipes/", req).then((res) => res.json());
+                const fetchedRecipes = await fetch("http://localhost:9001/api/recipes/lookupAuthor/" + username, req).then((res) => res.json());
                 setRecipes(fetchedRecipes);
+            } else {
+                setRecipes([]);
             }
 
         } catch (err) {
@@ -44,8 +67,8 @@ const Collections = () => {
                 id="collections"
                 onSelect={key => handleSelect(key)}>
                 <Tab eventKey="MyRecipes" title="My Recipes">
-                    TESTING MY RECIPES
                     <Row xs="auto" md="auto" lg="auto">
+                        TESTING MY RECIPES
                         {recipes.filter(recipe => recipe.isPublic).map((recipe) => (
                             <Col key={recipe._id}>
                                 {RecipeCard(recipe)}
