@@ -10,7 +10,7 @@ const Collections = () => {
     React.useEffect(() => {
         getUser();
         fillRecipes(myRecipes);
-    });
+    }, [username, myRecipes]);
 
     const getUser = async () => {
         const token = localStorage.getItem("token");
