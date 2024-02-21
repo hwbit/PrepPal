@@ -52,15 +52,15 @@ const LoginPage = () => {
                     </div>
                     <h2 className="text-center mb-4">Sign in</h2>
                     <Form onSubmit={loginClick}>
-                        <Form.Group controlId="formUser" style={{ paddingBottom: '16px' }}>
+                        <Form.Group title="inputUsername" controlId="formUser" style={{ paddingBottom: '16px' }}>
                             <Form.Control type="text" placeholder="Username" onChange={(event) => setUsername(event.target.value)} />
                         </Form.Group>
 
-                        <Form.Group controlId="formBasicPassword" style={{ paddingBottom: '8px' }}>
+                        <Form.Group title="inputPassword" controlId="formBasicPassword" style={{ paddingBottom: '8px' }}>
                             <Form.Control type="password" placeholder="Password" onChange={(event) => setPassword(event.target.value)} />
                         </Form.Group>
 
-                        <Form.Group controlId="formBasicCheckbox" style={{ paddingBottom: '8px' }}>
+                        <Form.Group title="checkboxRememberMe" controlId="formBasicCheckbox" style={{ paddingBottom: '8px' }}>
                             <Form.Check type="checkbox" label="Remember me" />
                         </Form.Group>
                         <div className="d-grid gap-2">
