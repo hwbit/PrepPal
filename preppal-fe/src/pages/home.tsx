@@ -28,7 +28,7 @@ const ExplorePage: React.FC = () => {
 
   return (
     <div className="explore-page">
-      <h1 style={{ margin: '20px' }}>Explore</h1>
+      <h1>Explore</h1>
       <Row xs="auto" md="auto" lg="auto">
         {recipes.filter(recipe => recipe.isPublic).map((recipe) => (
           <Col key={recipe._id}>
