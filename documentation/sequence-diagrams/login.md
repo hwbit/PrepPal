@@ -12,4 +12,5 @@ sequenceDiagram
     Database-->>Backend (REST API): Return token for user session
     Backend (REST API)-->>Frontend (Browser): Return token for user session
     Frontend (Browser)->>Frontend (Browser): Set cookie
+    Frontend (Browser)-->>User: Display the homepage
 ```
