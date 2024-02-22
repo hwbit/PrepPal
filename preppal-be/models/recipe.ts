@@ -1,48 +1,57 @@
-import { UUID } from "mongodb";
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+const date = new Date().toString();
+
 const RecipeSchema = new Schema({
-    recipeId: {
-        type: UUID,
-        required: UUID.generate()
-    },
     author: {
         type: String,
-        required: true
+        required: true,
     },
-    description: {
-        type: String
+    title: {
+        type: String,
+        required: true,
+    },
+    // TODO: Use this for URL address encoding
+    titleUrl: {
+        type: String,
+        required: true,
+    },
+    description: {type: String},
+    image: {
+        type: String,
+        default: "logo.png",
     },
     ingredients: {
-        type: Array,
-        required: true
+        type: [String],
+        required: true,
     },
     instructions: {
-        type: Array,
-        required: true
+        type: [String],
+        required: true,
     },
     servingSize: {
         type: Number,
-        required: true
+        required: true,
     },
     prepTime: {
         type: Number,
-        required: true
+        required: true,
     },
     cookingTime: {
         type: Number,
-        required: true
+        required: true,
     },
     creationDate: {
         type: Date,
-        default: Date.now()
+        default: date,
     },
-    modifiedDate: {
-        type: Date
-    }
-})
+    modifiedDate: {type: Date},
+    tags: {type: [String]},
+    isPublic: {
+        type: Boolean,
+        default: true,
+    },
+});
 
-const Recipe = mongoose.model('Recipe', RecipeSchema);
-
-module.exports = Recipe;
+module.exports = mongoose.model("Recipe", RecipeSchema);
