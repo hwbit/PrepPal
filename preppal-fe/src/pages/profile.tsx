@@ -1,7 +1,6 @@
 import Card from 'react-bootstrap/Card';
 import Image from 'react-bootstrap/Image';
 import { Button, Col, Row, Stack } from 'react-bootstrap';
-import RecipeCard from '../components/recipe-card/recipe-card';
 import React from 'react';
 
 const logo = require('../assets/logo.png')
@@ -11,43 +10,26 @@ function Profile() {
     const [userBio, setBio] = React.useState("");
     const [userFollowing, setFollowing] = React.useState<any[]>([]);
     const [userFollowingCount, setFollowingCount] = React.useState(0);
-    const [recipes, setRecipes] = React.useState<any[]>([]);
     React.useEffect(() => {
         fillUserContent();
-        fillRecipes();
     }, []);
 
     const fillUserContent = async () => {
+        const token = localStorage.getItem("token");
         try {
-            const req = {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            };
-            const curUserName = localStorage.getItem("curUserName");
-            const curUser = await fetch("http://localhost:9001/api/users/lookup/test11", req).then((res) => res.json());
-            //remove this api and use a completely different api
-            setName(curUser.user[0].username);
-            setBio(curUser.user[0].bio);
-            setFollowing(curUser.user[0].following);
-            setFollowingCount(userFollowing.length)
-        } catch (err) {
-            console.error(err);
-        }
-    };
-
-    const fillRecipes = async () => {
-        try {
-            const req = {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            };
-            const fetchedRecipes = await fetch("http://localhost:9001/api/recipes/lookupAuthor/test11", req).then((res) => res.json());
-            //remove test11 and update with username
-            setRecipes(fetchedRecipes);
+            if (token) {
+                const req = {
+                    method: "GET",
+                    headers: {
+                        "x-auth-token": token
+                    }
+                };
+                const res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
+                setName(res.username);
+                setBio(res.bio);
+                setFollowing(res.following);
+                setFollowingCount(userFollowing.length)
+            }
         } catch (err) {
             console.error(err);
         }
@@ -89,17 +71,8 @@ function Profile() {
                 <div className="w-100" style={{ maxWidth: '2000px' }}>
                     <Card className="p-4" style={{ backgroundColor: "#F2E8DC" }}>
                         <Card.Header>
-                            <Card.Title>Recipes</Card.Title>
+                            <Card.Title>Content</Card.Title>
                         </Card.Header>
-                        <Card.Body>
-                            <Row xs="auto" md="auto" lg="auto">
-                                {recipes.filter(recipe => recipe.isPublic).map((recipe) => (
-                                    <Col key={recipe._id}>
-                                        {RecipeCard(recipe)}
-                                    </Col>
-                                ))}
-                            </Row>
-                        </Card.Body>
                         <Card.Header>
                             <Card.Title>Following</Card.Title>
                         </Card.Header>
