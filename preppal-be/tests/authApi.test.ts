@@ -18,15 +18,8 @@ describe('authApi test', function () {
         db.closeDatabase();
     });
 
-    // get list
-    it("correct test - getting a list of users", async () => {
-        const res = await request(app)
-            .get("/api/auth");
-        expect(res.statusCode).toEqual(200);
-    });
-
     // login
-    it("correct test - login successful", async() => {
+    it("correct test - login successful", async () => {
         const res = await request(app)
             .post("/api/auth")
             .send({
@@ -37,7 +30,7 @@ describe('authApi test', function () {
         expect(res.body.token).toBeTruthy();
     });
 
-    it("incorrect test - user does not exist", async() => {
+    it("incorrect test - user does not exist", async () => {
         const res = await request(app)
             .post("/api/auth")
             .send({
@@ -47,7 +40,7 @@ describe('authApi test', function () {
         expect(res.statusCode).toEqual(400);
     });
 
-    it("incorrect test - incorrect password", async() => {
+    it("incorrect test - incorrect password", async () => {
         const res = await request(app)
             .post("/api/auth")
             .send({

@@ -2,16 +2,16 @@ const expressAuthApi = require("express");
 const routerAuthApi = expressAuthApi.Router();
 const jwtAuthApi = require("jsonwebtoken");
 const configAuthApi = require("../configs/secrets.ts")
-
+const authAuthApi = require("../auth/authorization.ts");
 const UserAuth = require('../models/user.ts');
 
 /**
  * GET - Get all accounts
  */
-routerAuthApi.get("/", async (req, res) => {
+routerAuthApi.get("/", authAuthApi, async (req, res) => {
     try {
-        const users = await UserAuth.find().select("-password");
-        res.status(200).json(users);
+        const user = await UserAuth.findById(req.user.id).select("-password");
+        res.status(200).json(user);
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Server error");
