@@ -11,5 +11,5 @@ sequenceDiagram
     Backend (REST API)->>Database: Create new recipe object in the database
     Database-->>Backend (REST API): Return results of recipe object
     Backend (REST API)-->>Frontend (Browser): Return result of recipe details
-    Frontend (Browser)->>User: Open recipe page with created recipe
+    Frontend (Browser)-->>User: Open recipe page with created recipe
 ```
