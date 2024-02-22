@@ -1,5 +1,4 @@
-name: Build front end
-
+name: preppal frontend build
 on:
   push:
     branches: [ "dev" ]
