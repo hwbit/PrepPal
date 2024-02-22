@@ -12,6 +12,7 @@ function Profile() {
     const [userFollowingCount, setFollowingCount] = React.useState(0);
     React.useEffect(() => {
         fillUserContent();
+        // eslint-disable-next-line
     }, []);
 
     const fillUserContent = async () => {
@@ -43,7 +44,7 @@ function Profile() {
 
     return (
         <div className='py-3'>
-            <Row className='p-3 d-flex'>
+            <Row className='p-3 d-flex' onSubmit={edit()}>
                 <div className="w-100" style={{ maxWidth: '2000px' }}>
                     <Card className="p-4 d-flex" style={{ backgroundColor: "#F2E8DC" }}>
                         <Card.Header className='d-flex align-items-center'>
@@ -70,9 +71,6 @@ function Profile() {
             <Row className='px-3'>
                 <div className="w-100" style={{ maxWidth: '2000px' }}>
                     <Card className="p-4" style={{ backgroundColor: "#F2E8DC" }}>
-                        <Card.Header>
-                            <Card.Title>Content</Card.Title>
-                        </Card.Header>
                         <Card.Header>
                             <Card.Title>Following</Card.Title>
                         </Card.Header>
