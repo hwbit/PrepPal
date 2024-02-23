@@ -481,7 +481,7 @@ describe('recipeApi test', function () {
             prepTime: 1, 
             cookingTime:1 
         });
-        recipe.save();
+        await recipe.save();
 
         const res = await request(app)
             .delete("/api/recipes/deleteRecipe/" + recipe._id.toString());
