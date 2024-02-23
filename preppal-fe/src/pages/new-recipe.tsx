@@ -2,6 +2,7 @@
 import React from 'react';
 import { Form, Button, Container, InputGroup } from 'react-bootstrap';
 import { MdCancel } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
 
 interface Recipe {
     title: string,
@@ -14,6 +15,9 @@ interface Recipe {
 }
 
 const NewRecipe = () => {
+
+    const navigate = useNavigate();
+
     const [recipe, setRecipe] = React.useState({
         title: "",
         desc: "",
@@ -26,14 +30,69 @@ const NewRecipe = () => {
     const [validated, setValidated] = React.useState<boolean>(false);
     const [ingredientErr, setIngredientErr] = React.useState<boolean>(false);
     const [instructionErr, setInstructionErr] = React.useState<boolean>(false);
+    const [username, setUsername] = React.useState<string>();
 
-    const handleSubmit = (e: any) => {
+    React.useEffect(() => {
+        getUser();
+    }, []);
+
+    const getUser = async () => {
+        const token = localStorage.getItem("token");
+        try {
+            if (token) {
+                const req = {
+                    method: "GET",
+                    headers: {
+                        "x-auth-token": token
+                    }
+                };
+
+                const res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
+                setUsername(res.username);
+            }
+
+        } catch (err) {
+
+        }
+    };
+
+    const handleSubmit = async (e: any) => {
         const form = e.currentTarget;
         if (form.checkValidity() === false || ingredientErr || instructionErr) {
             e.preventDefault();
             e.stopPropagation();
         } else {
+            e.preventDefault();
+            const token = localStorage.getItem("token");
+            try {
+                if (token) {
+                    const req = {
+                        method: "POST",
 
+                        headers: {
+                            'Content-Type': 'application/json',
+                            "x-auth-token": token
+                        },
+
+                        body: JSON.stringify({
+                            "author": username,
+                            "title": recipe.title,
+                            "description": recipe.desc,
+                            "ingredients": recipe.ingredients,
+                            "instructions": recipe.instructions,
+                            "servingSize": recipe.servings,
+                            "prepTime": recipe.prepTime,
+                            "cookingTime": recipe.cookingTime,
+                        })
+                    };
+
+                    const res = await fetch("http://localhost:9001/api/recipes/createRecipe", req).then(res => res.json());
+
+                    navigate("/collections");
+                }
+            } catch (err) {
+                console.error(err);
+            }
         }
 
         setValidated(true);
@@ -177,24 +236,29 @@ const NewRecipe = () => {
                         onClick={(e) => handleAddStep()}>
                         Add Instruction
                     </Button>
-
                 </Form.Group>
                 <Form.Group style={{ paddingBottom: '24px' }}>
                     <Form.Label>Servings</Form.Label>
-                    <Form.Control
-                        name='servings'
-                        type='text'
-                        required
-                        onChange={(event) => handleChange(event)} />
-                    <Form.Control.Feedback type="invalid">Please enter a value</Form.Control.Feedback>
+                    <InputGroup>
+                        <Form.Control
+                            name='servings'
+                            type='number'
+                            required
+                            onChange={(event) => handleChange(event)} />
+                        <InputGroup.Text>people</InputGroup.Text>
+                        <Form.Control.Feedback type="invalid">Please enter a value</Form.Control.Feedback>
+                    </InputGroup>
                 </Form.Group>
-                <Form.Label>Prep time</Form.Label>
                 <Form.Group style={{ paddingBottom: '24px' }}>
-                    <Form.Control
-                        name='prepTime'
-                        required
-                        type='text'
-                        onChange={(event) => handleChange(event)} />
+                    <Form.Label>Prep time</Form.Label>
+                    <InputGroup>
+                        <Form.Control
+                            name='prepTime'
+                            required
+                            type='number'
+                            onChange={(event) => handleChange(event)} />
+                        <InputGroup.Text>mins</InputGroup.Text>
+                    </InputGroup>
                     <Form.Text>
                         Enter the time in minutes
                     </Form.Text>
@@ -202,11 +266,14 @@ const NewRecipe = () => {
                 </Form.Group>
                 <Form.Group style={{ paddingBottom: '24px' }}>
                     <Form.Label>Cooking time</Form.Label>
-                    <Form.Control
-                        name='cookingTime'
-                        type='text'
-                        required
-                        onChange={(event) => handleChange(event)} />
+                    <InputGroup>
+                        <Form.Control
+                            name='cookingTime'
+                            type='number'
+                            required
+                            onChange={(event) => handleChange(event)} />
+                        <InputGroup.Text>mins</InputGroup.Text>
+                    </InputGroup>
                     <Form.Text>
                         Enter the time in minutes
                     </Form.Text>
