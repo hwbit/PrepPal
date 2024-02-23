@@ -135,13 +135,13 @@ const NewRecipe = () => {
                                 </InputGroup>
                             </Form.Group>
                         ))
-                        : <span>Require at least one ingredient</span>}
+                        : <span><br />Require at least one ingredient<br /></span>}
                     <Button
                         id='addIngredient'
                         onClick={(e) => handleAddIngredient()}
                         variant={!ingredientErr ? 'primary' : 'danger'}
                         size='sm'
-                        style={{ marginLeft: 'auto', marginRight: 'auto' }}>
+                        style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: '8px' }}>
                         Add Ingredient
                     </Button>
                 </Form.Group>
@@ -168,12 +168,12 @@ const NewRecipe = () => {
                                 </InputGroup>
                             </Form.Group>
                         ))
-                        : <span>Require at least one instruction</span>}
+                        : <span><br />Require at least one instruction<br /></span>}
                     <Button
                         variant={!instructionErr ? 'primary' : 'danger'}
                         id='addInstruction'
                         size='sm'
-                        style={{ marginLeft: 'auto', marginRight: 'auto' }}
+                        style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: '8px' }}
                         onClick={(e) => handleAddStep()}>
                         Add Instruction
                     </Button>
