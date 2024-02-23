@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Form, Button, Container } from 'react-bootstrap';
+import { Form, Button, Container, InputGroup } from 'react-bootstrap';
 import { MdCancel } from 'react-icons/md';
 
 interface Recipe {
@@ -24,13 +24,16 @@ const NewRecipe = () => {
         cookingTime: 0
     } as Recipe);
     const [validated, setValidated] = React.useState<boolean>(false);
-    const [errors, setErrors] = React.useState<string[]>([]);
+    const [ingredientErr, setIngredientErr] = React.useState<boolean>(false);
+    const [instructionErr, setInstructionErr] = React.useState<boolean>(false);
 
     const handleSubmit = (e: any) => {
         const form = e.currentTarget;
-        if (form.checkValidity() === false) {
+        if (form.checkValidity() === false || ingredientErr || instructionErr) {
             e.preventDefault();
             e.stopPropagation();
+        } else {
+
         }
 
         setValidated(true);
@@ -50,25 +53,34 @@ const NewRecipe = () => {
         setRecipe({ ...recipe });
     };
 
-    const handleAddItem = (e: any) => {
-        if (e.target?.id === "addIngredient") {
-            recipe.ingredients.push("");
+    const handleAddIngredient = () => {
+        recipe.ingredients.push("");
+        if (recipe.ingredients.length > 0) {
+            setIngredientErr(false);
         }
-        else {
-            recipe.instructions.push("");
+        setRecipe({ ...recipe });
+    };
+    const handleAddStep = () => {
+        recipe.instructions.push("");
+        if (recipe.instructions.length > 0) {
+            setInstructionErr(false);
         }
-
         setRecipe({ ...recipe });
     };
 
-    const handleDeleteItem = (e: any, index: number) => {
-        if (e.target?.id === "deleteIngredient") {
-            recipe.ingredients.splice(index, 1);
+    const handleDeleteIngredient = (index: number) => {
+        recipe.ingredients.splice(index, 1);
+        if (recipe.ingredients.length === 0) {
+            setIngredientErr(true);
         }
-        else {
-            recipe.instructions.splice(index, 1);
-        }
+        setRecipe({ ...recipe });
+    }
 
+    const handleDeleteStep = (index: number) => {
+        recipe.instructions.splice(index, 1);
+        if (recipe.instructions.length === 0) {
+            setInstructionErr(true);
+        }
         setRecipe({ ...recipe });
     }
 
@@ -102,25 +114,32 @@ const NewRecipe = () => {
                 </Form.Group>
                 <Form.Group style={{ paddingBottom: '24px' }}>
                     <Form.Label>Ingredients</Form.Label>
-                    {recipe.ingredients.map((ingredient, i) => (
-                        <Form.Group
-                            controlId='ingredients'
-                            style={{ flexBasis: "100%" }}>
-                            <Form.Control
-                                type='text'
-                                required
-                                value={ingredient}
-                                onChange={(e) => handleListInput(e, i)} />
-                            <MdCancel
-                                id="deleteIngredient"
-                                size={30}
-                                onClick={(e) => handleDeleteItem(e, i)} />
-                        </Form.Group>
-                    ))}
+                    {!ingredientErr
+                        ? recipe.ingredients.map((ingredient, i) => (
+                            <Form.Group
+                                controlId='ingredients'
+                                style={{ flexBasis: "100%", paddingBottom: '8px' }}>
+                                <InputGroup>
+                                    <Form.Control
+                                        type='text'
+                                        required
+                                        value={ingredient}
+                                        onChange={(e) => handleListInput(e, i)} />
+                                    <InputGroup.Text>
+                                        <MdCancel
+                                            name="deleteIngredient"
+                                            size={30}
+                                            onClick={(e) => handleDeleteIngredient(i)} />
+                                    </InputGroup.Text>
+                                    <Form.Control.Feedback type="invalid">Please enter an ingredient</Form.Control.Feedback>
+                                </InputGroup>
+                            </Form.Group>
+                        ))
+                        : <span>Require at least one ingredient</span>}
                     <Button
                         id='addIngredient'
-                        onClick={(e) => handleAddItem(e)}
-                        variant='primary'
+                        onClick={(e) => handleAddIngredient()}
+                        variant={!ingredientErr ? 'primary' : 'danger'}
                         size='sm'
                         style={{ marginLeft: 'auto', marginRight: 'auto' }}>
                         Add Ingredient
@@ -128,27 +147,34 @@ const NewRecipe = () => {
                 </Form.Group>
                 <Form.Group style={{ paddingBottom: '24px' }}>
                     <Form.Label>Instructions</Form.Label>
-                    {recipe.instructions.map((step, i) => (
-                        <Form.Group
-                            controlId='instructions'
-                            style={{ flexBasis: "100%" }}>
-                            <Form.Control
-                                type='text'
-                                required
-                                value={step}
-                                onChange={(e) => handleListInput(e, i)} />
-                            <MdCancel
-                                id="deleteInstruction"
-                                size={30}
-                                onClick={(e) => handleDeleteItem(e, i)} />
-                        </Form.Group>
-                    ))}
+                    {!instructionErr
+                        ? recipe.instructions.map((step, i) => (
+                            <Form.Group
+                                controlId='instructions'
+                                style={{ flexBasis: "100%", paddingBottom: '8px' }}>
+                                <InputGroup>
+                                    <Form.Control
+                                        type='text'
+                                        required
+                                        value={step}
+                                        onChange={(e) => handleListInput(e, i)} />
+                                    <InputGroup.Text>
+                                        <MdCancel
+                                            name="deleteInstruction"
+                                            size={30}
+                                            onClick={(e) => handleDeleteStep(i)} />
+                                    </InputGroup.Text>
+                                    <Form.Control.Feedback type="invalid">Please enter an instruction</Form.Control.Feedback>
+                                </InputGroup>
+                            </Form.Group>
+                        ))
+                        : <span>Require at least one instruction</span>}
                     <Button
-                        variant='primary'
+                        variant={!instructionErr ? 'primary' : 'danger'}
                         id='addInstruction'
                         size='sm'
                         style={{ marginLeft: 'auto', marginRight: 'auto' }}
-                        onClick={(e) => handleAddItem(e)}>
+                        onClick={(e) => handleAddStep()}>
                         Add Instruction
                     </Button>
 
