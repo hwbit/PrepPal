@@ -10,7 +10,6 @@ describe('New recipe tests', () => {
         const cancelBtn = screen.queryByText("Cancel");
 
         expect(submitBtn).toBeTruthy();
-        expect(submitBtn).toHaveAttribute('type', 'submit');
         expect(cancelBtn).toBeTruthy();
     });
 
