@@ -153,7 +153,7 @@ const NewRecipe = () => {
                 <h2 style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
                     Create Recipe
                 </h2>
-                <Form.Group style={{ paddingBottom: '24px' }}>
+                <Form.Group controlId="title" style={{ paddingBottom: '24px' }} title="Title">
                     <Form.Label>Title</Form.Label>
                     <Form.Control
                         required
@@ -163,7 +163,7 @@ const NewRecipe = () => {
                     />
                     <Form.Control.Feedback type="invalid">Please enter a title</Form.Control.Feedback>
                 </Form.Group>
-                <Form.Group controlId='description' style={{ paddingBottom: '24px' }}>
+                <Form.Group controlId='description' style={{ paddingBottom: '24px' }} title="Description">
                     <Form.Label>Description</Form.Label>
                     <Form.Control
                         type='text' as='textarea'
@@ -176,7 +176,9 @@ const NewRecipe = () => {
                     {!ingredientErr
                         ? recipe.ingredients.map((ingredient, i) => (
                             <Form.Group
-                                controlId='ingredients'
+                                key={ingredient}
+                                controlId='ingredient'
+                                title="Ingredient"
                                 style={{ flexBasis: "100%", paddingBottom: '8px' }}>
                                 <InputGroup>
                                     <Form.Control
@@ -209,7 +211,9 @@ const NewRecipe = () => {
                     {!instructionErr
                         ? recipe.instructions.map((step, i) => (
                             <Form.Group
-                                controlId='instructions'
+                                key={step}
+                                controlId='instruction'
+                                title="Instruction"
                                 style={{ flexBasis: "100%", paddingBottom: '8px' }}>
                                 <InputGroup>
                                     <Form.Control
@@ -243,6 +247,7 @@ const NewRecipe = () => {
                         <Form.Control
                             name='servings'
                             type='number'
+                            title="Servings"
                             required
                             onChange={(event) => handleChange(event)} />
                         <InputGroup.Text>people</InputGroup.Text>
@@ -254,6 +259,7 @@ const NewRecipe = () => {
                     <InputGroup>
                         <Form.Control
                             name='prepTime'
+                            title="PrepTime"
                             required
                             type='number'
                             onChange={(event) => handleChange(event)} />
@@ -270,6 +276,7 @@ const NewRecipe = () => {
                         <Form.Control
                             name='cookingTime'
                             type='number'
+                            title="CookingTime"
                             required
                             onChange={(event) => handleChange(event)} />
                         <InputGroup.Text>mins</InputGroup.Text>
