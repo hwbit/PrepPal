@@ -6,8 +6,6 @@ import React from 'react';
 
 const NavBar = () => {
   const [loggedIn, setLoggedIn] = React.useState(false)
-  const [user, setUser] = React.useState('')
-
   React.useEffect(() => {
     fillUserContent();
     // eslint-disable-next-line
@@ -16,13 +14,13 @@ const NavBar = () => {
   const fillUserContent = async () => {
     const token = localStorage.getItem("token");
     try {
-      if (token !== "undefined")
+      if (token !== null) {
         setLoggedIn(true);
+      }
     } catch (err) {
       console.error(err);
     }
   };
-
 
   return (
     <Navbar expand="lg">
@@ -36,9 +34,9 @@ const NavBar = () => {
         />
       </Form>
       <Nav className="links">
-        <Nav.Link className="nav-item" href="collections">Collections</Nav.Link>
-        <Nav.Link className="nav-item" href="new-recipe">New Recipe</Nav.Link>
-        {{loggedIn}
+        {loggedIn ? <Nav.Link className="nav-item" href="collections">Collections</Nav.Link> : <br></br>}
+        {loggedIn ? <Nav.Link className="nav-item" href="new-recipe">New Recipe</Nav.Link> : <br></br>}
+        {loggedIn
           ? (<Nav.Link className="nav-item" href="profile">Profile</Nav.Link>)
           : (<Nav.Link className="nav-item" href="login">Login</Nav.Link>)
         }
