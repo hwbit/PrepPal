@@ -7,7 +7,6 @@
     "@html-eslint/parser": "^0.19.0",
     "eslint": "^8.53.0",
     "eslint-plugin-css": "^0.8.1",
-    "eslint-plugin-html": "^7.1.0",
     "eslint-plugin-json": "^3.1.0",
     "eslint-plugin-md": "^1.0.19",
     "markdown-eslint-parser": "^1.2.1",
@@ -17,5 +16,9 @@
     "@typescript-eslint/parser": "^7.0.1",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0"
+  },
+  "scripts": {
+    "lint": "npx eslint .",
+    "lint-fix": "npx eslint --fix --ignore-pattern \"/node_modules/\" --ext .ts,.tsx,.json,.js,.css,.md ."
   }
 }

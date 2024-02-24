@@ -1,6 +1,6 @@
-const INDENT = 4;// "tab";
+const INDENT_LONG = 4;// "tab";
 const INDENT_SIZE = 4;
-const INDENT_HTML = 2;
+const INDENT_SHORT = 2;
 
 module.exports = {
     root: true,
@@ -8,15 +8,11 @@ module.exports = {
         browser: true,
         es2021: true,
     },
-    plugins: [
-        "html", "css", "@html-eslint", "md", "react", "react-hooks", "@typescript-eslint",
-    ],
+    plugins: ["json", "@typescript-eslint"],
     extends: [
         "eslint:recommended",
         "plugin:json/recommended",
-        "plugin:css/standard",
         "eslint:recommended",
-        "plugin:react/recommended",
         "plugin:@typescript-eslint/recommended",
     ],
     overrides: [
@@ -26,23 +22,23 @@ module.exports = {
             parserOptions: { sourceType: "script" },
         },
         {
-            files: ["**/*.html"],
-            parser: "@html-eslint/parser",
-            extends: ["plugin:@html-eslint/recommended"],
+            files: ["*.css"],
+            plugins: ["css"],
+            extends: ["plugin:css/recommended"],
             rules: {
-                "@html-eslint/indent": ["error", INDENT_HTML],
-                "@html-eslint/require-lang": "off",
-                "spaced-comment": "off",
+                "css/indent": ["error", INDENT_SHORT],
+                "css/property-casing": ["error", "kebab-case"],
             },
         },
+        // {
+        //     files: ["*.md"],
+        //     plugins: ["md"],
+        //     parser: "markdown-eslint-parser",
+        //     extends: ["plugin:md/recommended"],
+        //     rules: {"md/remark": ["error", {"maximum-line-length": "off"} ]},
+        // },
         {
-            files: ["**/*.md"],
-            parser: "markdown-eslint-parser",
-            extends: ["plugin:md/recommended"],
-            rules: {"md/remark": ["error", {"maximum-line-length": "off"} ]},
-        },
-        {
-            files: ["**/*.tsx"],
+            files: ["*.tsx"],
             plugins: ["react", "react-hooks", "@typescript-eslint"],
             extends: [
                 "eslint:recommended",
@@ -58,13 +54,13 @@ module.exports = {
             },
             settings: {react: {version: "detect"}},
             rules: {
-                "indent": ["error", INDENT, { SwitchCase: 1 } ],
+                "indent": ["error", INDENT_LONG, { SwitchCase: 1 } ],
                 "@typescript-eslint/no-explicit-any": 0,
                 "@typescript-eslint/no-var-requires": ["error", {allow: ["^..?/"]} ],
                 "@typescript-eslint/no-unused-vars": ["warn"],
                 "@typescript-eslint/no-unused-expressions": ["warn"],
-                "react/jsx-indent": ["error", INDENT_HTML, { indentLogicalExpressions: true } ],
-                "react/jsx-indent-props": ["error", INDENT_HTML],
+                "react/jsx-indent": ["error", INDENT_SHORT, { indentLogicalExpressions: true } ],
+                "react/jsx-indent-props": ["error", INDENT_SHORT],
                 "react/no-unknown-property": "error",
                 "react/prop-types": "off",
                 "react/display-name": "off",
@@ -394,7 +390,7 @@ module.exports = {
         ],
         "generator-star-spacing": "error",
         "implicit-arrow-linebreak": "error",
-        "indent": ["error", INDENT, { ignoreComments: false } ],
+        "indent": ["error", INDENT_LONG, { ignoreComments: false } ],
         "jsx-quotes": "error",
         "key-spacing": "error",
         "keyword-spacing": "error",
