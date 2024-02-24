@@ -1,7 +1,6 @@
 import Card from 'react-bootstrap/Card';
 import Image from 'react-bootstrap/Image';
 import { Button, Col, Row, Stack } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
 import React from 'react';
 
 const logo = require('../assets/logo.png')

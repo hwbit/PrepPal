@@ -1,6 +1,6 @@
 import Card from 'react-bootstrap/Card';
 import Image from 'react-bootstrap/Image';
-import { Button, Form, Col, Row, Stack } from 'react-bootstrap';
+import { Button, Form, Col, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
 
