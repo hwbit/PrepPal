@@ -60,6 +60,9 @@ module.exports = {
             rules: {
                 "indent": ["error", INDENT, { SwitchCase: 1 } ],
                 "@typescript-eslint/no-explicit-any": 0,
+                "@typescript-eslint/no-var-requires": ["error", {allow: ["^..?/"]} ],
+                "@typescript-eslint/no-unused-vars": ["warn"],
+                "@typescript-eslint/no-unused-expressions": ["warn"],
                 "react/jsx-indent": ["error", INDENT_HTML, { indentLogicalExpressions: true } ],
                 "react/jsx-indent-props": ["error", INDENT_HTML],
                 "react/no-unknown-property": "error",
@@ -125,6 +128,9 @@ module.exports = {
         // "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
         // "no-warning-comments": process.env.NODE_ENV === "production" ? "error" : "off",
 
+        "@typescript-eslint/no-var-requires": ["error", {allow: ["^..?/"]} ],
+        "@typescript-eslint/no-unused-vars": ["warn"],
+        "@typescript-eslint/no-unused-expressions": ["warn"],
         "no-await-in-loop": "off",
         "no-constant-binary-expression": "error",
         "no-constructor-return": "error",

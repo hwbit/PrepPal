@@ -1,5 +1,5 @@
 /* eslint-disable no-magic-numbers */
-const expressRecipeApi = require("express");
+import expressRecipeApi from "express";
 
 const configRecipeApi = require("../configs/secrets.ts");
 const Recipe = require("../models/recipe.ts");
