@@ -25,7 +25,7 @@ const NavBar = () => {
         };
         const res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
         setUser(res.username);
-        if (user != "")
+        if (user !== "")
           setLoggedIn(true);
       }
     } catch (err) {
