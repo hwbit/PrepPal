@@ -10,7 +10,6 @@ const Collections = () => {
     React.useEffect(() => {
         getUser();
         fillRecipes(myRecipes);
-        // eslint-disable-next-line
     }, [username, myRecipes]);
 
     const getUser = async () => {
