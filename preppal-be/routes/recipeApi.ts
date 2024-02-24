@@ -1,6 +1,5 @@
 /* eslint-disable no-magic-numbers */
-import expressRecipeApi from "express";
-
+const expressRecipeApi = require("express");
 const configRecipeApi = require("../configs/secrets.ts");
 const Recipe = require("../models/recipe.ts");
 const Author = require("../models/user.ts");
