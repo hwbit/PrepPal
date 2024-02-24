@@ -15,6 +15,7 @@ module.exports = {
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
     ],
+    ignorePatterns: ["package.json", "package-lock.json"],
     overrides: [
         {
             env: { node: true },
