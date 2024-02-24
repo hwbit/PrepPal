@@ -44,23 +44,23 @@ const LoginPage = () => {
     }
 
     return (
-        <Container className="d-flex align-items-center justify-content-center" style={{ minHeight: '100vh' }}>
-            <div className="w-100" style={{ maxWidth: '400px' }}>
-                <Card className="p-4" style={{ backgroundColor: "#F2E8DC" }}>
-                    <div className="text-center mb-4">
-                        <Image src={logo} alt="Logo" rounded />
+        <Container className="d-flex align-items-center justify-content-center">
+            <Card className="p-4 w-100" style={{ margin: '40px', backgroundColor: "#F2E8DC", maxWidth: '450px', height: '650px' }}>
+                <div style={{ maxWidth: '400px', marginLeft: 'auto', marginRight: 'auto' }}>
+                    <div className="text-center m-4">
+                        <Image src={logo} alt="Logo" width={300} height={250} style={{ maxWidth: '100%', height: 'auto' }} rounded />
                     </div>
                     <h2 className="text-center mb-4">Sign in</h2>
                     <Form onSubmit={loginClick}>
-                        <Form.Group controlId="formUser" style={{ paddingBottom: '16px' }}>
+                        <Form.Group title="inputUsername" controlId="formUser" style={{ paddingBottom: '16px' }}>
                             <Form.Control type="text" placeholder="Username" onChange={(event) => setUsername(event.target.value)} />
                         </Form.Group>
 
-                        <Form.Group controlId="formBasicPassword" style={{ paddingBottom: '8px' }}>
+                        <Form.Group title="inputPassword" controlId="formBasicPassword" style={{ paddingBottom: '8px' }}>
                             <Form.Control type="password" placeholder="Password" onChange={(event) => setPassword(event.target.value)} />
                         </Form.Group>
 
-                        <Form.Group controlId="formBasicCheckbox" style={{ paddingBottom: '8px' }}>
+                        <Form.Group title="checkboxRememberMe" controlId="formBasicCheckbox" style={{ paddingBottom: '8px' }}>
                             <Form.Check type="checkbox" label="Remember me" />
                         </Form.Group>
                         <div className="d-grid gap-2">
@@ -72,8 +72,8 @@ const LoginPage = () => {
                     <div className="mt-3 text-center">
                         <p>Don't have an account? <a href="/signup">Sign up</a></p>
                     </div>
-                </Card>
-            </div>
+                </div>
+            </Card>
         </Container>
     );
 };

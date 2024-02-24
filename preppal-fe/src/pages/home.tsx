@@ -1,7 +1,7 @@
 // Import necessary React and TypeScript modules
 import React from 'react';
 import { Col, Row } from 'react-bootstrap';
-import recipeCard from '../components/RecipeCard/RecipeCard';
+import RecipeCard from '../components/recipe-card/recipe-card';
 import '../styles/global.css';
 
 
@@ -16,7 +16,7 @@ const ExplorePage: React.FC = () => {
       const req = {
         method: "GET",
         headers: {
-            'Content-Type': 'application/json'
+          'Content-Type': 'application/json'
         }
       };
       const fetchedRecipes = await fetch("http://localhost:9001/api/recipes/", req).then((res) => res.json());
@@ -28,11 +28,11 @@ const ExplorePage: React.FC = () => {
 
   return (
     <div className="explore-page">
-      <h1 style={{margin:'20px'}}>Explore</h1>
+      <h1>Explore</h1>
       <Row xs="auto" md="auto" lg="auto">
         {recipes.filter(recipe => recipe.isPublic).map((recipe) => (
           <Col key={recipe._id}>
-            {recipeCard(recipe)}
+            {RecipeCard(recipe)}
           </Col>
         ))}
       </Row>

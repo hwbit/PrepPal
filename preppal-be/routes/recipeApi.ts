@@ -1,5 +1,5 @@
 /* eslint-disable no-magic-numbers */
-import expressRecipeApi from "express";
+const expressRecipeApi = require("express");
 
 const configRecipeApi = require("../configs/secrets.ts");
 const Recipe = require("../models/recipe.ts");
@@ -239,4 +239,4 @@ routerRecipeApi["delete"]("/deleteRecipe/:id", async (req, res) => {
     }
 });
 
-export default routerRecipeApi;
+module.exports = routerRecipeApi;
