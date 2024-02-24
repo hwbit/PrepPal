@@ -3,6 +3,7 @@ const INDENT_SIZE = 4;
 const INDENT_HTML = 2;
 
 module.exports = {
+    root: true,
     env: {
         browser: true,
         es2021: true,
