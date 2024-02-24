@@ -16,18 +16,8 @@ const NavBar = () => {
   const fillUserContent = async () => {
     const token = localStorage.getItem("token");
     try {
-      if (token) {
-        const req = {
-          method: "GET",
-          headers: {
-            "x-auth-token": token
-          }
-        };
-        const res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
-        setUser(res.username);
-        if (user !== "")
-          setLoggedIn(true);
-      }
+      if (token !== "undefined")
+        setLoggedIn(true);
     } catch (err) {
       console.error(err);
     }
