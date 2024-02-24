@@ -110,7 +110,7 @@ module.exports = {
                 "react/jsx-no-script-url": "error",
                 "react/jsx-curly-brace-presence": ["error", { children: "never", props: "always" } ],
                 "react-hooks/rules-of-hooks": "error",
-                "react-hooks/exhaustive-deps": "off",
+                "react-hooks/exhaustive-deps": "warn",
             },
 
         },

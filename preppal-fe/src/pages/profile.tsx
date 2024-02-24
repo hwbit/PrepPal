@@ -12,6 +12,7 @@ function Profile() {
     const [userFollowingCount, setFollowingCount] = React.useState(0);
     React.useEffect(() => {
         fillUserContent();
+        // eslint-disable-next-line
     }, []);
 
     const fillUserContent = async () => {
