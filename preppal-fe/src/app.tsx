@@ -8,12 +8,13 @@ import Signup from './pages/signup';
 import Profile from './pages/profile';
 import NewRecipe from './pages/new-recipe';
 import Collections from './pages/collections';
+import Search from './pages/search';
 
 function App() {
   return (
-    <div className="app">
-      <NavBar />
-      <BrowserRouter>
+    <BrowserRouter>
+      <div className="app">
+        <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="login" element={<LoginPage />} />
@@ -21,9 +22,10 @@ function App() {
           <Route path="profile" element={<Profile />} />
           <Route path="new-recipe" element={<NewRecipe />} />
           <Route path="collections" element={<Collections />} />
+          <Route path="search" element={<Search />} />
         </Routes>
-      </BrowserRouter>
-    </div>
+      </div>
+    </BrowserRouter>
   );
 }
 
