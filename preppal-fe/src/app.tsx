@@ -22,7 +22,7 @@ function App() {
           <Route path="profile" element={<Profile />} />
           <Route path="new-recipe" element={<NewRecipe />} />
           <Route path="collections" element={<Collections />} />
-          <Route path="search/:q?" element={<Search />} />
+          <Route path="search/:q" element={<Search />} />
         </Routes>
       </div>
     </BrowserRouter>

@@ -14,7 +14,7 @@ const NavBar = () => {
     if (!searchQuery.trim()) {
       return;
     }
-    window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`;
+    window.location.href = `/search/${encodeURIComponent(searchQuery)}`;
   };
 
   const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
