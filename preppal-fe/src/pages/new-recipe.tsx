@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
 import React from 'react';
 import { Form, Button, Container, InputGroup } from 'react-bootstrap';
 import { MdCancel } from 'react-icons/md';
@@ -176,8 +175,8 @@ const NewRecipe = () => {
                     {!ingredientErr
                         ? recipe.ingredients.map((ingredient, i) => (
                             <Form.Group
-                                key={uuidv4()}
                                 controlId='ingredient'
+                                key={i}
                                 title="Ingredient"
                                 style={{ flexBasis: "100%", paddingBottom: '8px' }}>
                                 <InputGroup>
@@ -211,7 +210,7 @@ const NewRecipe = () => {
                     {!instructionErr
                         ? recipe.instructions.map((step, i) => (
                             <Form.Group
-                                key={uuidv4()}
+                                key={i}
                                 controlId='instruction'
                                 title="Instruction"
                                 style={{ flexBasis: "100%", paddingBottom: '8px' }}>
