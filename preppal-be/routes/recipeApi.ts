@@ -57,7 +57,7 @@ routerRecipeApi.post("/searchName/", async (req, res) => {
         const { title } = req.body;
         // collation makes the lookup case insensitive
         // https://www.mongodb.com/docs/manual/reference/collation/
-        const recipes = await Recipe.find({ title })
+        const recipes = await Recipe.find({ title: { $regex: new RegExp(title, "i") } })
             .collation({ locale: "en", strength: 2 });
         res.status(200).json(recipes);
     }
