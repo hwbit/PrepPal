@@ -20,7 +20,7 @@
     margin-right: 10px;
 }
 
-p,
+.search-query,
 h1 {
     color: var(--dark-brown);
     font-weight: bolder;

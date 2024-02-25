@@ -34,7 +34,7 @@ const Search: React.FC = () => {
   return (
     <div className="search-page">
       <h1>Search Results</h1>
-      <p>Search query: {q}</p>
+      <p className="search-query">Search query: {q}</p>
       <Row xs="auto" md="auto" lg="auto">
         {recipes.filter(recipe => recipe.isPublic).map((recipe) => (
           <Col key={recipe._id}>
