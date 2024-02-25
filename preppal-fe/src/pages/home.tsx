@@ -8,23 +8,23 @@ import '../styles/global.css';
 const ExplorePage: React.FC = () => {
   const [recipes, setRecipes] = React.useState<any[]>([]);
   React.useEffect(() => {
+    const fillRecipes = async () => {
+      try {
+        const req = {
+          method: "GET",
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        };
+        const fetchedRecipes = await fetch("http://localhost:9001/api/recipes/", req).then((res) => res.json());
+        setRecipes(fetchedRecipes);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
     fillRecipes();
   }, []);
-
-  const fillRecipes = async () => {
-    try {
-      const req = {
-        method: "GET",
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      };
-      const fetchedRecipes = await fetch("http://localhost:9001/api/recipes/", req).then((res) => res.json());
-      setRecipes(fetchedRecipes);
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   return (
     <div className="explore-page">

@@ -11,6 +11,9 @@ const NavBar = () => {
 
   const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (!searchQuery.trim()) {
+      return;
+    }
     window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`;
   };
 
