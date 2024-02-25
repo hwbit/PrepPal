@@ -1,4 +1,4 @@
-
+import { v4 as uuidv4 } from 'uuid';
 import React from 'react';
 import { Form, Button, Container, InputGroup } from 'react-bootstrap';
 import { MdCancel } from 'react-icons/md';
@@ -103,7 +103,7 @@ const NewRecipe = () => {
     };
 
     const handleListInput = (e: any, index: number) => {
-        if (e.target?.id === "ingredients") {
+        if (e.target?.id === "ingredient") {
             recipe.ingredients[index] = e.target.value;
         }
         else {
@@ -176,7 +176,7 @@ const NewRecipe = () => {
                     {!ingredientErr
                         ? recipe.ingredients.map((ingredient, i) => (
                             <Form.Group
-                                key={ingredient}
+                                key={uuidv4()}
                                 controlId='ingredient'
                                 title="Ingredient"
                                 style={{ flexBasis: "100%", paddingBottom: '8px' }}>
@@ -211,7 +211,7 @@ const NewRecipe = () => {
                     {!instructionErr
                         ? recipe.instructions.map((step, i) => (
                             <Form.Group
-                                key={step}
+                                key={uuidv4()}
                                 controlId='instruction'
                                 title="Instruction"
                                 style={{ flexBasis: "100%", paddingBottom: '8px' }}>
