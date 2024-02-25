@@ -14,7 +14,7 @@ const NavBar = () => {
   const fillUserContent = async () => {
     const token = localStorage.getItem("token");
     try {
-      if (token !== null) {
+      if (token) {
         setLoggedIn(true);
       }
     } catch (err) {
