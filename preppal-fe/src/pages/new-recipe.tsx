@@ -146,12 +146,7 @@ const NewRecipe = () => {
     }
 
     const handlePrivate = () => {
-        if (recipe.isPublic) {
-            recipe.isPublic = false;
-        }
-        else {
-            recipe.isPublic = true;
-        }
+        recipe.isPublic = !recipe.isPublic;
     }
 
     return (
@@ -297,7 +292,7 @@ const NewRecipe = () => {
                     </Form.Text>
                     <Form.Control.Feedback type="invalid">Please enter a value</Form.Control.Feedback>
                 </Form.Group>
-                <Form.Group title="checkboxIsPrivate" controlId="formBasicCheckbox" onClick={(event) => handlePrivate()} style={{ paddingBottom: '24px' }}>
+                <Form.Group title="checkboxIsPrivate" controlId="formBasicCheckbox" onChange={(event) => handlePrivate()} style={{ paddingBottom: '24px' }}>
                     <Form.Check type="checkbox" label="Make Recipe Private" />
                 </Form.Group>
                 <div style={{ display: 'flex', paddingBottom: '24px', justifyContent: 'space-between' }}>
