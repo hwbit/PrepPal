@@ -146,7 +146,7 @@ const NewRecipe = () => {
     }
 
     const handlePrivate = () => {
-        if (recipe.isPublic == true) {
+        if (recipe.isPublic === true) {
             recipe.isPublic = false;
         }
         else {
