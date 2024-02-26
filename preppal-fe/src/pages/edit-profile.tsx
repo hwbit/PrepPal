@@ -171,8 +171,8 @@ function EditProfile() {
                             <Row>
                                 <Col>
                                     <Form.Group title="inputOldPassword" controlId="formBasicOldPassword" style={{ maxWidth: '400px', paddingBottom: '8px' }}>
-                                        <label className='p-2'>Old Password*</label>
-                                        <Form.Control required type="password" placeholder="Old Password" onChange={(event) => setPassword(event.target.value)} />
+                                        <label className='p-2'>Old Password (required)</label>
+                                        <Form.Control required type="password" placeholder="Old Password (required)" onChange={(event) => setPassword(event.target.value)} />
                                         <Form.Control.Feedback type="invalid">Please provide a valid state.</Form.Control.Feedback>
                                     </Form.Group>
                                 </Col>
@@ -185,7 +185,7 @@ function EditProfile() {
                             </Row>
                             <Form.Group title="inputBio" controlId="formBio" style={{ paddingBottom: '8px' }}>
                                 <label className='p-2'>Profile's Bio</label>
-                                <Form.Control type="text" placeholder={userBio} onChange={(event) => setBio(event.target.value)} />
+                                <Form.Control type="text" defaultValue={userBio} onChange={(event) => setBio(event.target.value)} />
                             </Form.Group>
                             <div className="d-grid gap-2 justify-content-start">
                                 <Button className="mx-auto" variant="primary" type="submit" title="Login" size="lg" style={{ backgroundColor: "#401E01" }}>
