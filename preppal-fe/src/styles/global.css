@@ -1,0 +1,55 @@
+/* Global Variables */
+:root {
+    --dark-brown: #6d5f58;
+    --normal-text: #efeade;
+    --light-orange: #f9d6b2;
+    --light-red: #ff907f;
+}
+
+.collections-page {
+    margin: 40px;
+}
+
+.explore-page {
+    margin-left: 50px;
+    margin-right: 10px;
+}
+
+.search-page {
+    margin-left: 50px;
+    margin-right: 10px;
+}
+
+.search-query,
+h1 {
+    color: var(--dark-brown);
+    font-weight: bolder;
+    margin: 20px;
+}
+
+img,
+link {
+    color: var(--light-red);
+}
+
+.nav-item {
+    margin-left: 20px;
+}
+
+.nav-link {
+    color: black !important;
+    border-color: #F2F2F2 !important;
+}
+
+.nav-link.active {
+    background-color: #F2E8DC !important;
+}
+
+.nav-tabs {
+    margin-bottom: 40px;
+}
+
+.tab-content {
+    margin-left: 50px;
+    margin-right: 50px;
+}
