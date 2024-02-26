@@ -21,7 +21,7 @@
   "scripts": {
     "start": "node server.ts",
     "test": "jest --detectOpenHandles",
-    "lint": "npx eslint .",
-    "lint-fix": "npx eslint --fix --ignore-pattern \"/node_modules/\" --ext .ts,.tsx,.json,.js,.css,.md ."
+    "lint": "npx eslint --ignore-pattern \"node_modules/\" --ext .ts,.tsx,.js .",
+    "lint-fix": "npx eslint --fix --ignore-pattern \"node_modules/\" --ext .ts,.tsx,.js ."
   }
 }

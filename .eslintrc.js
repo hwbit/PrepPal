@@ -228,7 +228,7 @@ module.exports = {
             "warn",
             {
                 ignore: [
-                    1, 0, -1, 2,
+                    1, 0, -1, 2, 200, 201, 400, 401, 500, 9001,
                 ],
                 enforceConst: true,
                 ignoreArrayIndexes: true,
