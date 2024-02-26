@@ -1,6 +1,5 @@
 /* eslint-disable no-magic-numbers */
-import expressRecipeApi from "express";
-
+const expressRecipeApi = require("express");
 const configRecipeApi = require("../configs/secrets.ts");
 const Recipe = require("../models/recipe.ts");
 const Author = require("../models/user.ts");
@@ -58,7 +57,7 @@ routerRecipeApi.post("/searchName/", async (req, res) => {
         const { title } = req.body;
         // collation makes the lookup case insensitive
         // https://www.mongodb.com/docs/manual/reference/collation/
-        const recipes = await Recipe.find({ title })
+        const recipes = await Recipe.find({ title: { $regex: new RegExp(title, "i") } })
             .collation({ locale: "en", strength: 2 });
         res.status(200).json(recipes);
     }
@@ -239,4 +238,4 @@ routerRecipeApi["delete"]("/deleteRecipe/:id", async (req, res) => {
     }
 });
 
-export default routerRecipeApi;
+module.exports = routerRecipeApi;
