@@ -1,0 +1,6 @@
+services:
+  - name: preppal
+    env:
+      - key: NODE_ENV
+        value: production
+    healthCheckPath: "/healthcheck"
