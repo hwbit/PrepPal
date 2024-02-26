@@ -21,7 +21,7 @@ const Search: React.FC = () => {
             title: q
           })
         };
-        const fetchedRecipes = await fetch("http://localhost:9001/api/recipes/searchName/", req).then((res) => res.json());
+        const fetchedRecipes = await fetch(process.env.REACT_APP_API_URL + "/api/recipes/searchName/", req).then((res) => res.json());
         setRecipes(fetchedRecipes);
       } catch (err) {
         console.error(err);
