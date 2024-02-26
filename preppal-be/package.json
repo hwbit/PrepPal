@@ -10,6 +10,7 @@
     "typescript": "^5.3.3"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@types/cors": "2.8.17",
     "@types/express": "4.17.21",
     "@types/jest": "^27.5.2",
@@ -19,6 +20,8 @@
   },
   "scripts": {
     "start": "node server.ts",
-    "test": "jest --detectOpenHandles"
+    "test": "jest --detectOpenHandles",
+    "lint": "npx eslint .",
+    "lint-fix": "npx eslint --fix --ignore-pattern \"/node_modules/\" --ext .ts,.tsx,.json,.js,.css,.md ."
   }
 }
