@@ -36,15 +36,9 @@ function Profile() {
         }
     };
 
-    function edit(): React.FormEventHandler<HTMLLabelElement> | undefined {
-        console.log("Edit was clicked")
-        //will either go to new page for edits, or will make this page editable
-        return
-    }
-
     return (
         <div className='py-3'>
-            <Row className='p-3 d-flex' onSubmit={edit()}>
+            <Row className='p-3 d-flex'>
                 <div className="w-100" style={{ maxWidth: '2000px' }}>
                     <Card className="p-4 d-flex" style={{ backgroundColor: "#F2E8DC" }}>
                         <Card.Header className='d-flex align-items-center'>
@@ -55,7 +49,7 @@ function Profile() {
                             <Col>
                                 <Stack gap={3}>
                                     <div className='d-flex justify-content-end'>
-                                        <Button className='d-flex' variant="primary" type="submit" title="Edit" size="sm" style={{ maxWidth: '40px', backgroundColor: "#401E01" }}>Edit</Button>
+                                        <Button className='d-flex' variant="primary" href="edit-profile" title="Edit" size="sm" style={{ maxWidth: '40px', backgroundColor: "#401E01" }}>Edit</Button>
                                     </div>
                                     <Card.Subtitle className='d-flex justify-content-end'>Following: {userFollowingCount}</Card.Subtitle>
                                 </Stack>
