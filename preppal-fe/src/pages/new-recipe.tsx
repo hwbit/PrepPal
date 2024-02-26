@@ -298,7 +298,7 @@ const NewRecipe = () => {
                     <Form.Control.Feedback type="invalid">Please enter a value</Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group title="checkboxIsPrivate" controlId="formBasicCheckbox" onClick={(event) => handlePrivate()} style={{ paddingBottom: '24px' }}>
-                    <Form.Check type="checkbox" label="Private Recipe" />
+                    <Form.Check type="checkbox" label="Make Recipe Private" />
                 </Form.Group>
                 <div style={{ display: 'flex', paddingBottom: '24px', justifyContent: 'space-between' }}>
                     <Button
