@@ -20,7 +20,8 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: Build
+    - name: Build & Deploy
+      working-directory: ./preppal-fe
       run: |
         npm install
-        npm run build
+        npm run deploy
