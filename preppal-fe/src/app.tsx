@@ -7,13 +7,9 @@ import LoginPage from './pages/login';
 import Signup from './pages/signup';
 import Profile from './pages/profile';
 import NewRecipe from './pages/new-recipe';
-<<<<<<< HEAD
-import Recipe from './pages/recipe';
-=======
 import Collections from './pages/collections';
 import EditProfile from './pages/edit-profile';
 import Search from './pages/search';
->>>>>>> dev
 
 function App() {
   return (
