@@ -46,7 +46,7 @@ const NewRecipe = () => {
                     }
                 };
 
-                const res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
+                const res = await fetch(process.env.REACT_APP_API_URL + "/api/auth/", req).then(res => res.json());
                 setUsername(res.username);
             }
 
@@ -85,7 +85,7 @@ const NewRecipe = () => {
                         })
                     };
 
-                    await fetch("http://localhost:9001/api/recipes/createRecipe", req).then(res => res.json());
+                    await fetch(process.env.REACT_APP_API_URL + "/api/recipes/createRecipe", req).then(res => res.json());
 
                     navigate("/collections");
                 }
