@@ -171,8 +171,9 @@ function EditProfile() {
                             <Row>
                                 <Col>
                                     <Form.Group title="inputOldPassword" controlId="formBasicOldPassword" style={{ maxWidth: '400px', paddingBottom: '8px' }}>
-                                        <label className='p-2'>Old Password</label>
-                                        <Form.Control type="password" placeholder="Old Password" onChange={(event) => setPassword(event.target.value)} />
+                                        <label className='p-2'>Old Password*</label>
+                                        <Form.Control required type="password" placeholder="Old Password" onChange={(event) => setPassword(event.target.value)} />
+                                        <Form.Control.Feedback type="invalid">Please provide a valid state.</Form.Control.Feedback>
                                     </Form.Group>
                                 </Col>
                                 <Col>
