@@ -2,6 +2,7 @@ import Card from 'react-bootstrap/Card';
 import Image from 'react-bootstrap/Image';
 import { Button, Col, Row, Stack } from 'react-bootstrap';
 import React from 'react';
+import NavBar from '../components/nav-bar/nav-bar';
 
 const logo = require('../assets/logo.png')
 
@@ -43,6 +44,7 @@ function Profile() {
     }
 
     return (
+        <><NavBar></NavBar>
         <div className='py-3'>
             <Row className='p-3 d-flex' onSubmit={edit()}>
                 <div className="w-100" style={{ maxWidth: '2000px' }}>
@@ -80,7 +82,7 @@ function Profile() {
                     </Card>
                 </div>
             </Row>
-        </div>
+        </div></>
     );
 };
 

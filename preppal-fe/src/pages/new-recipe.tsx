@@ -1,10 +1,12 @@
 
 import { Container, Form, Button, Stack } from 'react-bootstrap';
 import { MdCancel } from 'react-icons/md';
+import NavBar from '../components/nav-bar/nav-bar';
 
 const NewRecipe = () => {
 
     return (
+        <><NavBar></NavBar>
         <Container style={{ display: 'flex', justifyContent: 'center' }}>
             <Form style={{ width: '100%', maxWidth: '500px', paddingTop: '40px' }}>
                 <h2 style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
@@ -79,7 +81,7 @@ const NewRecipe = () => {
                     </Button>
                 </div>
             </Form>
-        </Container>
+        </Container></>
     );
 };
 

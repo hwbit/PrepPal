@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Container, Form, Button, Card, Image } from 'react-bootstrap';
+import { Container, Form, Button, Card, Image, Nav } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import NavBar from '../components/nav-bar/nav-bar';
 const logo = require('../assets/logo.png')
 
 const LoginPage = () => {
@@ -44,6 +45,7 @@ const LoginPage = () => {
     }
 
     return (
+        <><NavBar></NavBar>
         <Container className="d-flex align-items-center justify-content-center">
             <Card className="p-4 w-100" style={{ margin: '40px', backgroundColor: "#F2E8DC", maxWidth: '450px', height: '650px' }}>
                 <div style={{ maxWidth: '400px', marginLeft: 'auto', marginRight: 'auto' }}>
@@ -74,7 +76,7 @@ const LoginPage = () => {
                     </div>
                 </div>
             </Card>
-        </Container>
+        </Container></>
     );
 };
 

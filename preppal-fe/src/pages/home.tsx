@@ -3,7 +3,7 @@ import React from 'react';
 import { Col, Row } from 'react-bootstrap';
 import RecipeCard from '../components/recipe-card/recipe-card';
 import '../styles/global.css';
-
+import NavBar from '../components/nav-bar/nav-bar';
 
 const ExplorePage: React.FC = () => {
   const [recipes, setRecipes] = React.useState<any[]>([]);
@@ -27,6 +27,7 @@ const ExplorePage: React.FC = () => {
   };
 
   return (
+    <><NavBar></NavBar>
     <div className="explore-page">
       <h1>Explore</h1>
       <Row xs="auto" md="auto" lg="auto">
@@ -36,7 +37,7 @@ const ExplorePage: React.FC = () => {
           </Col>
         ))}
       </Row>
-    </div>
+    </div></>
   );
 };
 
