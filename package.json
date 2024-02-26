@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "lint": "npx eslint --ignore-pattern \"node_modules/\" --ext .ts,.tsx,.js .",
+    "lint-fix": "npx eslint --fix --ignore-pattern \"node_modules/\" --ext .ts,.tsx,.js ."
+  },
   "dependencies": {},
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
@@ -15,9 +19,5 @@
     "@typescript-eslint/parser": "^7.0.1",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0"
-  },
-  "scripts": {
-    "lint": "npx eslint --ignore-pattern \"node_modules/\" --ext .ts,.tsx,.js .",
-    "lint-fix": "npx eslint --fix --ignore-pattern \"node_modules/\" --ext .ts,.tsx,.js ."
   }
 }
