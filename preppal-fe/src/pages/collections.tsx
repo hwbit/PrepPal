@@ -24,7 +24,7 @@ const Collections = () => {
                     }
                 };
 
-                const res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
+                const res = await fetch(process.env.REACT_APP_API_URL + "/api/auth/", req).then(res => res.json());
                 setUsername(res.username);
             }
 
@@ -42,7 +42,7 @@ const Collections = () => {
                         'Content-Type': 'application/json'
                     }
                 };
-                const fetchedRecipes = await fetch("http://localhost:9001/api/recipes/lookupAuthor/" + username, req).then((res) => res.json());
+                const fetchedRecipes = await fetch(process.env.REACT_APP_API_URL + "/api/recipes/lookupAuthor/" + username, req).then((res) => res.json());
                 setRecipes(fetchedRecipes);
             } else {
                 setRecipes([]);

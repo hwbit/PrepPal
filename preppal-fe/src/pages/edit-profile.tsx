@@ -34,7 +34,7 @@ function EditProfile() {
                         "x-auth-token": token
                     }
                 };
-                const res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
+                const res = await fetch(process.env.REACT_APP_API_URL + "/api/auth/", req).then(res => res.json());
                 setID(res._id);
                 setName(res.username);
                 setBio(res.bio);
@@ -68,7 +68,7 @@ function EditProfile() {
                         'password': userPassword
                     })
                 };
-                const res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
+                const res = await fetch(process.env.REACT_APP_API_URL + "/api/auth/", req).then(res => res.json());
                 if (res.token) {
                     if (token !== "undefined") {
                         try {
@@ -110,7 +110,7 @@ function EditProfile() {
                     'following': userFollowing
                 })
             };
-            const res = await fetch("http://localhost:9001/api/users/updateUsers", req).then(res => res.json());
+            const res = await fetch(process.env.REACT_APP_API_URL + "/api/users/updateUsers", req).then(res => res.json());
             if (res.errors) {
                 alert(res.errors[0].msg);
             }
@@ -141,7 +141,7 @@ function EditProfile() {
                     'following': userFollowing
                 })
             };
-            const res = await fetch("http://localhost:9001/api/users/updateUsers", req).then(res => res.json());
+            const res = await fetch(process.env.REACT_APP_API_URL + "/api/users/updateUsers", req).then(res => res.json());
             if (res.errors) {
                 alert(res.errors[0].msg);
             }
@@ -188,7 +188,7 @@ function EditProfile() {
                                 <Form.Control type="text" defaultValue={userBio} onChange={(event) => setBio(event.target.value)} />
                             </Form.Group>
                             <div className="d-grid gap-2 justify-content-start">
-                                <Button className="mx-auto" variant="primary" type="submit" title="Login" size="lg" style={{ backgroundColor: "#401E01" }}>
+                                <Button className="mx-auto" variant="primary" type="submit" title="SubmitUpdate" size="lg" style={{ backgroundColor: "#401E01" }}>
                                     Submit updates
                                 </Button>
                             </div>

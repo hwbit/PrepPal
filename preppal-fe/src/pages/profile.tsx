@@ -25,7 +25,7 @@ function Profile() {
                         "x-auth-token": token
                     }
                 };
-                const res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
+                const res = await fetch(process.env.REACT_APP_API_URL + "/api/auth/", req).then(res => res.json());
                 setName(res.username);
                 setBio(res.bio);
                 setFollowing(res.following);
