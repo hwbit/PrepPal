@@ -1,16 +1,21 @@
-const INDENT = 4;// "tab";
+const INDENT_LONG = 4;// "tab";
 const INDENT_SIZE = 4;
-const INDENT_HTML = 2;
+const INDENT_SHORT = 2;
 
 module.exports = {
+    root: true,
     env: {
         browser: true,
         es2021: true,
     },
-    plugins: [
-        "html", "css", "@html-eslint", "md",
+    plugins: ["json", "@typescript-eslint"],
+    extends: [
+        "eslint:recommended",
+        "plugin:json/recommended",
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
     ],
-    extends: ["eslint:recommended", "plugin:json/recommended", "plugin:css/standard"],
+    ignorePatterns: ["package.json", "package-lock.json"],
     overrides: [
         {
             env: { node: true },
@@ -18,20 +23,96 @@ module.exports = {
             parserOptions: { sourceType: "script" },
         },
         {
-            files: ["*.html"],
-            parser: "@html-eslint/parser",
-            extends: ["plugin:@html-eslint/recommended"],
+            files: ["*.css"],
+            plugins: ["css"],
+            extends: ["plugin:css/recommended"],
             rules: {
-                "@html-eslint/indent": ["error", INDENT_HTML],
-                "@html-eslint/require-lang": "off",
-                "spaced-comment": "off",
+                "css/indent": ["error", INDENT_SHORT],
+                "css/property-casing": ["error", "kebab-case"],
             },
         },
+        // {
+        //     files: ["*.md"],
+        //     plugins: ["md"],
+        //     parser: "markdown-eslint-parser",
+        //     extends: ["plugin:md/recommended"],
+        //     rules: {"md/remark": ["error", {"maximum-line-length": "off"} ]},
+        // },
         {
-            files: ["*.md"],
-            parser: "markdown-eslint-parser",
-            extends: ["plugin:md/recommended"],
-            rules: {"md/remark": ["error", {"maximum-line-length": "off"} ]},
+            files: ["*.tsx"],
+            plugins: ["react", "react-hooks", "@typescript-eslint"],
+            extends: [
+                "eslint:recommended",
+                "plugin:react/recommended",
+                "plugin:@typescript-eslint/recommended",
+            ],
+            parser: "@typescript-eslint/parser",
+            parserOptions: {
+                ecmaVersion: 2021,
+                sourceType: "module",
+                ecmaFeatures: {jsx: true},
+                project: ["./preppal-fe/tsconfig.json"],
+            },
+            settings: {react: {version: "detect"}},
+            rules: {
+                "indent": ["error", INDENT_LONG, { SwitchCase: 1 } ],
+                "@typescript-eslint/no-explicit-any": 0,
+                "@typescript-eslint/no-var-requires": ["off", {allow: ["^..?/"]} ],
+                "@typescript-eslint/no-unused-vars": ["warn"],
+                "@typescript-eslint/no-unused-expressions": ["warn"],
+                "react/jsx-indent": ["error", INDENT_SHORT, { indentLogicalExpressions: true } ],
+                "react/jsx-indent-props": ["error", INDENT_SHORT],
+                "react/no-unknown-property": "error",
+                "react/prop-types": "off",
+                "react/display-name": "off",
+                "react/jsx-key": "error",
+                "react/jsx-no-undef": "error",
+                "react/jsx-no-useless-fragment": "error",
+                "react/jsx-pascal-case": "error",
+                "react/jsx-uses-react": "error",
+                "react/jsx-uses-vars": "error",
+                "react/jsx-no-duplicate-props": "error",
+                "react/jsx-boolean-value": ["error", "always"],
+                "react/jsx-curly-spacing": ["error", { when: "never", children: true } ],
+                "react/jsx-closing-bracket-location": ["error", "line-aligned"],
+                "react/jsx-closing-tag-location": "error",
+                "react/jsx-first-prop-new-line": ["error", "multiline-multiprop"],
+                "react/jsx-max-props-per-line": ["error", { maximum: 1, when: "always" } ],
+                "react/jsx-tag-spacing": [
+                    "error",
+                    {
+                        closingSlash: "never",
+                        beforeSelfClosing: "always",
+                        afterOpening: "never",
+                        beforeClosing: "never",
+                    },
+                ],
+                "react/jsx-equals-spacing": ["error", "never"],
+                "react/jsx-props-no-multi-spaces": "error",
+                "react/jsx-wrap-multilines": [
+                    "error",
+                    {
+                        declaration: "parens-new-line",
+                        assignment: "parens-new-line",
+                        return: "parens-new-line",
+                        arrow: "parens-new-line",
+                        condition: "parens-new-line",
+                        logical: "parens-new-line",
+                        prop: "parens-new-line",
+                    },
+                ],
+                "react/jsx-one-expression-per-line": ["error", { allow: "single-child" } ],
+                "react/jsx-filename-extension": ["error", { extensions: [".jsx", ".tsx"] } ],
+                "react/jsx-no-comment-textnodes": "error",
+                "react/jsx-no-target-blank": "error",
+                "react/jsx-sort-default-props": "off",
+                "react/jsx-sort-props": "off",
+                "react/jsx-no-script-url": "error",
+                "react/jsx-curly-brace-presence": ["error", { children: "never", props: "always" } ],
+                "react-hooks/rules-of-hooks": "error",
+                "react-hooks/exhaustive-deps": "off",
+            },
+
         },
     ],
     parserOptions: {
@@ -44,6 +125,9 @@ module.exports = {
         // "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
         // "no-warning-comments": process.env.NODE_ENV === "production" ? "error" : "off",
 
+        "@typescript-eslint/no-var-requires": ["off", {allow: ["^..?/"]} ],
+        "@typescript-eslint/no-unused-vars": ["warn"],
+        "@typescript-eslint/no-unused-expressions": ["warn"],
         "no-await-in-loop": "off",
         "no-constant-binary-expression": "error",
         "no-constructor-return": "error",
@@ -307,7 +391,7 @@ module.exports = {
         ],
         "generator-star-spacing": "error",
         "implicit-arrow-linebreak": "error",
-        "indent": ["error", INDENT, { ignoreComments: false } ],
+        "indent": ["error", INDENT_LONG, { ignoreComments: false } ],
         "jsx-quotes": "error",
         "key-spacing": "error",
         "keyword-spacing": "error",
