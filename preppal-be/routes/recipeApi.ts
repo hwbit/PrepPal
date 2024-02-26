@@ -82,6 +82,7 @@ routerRecipeApi.post("/createRecipe", async (req, res) => {
             servingSize,
             prepTime,
             cookingTime,
+            isPublic
         }
         = req.body;
 
@@ -113,6 +114,7 @@ routerRecipeApi.post("/createRecipe", async (req, res) => {
             servingSize,
             prepTime,
             cookingTime,
+            isPublic
         });
 
         // add recipe to the author's array

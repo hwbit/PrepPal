@@ -10,7 +10,8 @@ interface Recipe {
     instructions: string[],
     servings: number,
     prepTime: number,
-    cookingTime: number
+    cookingTime: number,
+    isPublic: boolean
 }
 
 const NewRecipe = () => {
@@ -24,7 +25,8 @@ const NewRecipe = () => {
         instructions: [""],
         servings: 0,
         prepTime: 0,
-        cookingTime: 0
+        cookingTime: 0,
+        isPublic: true
     } as Recipe);
     const [validated, setValidated] = React.useState<boolean>(false);
     const [ingredientErr, setIngredientErr] = React.useState<boolean>(false);
@@ -82,6 +84,7 @@ const NewRecipe = () => {
                             "servingSize": recipe.servings,
                             "prepTime": recipe.prepTime,
                             "cookingTime": recipe.cookingTime,
+                            "isPublic": recipe.isPublic
                         })
                     };
 
@@ -140,6 +143,15 @@ const NewRecipe = () => {
             setInstructionErr(true);
         }
         setRecipe({ ...recipe });
+    }
+
+    const handlePrivate = () => {
+        if (recipe.isPublic == true) {
+            recipe.isPublic = false;
+        }
+        else {
+            recipe.isPublic = true;
+        }
     }
 
     return (
@@ -284,6 +296,9 @@ const NewRecipe = () => {
                         Enter the time in minutes
                     </Form.Text>
                     <Form.Control.Feedback type="invalid">Please enter a value</Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group title="checkboxIsPrivate" controlId="formBasicCheckbox" onClick={(event) => handlePrivate()} style={{ paddingBottom: '24px' }}>
+                    <Form.Check type="checkbox" label="Private Recipe" />
                 </Form.Group>
                 <div style={{ display: 'flex', paddingBottom: '24px', justifyContent: 'space-between' }}>
                     <Button
