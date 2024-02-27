@@ -188,7 +188,7 @@ function EditProfile() {
                                 <Form.Control type="text" defaultValue={userBio} onChange={(event) => setBio(event.target.value)} />
                             </Form.Group>
                             <div className="d-grid gap-2 justify-content-start">
-                                <Button className="mx-auto" variant="primary" type="submit" title="Login" size="lg" style={{ backgroundColor: "#401E01" }}>
+                                <Button className="mx-auto" variant="primary" type="submit" title="SubmitUpdate" size="lg" style={{ backgroundColor: "#401E01" }}>
                                     Submit updates
                                 </Button>
                             </div>

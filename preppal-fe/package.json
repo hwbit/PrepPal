@@ -11,7 +11,7 @@
     "lint": "npx eslint --ignore-pattern \"node_modules/\" --ext .ts,.tsx,.js .",
     "lint-fix": "npx eslint --fix --ignore-pattern \"node_modules/\" --ext .ts,.tsx,.js .",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build -r https://github.com/algorizan/PrepPal.git"
   },
   "eslintConfig": {
     "extends": [
