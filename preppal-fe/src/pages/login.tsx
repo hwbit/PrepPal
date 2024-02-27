@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Container, Form, Button, Card, Image, Nav } from 'react-bootstrap';
+import { Container, Form, Button, Card, Image } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import NavBar from '../components/nav-bar/nav-bar';
 const logo = require('../assets/logo.png')
