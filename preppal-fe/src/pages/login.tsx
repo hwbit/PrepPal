@@ -62,9 +62,6 @@ const LoginPage = () => {
                             <Form.Control type="password" placeholder="Password" onChange={(event) => setPassword(event.target.value)} />
                         </Form.Group>
 
-                        <Form.Group title="checkboxRememberMe" controlId="formBasicCheckbox" style={{ paddingBottom: '8px' }}>
-                            <Form.Check type="checkbox" label="Remember me" />
-                        </Form.Group>
                         <div className="d-grid gap-2">
                             <Button className="mx-auto" variant="primary" type="submit" title="Login" size="lg">
                                 Login
