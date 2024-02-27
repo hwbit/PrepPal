@@ -1,23 +1,13 @@
 import { Container, Image, Stack, Card} from 'react-bootstrap';
 import { dateToString } from '../utils/date';
-
-const recipeInfo: any = {
-    author: "John Doe",
-    title: "Chicken's Fried Rice",
-    description: "A chicken fried this rice.",
-    image: "logo.png",
-    ingredients: ["Rice","Chicken","Green onion"],
-    instructions: ["Cook chicken","Fry rice"],
-    servingSize: 1,
-    prepTime: 20,
-    cookingTime: 30,
-    creationDate: new Date()
-}
+import { useLocation } from 'react-router-dom';
 
 const Recipe = () => {
+    const location = useLocation();
+    const { recipeInfo } = location.state;
     const ingredientsArray = (recipeInfo.ingredients).map((ingredient: string) => <li>{ingredient}</li>);
-    const instructionsArray = (recipeInfo.instructions).map((step: string) => <li>{step}</li>)
-    const datePublished = dateToString(recipeInfo.creationDate);
+    const instructionsArray = (recipeInfo.instructions).map((step: string) => <li>{step}</li>);
+    const datePublished = dateToString(new Date(recipeInfo.creationDate));
     return (
         <Container style={{ display: 'flex', justifyContent: 'center', width: '66%' }}>
             <div>
