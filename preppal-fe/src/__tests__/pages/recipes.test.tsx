@@ -29,7 +29,7 @@ jest.mock("react-router-dom", () => ({
 }));
 
 describe('Collections page tests', () => {
-    test('Render standard component --> headers', async () => {
+    test('Render standard component --> headers and data', async () => {
         render(<BrowserRouter><Recipe /></BrowserRouter>);
 
         const title = screen.queryByText("Chicken's Fried Rice");
