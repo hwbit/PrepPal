@@ -32,6 +32,9 @@ jobs:
         git config --global user.name "Izan"
 
     - name: Debug
+      env:
+        CI: true
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         echo "GITHUB_TOKEN=${GITHUB_TOKEN}"
         cat $HOME/.npmrc
