@@ -7,8 +7,8 @@ const recipeInfo: any = {
     title: "Chicken's Fried Rice",
     description: "A chicken fried this rice.",
     image: "logo.png",
-    ingredients: ["Rice","Chicken","Green onion"],
-    instructions: ["Cook chicken","Fry rice"],
+    ingredients: ["ingredient 1","ingredient 2"],
+    instructions: ["step 1","step 2"],
     servingSize: 1,
     prepTime: 20,
     cookingTime: 30,
@@ -33,24 +33,39 @@ describe('Collections page tests', () => {
         render(<BrowserRouter><Recipe /></BrowserRouter>);
 
         const title = screen.queryByText("Chicken's Fried Rice");
-        expect(title).toBeTruthy();
         const desc = screen.queryByText("A chicken fried this rice.");
-        expect(desc).toBeTruthy();
         const author = screen.queryByText("Author: John Doe");
-        expect(author).toBeTruthy();
         const date = screen.queryByText("Date published: Feb 17 2024");
-        expect(date).toBeTruthy();
-        const ingredients = screen.queryByText("Ingredients");
-        expect(ingredients).toBeTruthy();
-        const instructions = screen.queryByText("Instructions");
-        expect(instructions).toBeTruthy();
+        const ingredientsHeader = screen.queryByText("Ingredients");
+        const ingredient1 = screen.queryByText("ingredient 1");
+        const ingredient2 = screen.queryByText("ingredient 2");
+        const instructionsHeader = screen.queryByText("Instructions");
+        const step1 = screen.queryByText("step 1");
+        const step2 = screen.queryByText("step 2");
         const servings = screen.queryByText("Serving Size: 1");
+        const prepTimeSubtitle = screen.queryByText("Prep Time:");
+        const prepTime = screen.queryByText("20 min");
+        const cookingTimeSubtitle = screen.queryByText("Cooking Time:");
+        const cookingTime = screen.queryByText("30 min");
+        const totalTimeSubtitle = screen.queryByText("Total Time:");
+        const totalTime = screen.queryByText("50 min");
+
+        expect(title).toBeTruthy();
+        expect(desc).toBeTruthy();
+        expect(author).toBeTruthy();
+        expect(date).toBeTruthy();
+        expect(ingredientsHeader).toBeTruthy();
+        expect(ingredient1).toBeTruthy();
+        expect(ingredient2).toBeTruthy();
+        expect(instructionsHeader).toBeTruthy();
+        expect(step1).toBeTruthy();
+        expect(step2).toBeTruthy();
         expect(servings).toBeTruthy();
-        const prepTime = screen.queryByText("Prep Time:");
+        expect(prepTimeSubtitle).toBeTruthy();
         expect(prepTime).toBeTruthy();
-        const cookingTime = screen.queryByText("Cooking Time:");
+        expect(cookingTimeSubtitle).toBeTruthy();
         expect(cookingTime).toBeTruthy();
-        const totalTime = screen.queryByText("Total Time:");
+        expect(totalTimeSubtitle).toBeTruthy();
         expect(totalTime).toBeTruthy();
     });
 })
