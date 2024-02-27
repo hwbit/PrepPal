@@ -14,7 +14,7 @@ const NavBar = () => {
     if (!searchQuery.trim()) {
       return;
     }
-    window.location.href = `/search/${encodeURIComponent(searchQuery)}`;
+    window.location.href = `/PrepPal/search/${encodeURIComponent(searchQuery)}`;
   };
 
   const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,7 +23,7 @@ const NavBar = () => {
 
   return (
     <Navbar expand="lg">
-      <Navbar.Brand href="/">
+      <Navbar.Brand href="/PrepPal">
         <img src={require("../../assets/logo.png")} width="50" height="40" alt="preppal"></img>
       </Navbar.Brand>
       <Form className="search-bar" onSubmit={handleSearchSubmit}>
