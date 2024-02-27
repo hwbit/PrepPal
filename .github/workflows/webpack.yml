@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x, 18.x, 20.x]
+        node-version: [16.x, 20.x]
 
     steps:
     - uses: actions/checkout@v3
@@ -19,6 +19,12 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
+
+    - name: Configure GitHub token for deployment
+      env:
+        CI: true
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: npm config set //npm.pkg.github.com/:_authToken=$GITHUB_TOKEN
 
     - name: Build & Deploy
       working-directory: ./preppal-fe
