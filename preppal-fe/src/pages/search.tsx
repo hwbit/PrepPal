@@ -3,6 +3,7 @@ import { Row, Col } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import RecipeCard from '../components/recipe-card/recipe-card';
 import '../styles/global.css';
+import NavBar from '../components/nav-bar/nav-bar';
 
 const Search: React.FC = () => {
   const [recipes, setRecipes] = React.useState<any[]>([]);
@@ -32,6 +33,7 @@ const Search: React.FC = () => {
   }, [q]);
 
   return (
+    <><NavBar></NavBar>
     <div className="search-page">
       <h1>Search Results</h1>
       <p className="search-query">Search query: {q}</p>
@@ -42,7 +44,7 @@ const Search: React.FC = () => {
           </Col>
         ))}
       </Row>
-    </div>
+    </div></>
   );
 };
 

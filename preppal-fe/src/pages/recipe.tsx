@@ -1,29 +1,21 @@
 import { Container, Image, Stack, Card} from 'react-bootstrap';
 import { dateToString } from '../utils/date';
-
-const recipeInfo: any = {
-    author: "John Doe",
-    title: "Chicken's Fried Rice",
-    description: "A chicken fried this rice.",
-    image: "logo.png",
-    ingredients: ["Rice","Chicken","Green onion"],
-    instructions: ["Cook chicken","Fry rice"],
-    servingSize: 1,
-    prepTime: 20,
-    cookingTime: 30,
-    creationDate: new Date()
-}
+import { useLocation } from 'react-router-dom';
+import NavBar from '../components/nav-bar/nav-bar';
 
 const Recipe = () => {
+    const location = useLocation();
+    const { recipeInfo } = location.state;
     const ingredientsArray = (recipeInfo.ingredients).map((ingredient: string) => <li>{ingredient}</li>);
-    const instructionsArray = (recipeInfo.instructions).map((step: string) => <li>{step}</li>)
-    const datePublished = dateToString(recipeInfo.creationDate);
+    const instructionsArray = (recipeInfo.instructions).map((step: string) => <li>{step}</li>);
+    const datePublished = dateToString(new Date(recipeInfo.creationDate));
     return (
+        <><NavBar></NavBar>
         <Container style={{ display: 'flex', justifyContent: 'center', width: '66%' }}>
             <div>
                 <Stack direction='horizontal' className='ms-auto'>
                     <div>
-                        <Image src={require("../assets/"+recipeInfo.image)} width={150}/>
+                        <Image src={require("../assets/" + recipeInfo.image)} width={150} />
                     </div>
                     <div>
                         <h1>{recipeInfo.title}</h1>
@@ -51,7 +43,7 @@ const Recipe = () => {
                         </div>
                         <div>
                             <Card.Subtitle>Total Time:</Card.Subtitle>
-                            {recipeInfo.prepTime+recipeInfo.cookingTime} min
+                            {recipeInfo.prepTime + recipeInfo.cookingTime} min
                         </div>
                     </Stack>
                 </Card>
@@ -64,7 +56,7 @@ const Recipe = () => {
                     {instructionsArray}
                 </ol>
             </div>
-        </Container>
+        </Container></>
     )
 }
 

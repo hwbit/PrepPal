@@ -2,6 +2,7 @@ import React from 'react';
 import { Form, Button, Container, InputGroup } from 'react-bootstrap';
 import { MdCancel } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
+import NavBar from '../components/nav-bar/nav-bar';
 
 interface Recipe {
     title: string,
@@ -10,7 +11,8 @@ interface Recipe {
     instructions: string[],
     servings: number,
     prepTime: number,
-    cookingTime: number
+    cookingTime: number,
+    isPublic: boolean
 }
 
 const NewRecipe = () => {
@@ -24,7 +26,8 @@ const NewRecipe = () => {
         instructions: [""],
         servings: 0,
         prepTime: 0,
-        cookingTime: 0
+        cookingTime: 0,
+        isPublic: true
     } as Recipe);
     const [validated, setValidated] = React.useState<boolean>(false);
     const [ingredientErr, setIngredientErr] = React.useState<boolean>(false);
@@ -82,9 +85,10 @@ const NewRecipe = () => {
                             "servingSize": recipe.servings,
                             "prepTime": recipe.prepTime,
                             "cookingTime": recipe.cookingTime,
+                            "isPublic": recipe.isPublic
                         })
                     };
-
+                    
                     await fetch("http://localhost:9001/api/recipes/createRecipe", req).then(res => res.json());
 
                     navigate("/collections");
@@ -142,7 +146,12 @@ const NewRecipe = () => {
         setRecipe({ ...recipe });
     }
 
+    const handlePrivate = () => {
+        recipe.isPublic = !recipe.isPublic;
+    }
+
     return (
+        <><NavBar></NavBar>
         <Container style={{ display: 'flex', justifyContent: 'center' }}>
             <Form
                 noValidate
@@ -158,8 +167,7 @@ const NewRecipe = () => {
                         required
                         name='title'
                         type='text'
-                        onChange={(event) => handleChange(event)}
-                    />
+                        onChange={(event) => handleChange(event)} />
                     <Form.Control.Feedback type="invalid">Please enter a title</Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group controlId='description' style={{ paddingBottom: '24px' }} title="Description">
@@ -285,6 +293,9 @@ const NewRecipe = () => {
                     </Form.Text>
                     <Form.Control.Feedback type="invalid">Please enter a value</Form.Control.Feedback>
                 </Form.Group>
+                <Form.Group title="checkboxIsPrivate" controlId="formBasicCheckbox" onChange={(event) => handlePrivate()} style={{ paddingBottom: '24px' }}>
+                    <Form.Check type="checkbox" label="Make Recipe Private" />
+                </Form.Group>
                 <div style={{ display: 'flex', paddingBottom: '24px', justifyContent: 'space-between' }}>
                     <Button
                         variant='danger'
@@ -303,7 +314,7 @@ const NewRecipe = () => {
                     </Button>
                 </div>
             </Form>
-        </Container >
+        </Container></>
     );
 };
 
