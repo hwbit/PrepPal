@@ -1,4 +1,4 @@
-* Instructions 
+# Instructions
 
 Requirements: Node.js
 
