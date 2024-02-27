@@ -35,4 +35,4 @@ jobs:
       working-directory: ./preppal-fe
       run: |
         npm install
-        npm run deploy -r https://github.com/algorizan/PrepPal.git
+        npm run deploy
