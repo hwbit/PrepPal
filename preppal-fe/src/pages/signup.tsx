@@ -13,7 +13,7 @@ const Signup = () => {
 
     const navigate = useNavigate();
 
-    //Logic to stop submission on incomplete form. 
+    //Logic to stop submission on incomplete form.
     //React bootstrap offical validation code for forms
     const [validated, setValidated] = useState(false);
     const [username, setUsername] = useState("");
@@ -32,7 +32,7 @@ const Signup = () => {
                     'password': password
                 }),
             };
-            const res = await fetch("http://localhost:9001/api/users/createUsers", req).then(res => res.json());
+            const res = await fetch(process.env.REACT_APP_API_URL + "/api/users/createUsers", req).then(res => res.json());
             localStorage.setItem("token", res.token);
         } catch (err) {
             alert("something went wrong");

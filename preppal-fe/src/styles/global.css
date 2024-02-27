@@ -15,6 +15,12 @@
     margin-right: 10px;
 }
 
+.search-page {
+    margin-left: 50px;
+    margin-right: 10px;
+}
+
+.search-query,
 h1 {
     color: var(--dark-brown);
     font-weight: bolder;

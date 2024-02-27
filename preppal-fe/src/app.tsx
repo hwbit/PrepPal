@@ -7,21 +7,25 @@ import Signup from './pages/signup';
 import Profile from './pages/profile';
 import NewRecipe from './pages/new-recipe';
 import Collections from './pages/collections';
+import EditProfile from './pages/edit-profile';
+import Search from './pages/search';
 
 function App() {
   return (
-    <div className="app">
-      <BrowserRouter>
+    <BrowserRouter>
+      <div className="app">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="signup" element={<Signup />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="edit-profile" element={<EditProfile />} />
           <Route path="new-recipe" element={<NewRecipe />} />
           <Route path="collections" element={<Collections />} />
+          <Route path="search/:q" element={<Search />} />
         </Routes>
-      </BrowserRouter>
-    </div>
+      </div>
+    </BrowserRouter>
   );
 }
 
