@@ -1,19 +1,19 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import './app.css';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavBar from './components/nav-bar/nav-bar';
-import Home from './pages/home';
-import LoginPage from './pages/login';
-import Signup from './pages/signup';
-import Profile from './pages/profile';
-import NewRecipe from './pages/new-recipe';
 import Collections from './pages/collections';
 import EditProfile from './pages/edit-profile';
+import Home from './pages/home';
+import LoginPage from './pages/login';
+import NewRecipe from './pages/new-recipe';
+import Profile from './pages/profile';
 import Search from './pages/search';
+import Signup from './pages/signup';
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <div className="app">
         <NavBar />
         <Routes>
