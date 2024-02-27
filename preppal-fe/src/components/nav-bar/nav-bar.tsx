@@ -22,6 +22,7 @@ const NavBar = () => {
     } catch (err) {
       console.error(err);
     }
+  }
     
   const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
