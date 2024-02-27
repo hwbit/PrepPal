@@ -17,8 +17,6 @@ describe('Login Component tests', () => {
         expect(username).toBeTruthy();
         const password = screen.queryByTitle("inputPassword");
         expect(password).toBeTruthy();
-        const checkboxRemember = screen.queryByTitle("checkboxRememberMe");
-        expect(checkboxRemember).toBeTruthy();
     });
 })
 

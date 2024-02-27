@@ -1,6 +1,7 @@
 import { Tabs, Tab, Row, Col } from 'react-bootstrap';
 import React, { useState } from 'react';
 import RecipeCard from '../components/recipe-card/recipe-card';
+import NavBar from '../components/nav-bar/nav-bar';
 
 const Collections = () => {
     const [username, setUsername] = useState("");
@@ -62,8 +63,9 @@ const Collections = () => {
     }
 
     return (
+        <><NavBar></NavBar>
         <div className='collections-page'>
-            < Tabs
+            <Tabs
                 defaultActiveKey="MyRecipes"
                 id="collections"
                 onSelect={key => handleSelect(key)}>
@@ -85,8 +87,8 @@ const Collections = () => {
                         ))}
                     </Row>
                 </Tab>
-            </Tabs >
-        </div >
+            </Tabs>
+        </div></>
     )
 }
 
