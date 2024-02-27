@@ -10,7 +10,8 @@ interface Recipe {
     instructions: string[],
     servings: number,
     prepTime: number,
-    cookingTime: number
+    cookingTime: number,
+    isPublic: boolean
 }
 
 const NewRecipe = () => {
@@ -24,7 +25,8 @@ const NewRecipe = () => {
         instructions: [""],
         servings: 0,
         prepTime: 0,
-        cookingTime: 0
+        cookingTime: 0,
+        isPublic: true
     } as Recipe);
     const [validated, setValidated] = React.useState<boolean>(false);
     const [ingredientErr, setIngredientErr] = React.useState<boolean>(false);
@@ -82,9 +84,10 @@ const NewRecipe = () => {
                             "servingSize": recipe.servings,
                             "prepTime": recipe.prepTime,
                             "cookingTime": recipe.cookingTime,
+                            "isPublic": recipe.isPublic
                         })
                     };
-
+                    
                     await fetch("http://localhost:9001/api/recipes/createRecipe", req).then(res => res.json());
 
                     navigate("/collections");
@@ -140,6 +143,10 @@ const NewRecipe = () => {
             setInstructionErr(true);
         }
         setRecipe({ ...recipe });
+    }
+
+    const handlePrivate = () => {
+        recipe.isPublic = !recipe.isPublic;
     }
 
     return (
@@ -284,6 +291,9 @@ const NewRecipe = () => {
                         Enter the time in minutes
                     </Form.Text>
                     <Form.Control.Feedback type="invalid">Please enter a value</Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group title="checkboxIsPrivate" controlId="formBasicCheckbox" onChange={(event) => handlePrivate()} style={{ paddingBottom: '24px' }}>
+                    <Form.Check type="checkbox" label="Make Recipe Private" />
                 </Form.Group>
                 <div style={{ display: 'flex', paddingBottom: '24px', justifyContent: 'space-between' }}>
                     <Button

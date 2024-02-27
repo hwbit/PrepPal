@@ -163,9 +163,6 @@ function EditProfile() {
                                 <Image src={logo} alt="Logo" rounded style={{ maxWidth: '200px' }} />
                                 <Card.Title className='p-2'>{userName}</Card.Title>
                             </Col>
-                            <Col>
-                                <label className='d-flex justify-content-end'>Change profile pic /not implemented/</label>
-                            </Col>
                         </Card.Header>
                         <Form onSubmit={updateUser}>
                             <Row>

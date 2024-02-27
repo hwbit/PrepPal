@@ -98,7 +98,8 @@ describe('recipeApi test', function () {
                 instructions: ["step1", "step2", "step3"],
                 servingSize: 2,
                 prepTime: 10,
-                cookingTime: 10
+                cookingTime: 10,
+                isPublic: true
             });
         expect(res.statusCode).toEqual(201);
         expect(res.body["newRecipe"].author).toEqual(testAuthor);
@@ -140,7 +141,8 @@ describe('recipeApi test', function () {
                 instructions: ["step1", "step2", "step3"],
                 servingSize: 2,
                 prepTime: 10,
-                cookingTime: 10
+                cookingTime: 10,
+                isPublic: true
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -155,7 +157,8 @@ describe('recipeApi test', function () {
                 instructions: ["step1", "step2", "step3"],
                 servingSize: 2,
                 prepTime: 10,
-                cookingTime: 10
+                cookingTime: 10,
+                isPublic: true
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -170,7 +173,8 @@ describe('recipeApi test', function () {
                 instructions: ["step1", "step2", "step3"],
                 servingSize: 2,
                 prepTime: 10,
-                cookingTime: 10
+                cookingTime: 10,
+                isPublic: true
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -185,7 +189,8 @@ describe('recipeApi test', function () {
                 instructions: [],
                 servingSize: 2,
                 prepTime: 10,
-                cookingTime: 10
+                cookingTime: 10,
+                isPublic: true
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -199,7 +204,8 @@ describe('recipeApi test', function () {
                 ingredients: ["item1", "item2", "item3"],
                 instructions: ["step1", "step2", "step3"],
                 prepTime: 10,
-                cookingTime: 10
+                cookingTime: 10,
+                isPublic: true
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -214,7 +220,8 @@ describe('recipeApi test', function () {
                 instructions: ["step1", "step2", "step3"],
                 servingSize: -1,
                 prepTime: 10,
-                cookingTime: 10
+                cookingTime: 10,
+                isPublic: true
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -228,7 +235,8 @@ describe('recipeApi test', function () {
                 ingredients: ["item1", "item2", "item3"],
                 instructions: ["step1", "step2", "step3"],
                 servingSize: 2,
-                cookingTime: 10
+                cookingTime: 10,
+                isPublic: true
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -243,7 +251,8 @@ describe('recipeApi test', function () {
                 instructions: ["step1", "step2", "step3"],
                 servingSize: 2,
                 prepTime: -1,
-                cookingTime: 10
+                cookingTime: 10,
+                isPublic: true
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -257,7 +266,8 @@ describe('recipeApi test', function () {
                 ingredients: ["item1", "item2", "item3"],
                 instructions: ["step1", "step2", "step3"],
                 servingSize: 2,
-                prepTime: 10
+                prepTime: 10,
+                isPublic: true
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -272,7 +282,8 @@ describe('recipeApi test', function () {
                 instructions: ["step1", "step2", "step3"],
                 servingSize: 2,
                 prepTime: 10,
-                cookingTime: -1
+                cookingTime: -1,
+                isPublic: true
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -291,7 +302,8 @@ describe('recipeApi test', function () {
                 instructions: ["step1", "step2", "step3"],
                 servingSize: 2,
                 prepTime: 10,
-                cookingTime: 10
+                cookingTime: 10,
+                isPublic: true
             });
         expect(res.statusCode).toEqual(201);
         expect(res.body["recipe"]._id).toEqual(testUpdateRecipeId);
@@ -321,7 +333,8 @@ describe('recipeApi test', function () {
                 instructions: ["step1", "step2", "step3"],
                 servingSize: 2,
                 prepTime: 10,
-                cookingTime: 10
+                cookingTime: 10,
+                isPublic: true
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -337,7 +350,8 @@ describe('recipeApi test', function () {
                 instructions: ["step1", "step2", "step3"],
                 servingSize: 2,
                 prepTime: 10,
-                cookingTime: 10
+                cookingTime: 10,
+                isPublic: true
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -353,7 +367,8 @@ describe('recipeApi test', function () {
                 instructions: ["step1", "step2", "step3"],
                 servingSize: 2,
                 prepTime: 10,
-                cookingTime: 10
+                cookingTime: 10,
+                isPublic: true
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -369,7 +384,8 @@ describe('recipeApi test', function () {
                 instructions: [],
                 servingSize: 2,
                 prepTime: 10,
-                cookingTime: 10
+                cookingTime: 10,
+                isPublic: true
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -384,7 +400,8 @@ describe('recipeApi test', function () {
                 ingredients: ["item1", "item2", "item3"],
                 instructions: ["step1", "step2", "step3"],
                 prepTime: 10,
-                cookingTime: 10
+                cookingTime: 10,
+                isPublic: true
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -400,7 +417,8 @@ describe('recipeApi test', function () {
                 instructions: ["step1", "step2", "step3"],
                 servingSize: -1,
                 prepTime: 10,
-                cookingTime: 10
+                cookingTime: 10,
+                isPublic: true
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -415,7 +433,8 @@ describe('recipeApi test', function () {
                 ingredients: ["item1", "item2", "item3"],
                 instructions: ["step1", "step2", "step3"],
                 servingSize: 2,
-                cookingTime: 10
+                cookingTime: 10,
+                isPublic: true
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -431,7 +450,8 @@ describe('recipeApi test', function () {
                 instructions: ["step1", "step2", "step3"],
                 servingSize: 2,
                 prepTime: -1,
-                cookingTime: 10
+                cookingTime: 10,
+                isPublic: true
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -446,7 +466,8 @@ describe('recipeApi test', function () {
                 ingredients: ["item1", "item2", "item3"],
                 instructions: ["step1", "step2", "step3"],
                 servingSize: 2,
-                prepTime: 10
+                prepTime: 10,
+                isPublic: true
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -462,7 +483,8 @@ describe('recipeApi test', function () {
                 instructions: ["step1", "step2", "step3"],
                 servingSize: 2,
                 prepTime: 10,
-                cookingTime: -1
+                cookingTime: -1,
+                isPublic: true
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -479,7 +501,8 @@ describe('recipeApi test', function () {
             instructions: ["1"], 
             servingSize: 1, 
             prepTime: 1, 
-            cookingTime:1 
+            cookingTime:1,
+            isPublic: true
         });
         await recipe.save();
 
