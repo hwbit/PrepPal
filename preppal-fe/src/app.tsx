@@ -10,6 +10,7 @@ import NewRecipe from './pages/new-recipe';
 import Collections from './pages/collections';
 import EditProfile from './pages/edit-profile';
 import Search from './pages/search';
+import Recipe from './pages/recipe';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="new-recipe" element={<NewRecipe />} />
           <Route path="collections" element={<Collections />} />
           <Route path="search/:q" element={<Search />} />
+          <Route path=":author/:titleUrl" element={<Recipe />} />
         </Routes>
       </div>
     </BrowserRouter>
