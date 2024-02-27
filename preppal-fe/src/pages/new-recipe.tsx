@@ -2,6 +2,7 @@ import React from 'react';
 import { Form, Button, Container, InputGroup } from 'react-bootstrap';
 import { MdCancel } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
+import NavBar from '../components/nav-bar/nav-bar';
 
 interface Recipe {
     title: string,
@@ -143,6 +144,7 @@ const NewRecipe = () => {
     }
 
     return (
+        <><NavBar></NavBar>
         <Container style={{ display: 'flex', justifyContent: 'center' }}>
             <Form
                 noValidate
@@ -158,8 +160,7 @@ const NewRecipe = () => {
                         required
                         name='title'
                         type='text'
-                        onChange={(event) => handleChange(event)}
-                    />
+                        onChange={(event) => handleChange(event)} />
                     <Form.Control.Feedback type="invalid">Please enter a title</Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group controlId='description' style={{ paddingBottom: '24px' }} title="Description">
@@ -303,7 +304,7 @@ const NewRecipe = () => {
                     </Button>
                 </div>
             </Form>
-        </Container >
+        </Container></>
     );
 };
 

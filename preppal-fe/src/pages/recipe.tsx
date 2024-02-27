@@ -1,6 +1,7 @@
 import { Container, Image, Stack, Card} from 'react-bootstrap';
 import { dateToString } from '../utils/date';
 import { useLocation } from 'react-router-dom';
+import NavBar from '../components/nav-bar/nav-bar';
 
 const Recipe = () => {
     const location = useLocation();
@@ -9,11 +10,12 @@ const Recipe = () => {
     const instructionsArray = (recipeInfo.instructions).map((step: string) => <li>{step}</li>);
     const datePublished = dateToString(new Date(recipeInfo.creationDate));
     return (
+        <><NavBar></NavBar>
         <Container style={{ display: 'flex', justifyContent: 'center', width: '66%' }}>
             <div>
                 <Stack direction='horizontal' className='ms-auto'>
                     <div>
-                        <Image src={require("../assets/"+recipeInfo.image)} width={150}/>
+                        <Image src={require("../assets/" + recipeInfo.image)} width={150} />
                     </div>
                     <div>
                         <h1>{recipeInfo.title}</h1>
@@ -41,7 +43,7 @@ const Recipe = () => {
                         </div>
                         <div>
                             <Card.Subtitle>Total Time:</Card.Subtitle>
-                            {recipeInfo.prepTime+recipeInfo.cookingTime} min
+                            {recipeInfo.prepTime + recipeInfo.cookingTime} min
                         </div>
                     </Stack>
                 </Card>
@@ -54,7 +56,7 @@ const Recipe = () => {
                     {instructionsArray}
                 </ol>
             </div>
-        </Container>
+        </Container></>
     )
 }
 
