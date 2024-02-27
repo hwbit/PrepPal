@@ -31,8 +31,14 @@ jobs:
         git config --global user.email "cuetarai@myumanitoba.ca"
         git config --global user.name "Izan"
 
+    - name: Debug
+      run: |
+        echo "GITHUB_TOKEN=${GITHUB_TOKEN}"
+        cat $HOME/.npmrc
+        cat $GITHUB_WORKSPACE/preppal-fe/.npmrc
+
     - name: Build & Deploy
       working-directory: ./preppal-fe
       run: |
         npm install
-        npm run deploy
+        npm run deploy -r https://github.com/algorizan/PrepPal.git
