@@ -1,7 +1,7 @@
 const jwtAuth = require("jsonwebtoken");
-const configAuth = require("../configs/secrets.ts")
+const configAuth = require("../configs/secrets.ts");
 
-module.exports = function (req, res, next) {
+module.exports = function(req, res, next) {
     const token = req.header("x-auth-token");
 
     if (!token) {
@@ -12,7 +12,8 @@ module.exports = function (req, res, next) {
         const decoded = jwtAuth.verify(token, configAuth.jwtSecret);
         req.user = decoded.user;
         next();
-    } catch (error) {
+    }
+    catch (error) {
         res.status(401).json({ msg: "Invalid token." });
     }
 };
