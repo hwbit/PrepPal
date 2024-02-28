@@ -23,7 +23,7 @@ function App() {
           <Route path="edit-profile" element={<EditProfile />} />
           <Route path="new-recipe" element={<NewRecipe />} />
           <Route path="collections" element={<Collections />} />
-          <Route path="search/:q" element={<Search />} />
+          <Route path="search/:query" element={<Search />} />
           <Route path=":author/:titleUrl" element={<Recipe />} />
         </Routes>
       </div>
