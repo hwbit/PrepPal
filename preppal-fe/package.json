@@ -8,8 +8,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "npx eslint --ignore-pattern \"node_modules/\" --ext .ts,.tsx,.js .",
-    "lint-fix": "npx eslint --fix --ignore-pattern \"node_modules/\" --ext .ts,.tsx,.js .",
+    "lint": "npx eslint --ext .ts,.tsx,.js .",
+    "lint-fix": "npx eslint --fix --ext .ts,.tsx,.js .",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build -r https://github.com/algorizan/PrepPal.git"
   },
@@ -19,6 +19,10 @@
       "react-app/jest"
     ]
   },
+  "eslintIgnore": [
+    "node_modules/",
+    "build/"
+  ],
   "browserslist": {
     "production": [
       ">0.2%",

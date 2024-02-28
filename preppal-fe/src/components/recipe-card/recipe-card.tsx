@@ -1,4 +1,5 @@
 import { Card } from "react-bootstrap";
+import { Link } from 'react-router-dom';
 import '../../styles/global.css';
 import './recipe-card.css';
 
@@ -6,9 +7,9 @@ function RecipeCard(recipe: any): JSX.Element {
   const recipeImage = require(`../../assets/${recipe.image}`);
   return (
     <Card className="recipe-card">
-      <a href={`${recipe.author}/${recipe.titleUrl}`} target="_blank" rel="noopener noreferrer">
+      <Link to={"/"+recipe.author+"/"+recipe.titleUrl} state={{recipeInfo: recipe}}>
         <Card.Img className='recipe-img' variant='top' src={recipeImage} alt={recipe.title} />
-      </a>
+      </Link>
       <Card.Body>
         <Card.Title className='recipe-title'>{recipe.title}</Card.Title>
         <Card.Text className='recipe-text'>{recipe.description}</Card.Text>

@@ -1,23 +1,24 @@
-const request = require('supertest');
-const db = require('../configs/db.ts');
-const app = require('../app.ts');
-const RecipeModel = require('../models/recipe.ts');
+/* eslint-disable no-magic-numbers */
+const request = require("supertest");
+const db = require("../configs/db.ts");
+const app = require("../app.ts");
+const RecipeModel = require("../models/recipe.ts");
 const AuthorModel = require("../models/user.ts");
 
-describe('recipeApi test', function () {
+describe("recipeApi test", function() {
     const testRecipeId = "65d03133c3c181f694ab9b8b"; // test recipe 1000 - do not delete
     const testAuthor = "testApiSandboxAccount";
 
     const testUpdateRecipeId = "65d03151c3c181f694ab9b8f";
     const testUpdateRecipeTitle = "Test Recipe 2000";
 
-    beforeEach(function () {
-        const recipeApiTestRouter = require('../routes/recipeApi.ts');
+    beforeEach(function() {
+        const recipeApiTestRouter = require("../routes/recipeApi.ts");
     });
-    beforeAll(function () {
+    beforeAll(function() {
         db.connectDB();
     });
-    afterAll(function () {
+    afterAll(function() {
         db.closeDatabase();
     });
 
@@ -31,7 +32,7 @@ describe('recipeApi test', function () {
     // lookup
     it("correct test - lookup a recipe", async () => {
         const res = await request(app)
-            .get("/api/recipes/lookupId/" + testRecipeId);
+            .get(`/api/recipes/lookupId/${testRecipeId}`);
         expect(res.statusCode).toEqual(200);
     });
     it("incorrect test - lookup recipe that does not exist", async () => {
@@ -44,12 +45,12 @@ describe('recipeApi test', function () {
     // lookup author
     it("correct test - lookup a recipe", async () => {
         const res = await request(app)
-            .get("/api/recipes/lookupAuthor/" + testAuthor);
+            .get(`/api/recipes/lookupAuthor/${testAuthor}`);
         expect(res.statusCode).toEqual(200);
     });
     it("incorrect test - lookup recipe that does not exist", async () => {
         const res = await request(app)
-            .get("/api/recipes/lookupAuthor/" + testAuthor + Date.now().toString());
+            .get(`/api/recipes/lookupAuthor/${testAuthor}${Date.now().toString()}`);
         expect(res.statusCode).toEqual(200);
         expect(res.body).toEqual([]);
     });
@@ -58,9 +59,7 @@ describe('recipeApi test', function () {
     it("correct test - lookup a valid recipe", async () => {
         const res = await request(app)
             .post("/api/recipes/searchName")
-            .send({
-                title: "tesT rEcIpE 1000"
-            });
+            .send({title: "tesT rEcIpE 1000"});
         expect(res.statusCode).toEqual(200);
         expect(res.body[0].author).toEqual(testAuthor);
         expect(res.body[0].description).toEqual("Test Recipe - DO NOT DELETE");
@@ -78,16 +77,14 @@ describe('recipeApi test', function () {
     it("incorrect test - lookup a recipe that does not exist", async () => {
         const res = await request(app)
             .post("/api/recipes/searchName")
-            .send({
-                title: "tesT rEcIpE" + Date.now().toString(),
-            });
+            .send({title: `tesT rEcIpE${Date.now().toString()}`});
         expect(res.statusCode).toEqual(200);
         expect(res.body).toEqual([]);
     });
 
     // create recipe
     it("correct test - create a new recipe", async () => {
-        const testRecipeTitle = "Test Recipe " + Date.now().toString();
+        const testRecipeTitle = `Test Recipe ${Date.now().toString()}`;
         const res = await request(app)
             .post("/api/recipes/createRecipe")
             .send({
@@ -98,38 +95,39 @@ describe('recipeApi test', function () {
                 instructions: ["step1", "step2", "step3"],
                 servingSize: 2,
                 prepTime: 10,
-                cookingTime: 10
+                cookingTime: 10,
+                isPublic: true,
             });
         expect(res.statusCode).toEqual(201);
-        expect(res.body["newRecipe"].author).toEqual(testAuthor);
-        expect(res.body["newRecipe"].title).toEqual(testRecipeTitle);
-        expect(res.body["newRecipe"].description).toEqual("Testing createRecipe API call");
-        expect(res.body["newRecipe"].ingredients[0]).toEqual("item1");
-        expect(res.body["newRecipe"].ingredients[1]).toEqual("item2");
-        expect(res.body["newRecipe"].ingredients[2]).toEqual("item3");
-        expect(res.body["newRecipe"].instructions[0]).toEqual("step1");
-        expect(res.body["newRecipe"].instructions[1]).toEqual("step2");
-        expect(res.body["newRecipe"].instructions[2]).toEqual("step3");
-        expect(res.body["newRecipe"].servingSize).toEqual(2);
-        expect(res.body["newRecipe"].prepTime).toEqual(10);
-        expect(res.body["newRecipe"].cookingTime).toEqual(10);
+        expect(res.body.newRecipe.author).toEqual(testAuthor);
+        expect(res.body.newRecipe.title).toEqual(testRecipeTitle);
+        expect(res.body.newRecipe.description).toEqual("Testing createRecipe API call");
+        expect(res.body.newRecipe.ingredients[0]).toEqual("item1");
+        expect(res.body.newRecipe.ingredients[1]).toEqual("item2");
+        expect(res.body.newRecipe.ingredients[2]).toEqual("item3");
+        expect(res.body.newRecipe.instructions[0]).toEqual("step1");
+        expect(res.body.newRecipe.instructions[1]).toEqual("step2");
+        expect(res.body.newRecipe.instructions[2]).toEqual("step3");
+        expect(res.body.newRecipe.servingSize).toEqual(2);
+        expect(res.body.newRecipe.prepTime).toEqual(10);
+        expect(res.body.newRecipe.cookingTime).toEqual(10);
 
         // clean up
-        const recipeId = res.body["newRecipe"]._id;
+        const recipeId = res.body.newRecipe._id;
         const { _id, username, password, bio, ownRecipes, savedRecipes, following } = await AuthorModel.findOne({ username: testAuthor });
 
         // removes the item from the author's list
-        const index = ownRecipes.indexOf(recipeId, 0)
+        const index = ownRecipes.indexOf(recipeId, 0);
         if (index > -1) {
             ownRecipes.splice(index, 1);
         }
 
         const user = await new AuthorModel({ _id, username, password, bio, ownRecipes, savedRecipes, following });
-        await AuthorModel.findOneAndUpdate({ username: username }, user);
+        await AuthorModel.findOneAndUpdate({ username }, user);
         await RecipeModel.findOneAndDelete({ _id: recipeId });
     });
     it("incorrect test - create a new recipe with no author", async () => {
-        const testRecipeTitle = "Test Recipe " + Date.now().toString();
+        const testRecipeTitle = `Test Recipe ${Date.now().toString()}`;
         const res = await request(app)
             .post("/api/recipes/createRecipe")
             .send({
@@ -140,7 +138,8 @@ describe('recipeApi test', function () {
                 instructions: ["step1", "step2", "step3"],
                 servingSize: 2,
                 prepTime: 10,
-                cookingTime: 10
+                cookingTime: 10,
+                isPublic: true,
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -155,7 +154,8 @@ describe('recipeApi test', function () {
                 instructions: ["step1", "step2", "step3"],
                 servingSize: 2,
                 prepTime: 10,
-                cookingTime: 10
+                cookingTime: 10,
+                isPublic: true,
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -170,7 +170,8 @@ describe('recipeApi test', function () {
                 instructions: ["step1", "step2", "step3"],
                 servingSize: 2,
                 prepTime: 10,
-                cookingTime: 10
+                cookingTime: 10,
+                isPublic: true,
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -185,7 +186,8 @@ describe('recipeApi test', function () {
                 instructions: [],
                 servingSize: 2,
                 prepTime: 10,
-                cookingTime: 10
+                cookingTime: 10,
+                isPublic: true,
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -199,7 +201,8 @@ describe('recipeApi test', function () {
                 ingredients: ["item1", "item2", "item3"],
                 instructions: ["step1", "step2", "step3"],
                 prepTime: 10,
-                cookingTime: 10
+                cookingTime: 10,
+                isPublic: true,
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -214,7 +217,8 @@ describe('recipeApi test', function () {
                 instructions: ["step1", "step2", "step3"],
                 servingSize: -1,
                 prepTime: 10,
-                cookingTime: 10
+                cookingTime: 10,
+                isPublic: true,
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -228,7 +232,8 @@ describe('recipeApi test', function () {
                 ingredients: ["item1", "item2", "item3"],
                 instructions: ["step1", "step2", "step3"],
                 servingSize: 2,
-                cookingTime: 10
+                cookingTime: 10,
+                isPublic: true,
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -243,7 +248,8 @@ describe('recipeApi test', function () {
                 instructions: ["step1", "step2", "step3"],
                 servingSize: 2,
                 prepTime: -1,
-                cookingTime: 10
+                cookingTime: 10,
+                isPublic: true,
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -257,7 +263,8 @@ describe('recipeApi test', function () {
                 ingredients: ["item1", "item2", "item3"],
                 instructions: ["step1", "step2", "step3"],
                 servingSize: 2,
-                prepTime: 10
+                prepTime: 10,
+                isPublic: true,
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -272,14 +279,15 @@ describe('recipeApi test', function () {
                 instructions: ["step1", "step2", "step3"],
                 servingSize: 2,
                 prepTime: 10,
-                cookingTime: -1
+                cookingTime: -1,
+                isPublic: true,
             });
         expect(res.statusCode).toEqual(400);
     });
 
     // updateRecipe
     it("correct test - create a update recipe", async () => {
-        const testUpdateRecipeDesc = "Test Recipe To Update - DO NOT DELETE " + Date.now().toString()
+        const testUpdateRecipeDesc = `Test Recipe To Update - DO NOT DELETE ${Date.now().toString()}`;
         const res = await request(app)
             .post("/api/recipes/updateRecipe")
             .send({
@@ -291,25 +299,26 @@ describe('recipeApi test', function () {
                 instructions: ["step1", "step2", "step3"],
                 servingSize: 2,
                 prepTime: 10,
-                cookingTime: 10
+                cookingTime: 10,
+                isPublic: true,
             });
         expect(res.statusCode).toEqual(201);
-        expect(res.body["recipe"]._id).toEqual(testUpdateRecipeId);
-        expect(res.body["recipe"].author).toEqual(testAuthor);
-        expect(res.body["recipe"].title).toEqual(testUpdateRecipeTitle);
-        expect(res.body["recipe"].description).toEqual(testUpdateRecipeDesc);
-        expect(res.body["recipe"].ingredients[0]).toEqual("item1");
-        expect(res.body["recipe"].ingredients[1]).toEqual("item2");
-        expect(res.body["recipe"].ingredients[2]).toEqual("item3");
-        expect(res.body["recipe"].instructions[0]).toEqual("step1");
-        expect(res.body["recipe"].instructions[1]).toEqual("step2");
-        expect(res.body["recipe"].instructions[2]).toEqual("step3");
-        expect(res.body["recipe"].servingSize).toEqual(2);
-        expect(res.body["recipe"].prepTime).toEqual(10);
-        expect(res.body["recipe"].cookingTime).toEqual(10);
+        expect(res.body.recipe._id).toEqual(testUpdateRecipeId);
+        expect(res.body.recipe.author).toEqual(testAuthor);
+        expect(res.body.recipe.title).toEqual(testUpdateRecipeTitle);
+        expect(res.body.recipe.description).toEqual(testUpdateRecipeDesc);
+        expect(res.body.recipe.ingredients[0]).toEqual("item1");
+        expect(res.body.recipe.ingredients[1]).toEqual("item2");
+        expect(res.body.recipe.ingredients[2]).toEqual("item3");
+        expect(res.body.recipe.instructions[0]).toEqual("step1");
+        expect(res.body.recipe.instructions[1]).toEqual("step2");
+        expect(res.body.recipe.instructions[2]).toEqual("step3");
+        expect(res.body.recipe.servingSize).toEqual(2);
+        expect(res.body.recipe.prepTime).toEqual(10);
+        expect(res.body.recipe.cookingTime).toEqual(10);
     });
     it("incorrect test - update recipe with no author", async () => {
-        const testRecipeTitle = "Test Recipe " + Date.now().toString();
+        const testRecipeTitle = `Test Recipe ${Date.now().toString()}`;
         const res = await request(app)
             .post("/api/recipes/updateRecipe")
             .send({
@@ -321,7 +330,8 @@ describe('recipeApi test', function () {
                 instructions: ["step1", "step2", "step3"],
                 servingSize: 2,
                 prepTime: 10,
-                cookingTime: 10
+                cookingTime: 10,
+                isPublic: true,
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -337,7 +347,8 @@ describe('recipeApi test', function () {
                 instructions: ["step1", "step2", "step3"],
                 servingSize: 2,
                 prepTime: 10,
-                cookingTime: 10
+                cookingTime: 10,
+                isPublic: true,
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -353,7 +364,8 @@ describe('recipeApi test', function () {
                 instructions: ["step1", "step2", "step3"],
                 servingSize: 2,
                 prepTime: 10,
-                cookingTime: 10
+                cookingTime: 10,
+                isPublic: true,
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -369,7 +381,8 @@ describe('recipeApi test', function () {
                 instructions: [],
                 servingSize: 2,
                 prepTime: 10,
-                cookingTime: 10
+                cookingTime: 10,
+                isPublic: true,
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -384,7 +397,8 @@ describe('recipeApi test', function () {
                 ingredients: ["item1", "item2", "item3"],
                 instructions: ["step1", "step2", "step3"],
                 prepTime: 10,
-                cookingTime: 10
+                cookingTime: 10,
+                isPublic: true,
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -400,7 +414,8 @@ describe('recipeApi test', function () {
                 instructions: ["step1", "step2", "step3"],
                 servingSize: -1,
                 prepTime: 10,
-                cookingTime: 10
+                cookingTime: 10,
+                isPublic: true,
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -415,7 +430,8 @@ describe('recipeApi test', function () {
                 ingredients: ["item1", "item2", "item3"],
                 instructions: ["step1", "step2", "step3"],
                 servingSize: 2,
-                cookingTime: 10
+                cookingTime: 10,
+                isPublic: true,
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -431,7 +447,8 @@ describe('recipeApi test', function () {
                 instructions: ["step1", "step2", "step3"],
                 servingSize: 2,
                 prepTime: -1,
-                cookingTime: 10
+                cookingTime: 10,
+                isPublic: true,
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -446,7 +463,8 @@ describe('recipeApi test', function () {
                 ingredients: ["item1", "item2", "item3"],
                 instructions: ["step1", "step2", "step3"],
                 servingSize: 2,
-                prepTime: 10
+                prepTime: 10,
+                isPublic: true,
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -462,7 +480,8 @@ describe('recipeApi test', function () {
                 instructions: ["step1", "step2", "step3"],
                 servingSize: 2,
                 prepTime: 10,
-                cookingTime: -1
+                cookingTime: -1,
+                isPublic: true,
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -470,28 +489,26 @@ describe('recipeApi test', function () {
     // deleteRecipe/:id
     it("correct test - delete recipe", async () => {
         // create recipe to delete
-        const testRecipeTitle = "Test Recipe " + Date.now().toString();
-        const recipe = await new RecipeModel({ 
-            author: testAuthor, 
-            title: testRecipeTitle, 
-            titleUrl: "test-recipe-1234", 
-            ingredients: ["1"], 
-            instructions: ["1"], 
-            servingSize: 1, 
-            prepTime: 1, 
-            cookingTime:1 
+        const testRecipeTitle = `Test Recipe ${Date.now().toString()}`;
+        const recipe = await new RecipeModel({
+            author: testAuthor,
+            title: testRecipeTitle,
+            titleUrl: "test-recipe-1234",
+            ingredients: ["1"],
+            instructions: ["1"],
+            servingSize: 1,
+            prepTime: 1,
+            cookingTime: 1,
+            isPublic: true,
         });
         await recipe.save();
 
-        const res = await request(app)
-            .delete("/api/recipes/deleteRecipe/" + recipe._id.toString());
+        const res = await request(app)["delete"](`/api/recipes/deleteRecipe/${recipe._id.toString()}`);
         expect(res.statusCode).toEqual(200);
     });
     it("incorrect test - delete recipe bad id", async () => {
         // create recipe to delete
-        const res = await request(app)
-            .delete("/api/recipes/deleteRecipe/111111111111111111111111");
+        const res = await request(app)["delete"]("/api/recipes/deleteRecipe/111111111111111111111111");
         expect(res.statusCode).toEqual(500);
     });
-
 });
