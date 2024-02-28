@@ -3,6 +3,7 @@ import Image from 'react-bootstrap/Image';
 import { Button, Form, Col, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
+import NavBar from '../components/nav-bar/nav-bar';
 
 const logo = require('../assets/logo.png')
 
@@ -154,7 +155,7 @@ function EditProfile() {
     }
 
     return (
-        <div className='py-3'>
+        <><NavBar></NavBar><div className='py-3'>
             <Row className='p-3 d-flex'>
                 <div className="w-100" style={{ maxWidth: '2000px' }}>
                     <Card className="p-4 d-flex" style={{ backgroundColor: "#F2E8DC" }}>
@@ -162,9 +163,6 @@ function EditProfile() {
                             <Col className='d-flex justify-content-start align-items-center'>
                                 <Image src={logo} alt="Logo" rounded style={{ maxWidth: '200px' }} />
                                 <Card.Title className='p-2'>{userName}</Card.Title>
-                            </Col>
-                            <Col>
-                                <label className='d-flex justify-content-end'>Change profile pic /not implemented/</label>
                             </Col>
                         </Card.Header>
                         <Form onSubmit={updateUser}>
@@ -196,7 +194,7 @@ function EditProfile() {
                     </Card>
                 </div>
             </Row>
-        </div>
+        </div></>
     );
 };
 

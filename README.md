@@ -7,6 +7,9 @@ Recipe app and meal planner web application.
 # Architecture
 [Architecture](https://github.com/algorizan/PrepPal/blob/main/documentation/architecture.png)
 
+# Instructions
+[Instructions](./documentation/instructions.md)
+
 ## Contributors
 | Name | Username |
 |---|---|

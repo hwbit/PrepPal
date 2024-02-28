@@ -4,27 +4,21 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
     username: {
         type: String,
-        required: true
+        required: true,
     },
     password: {
         type: String,
-        required: true
+        required: true,
     },
     bio: {
         type: String,
-        default: "Hi!"
+        default: "Hi!",
     },
-    ownRecipes: {
-        type: [String]
-    },
-    savedRecipes: {
-        type: [String]
-    },
-    following: {
-        type: [String]
-    }
+    ownRecipes: {type: [String]},
+    savedRecipes: {type: [String]},
+    following: {type: [String]},
 });
 
-const User = mongoose.model('User', UserSchema);
+const User = mongoose.model("User", UserSchema);
 
 module.exports = User;

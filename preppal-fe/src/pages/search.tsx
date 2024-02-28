@@ -3,6 +3,7 @@ import { Row, Col } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import RecipeCard from '../components/recipe-card/recipe-card';
 import '../styles/global.css';
+import NavBar from '../components/nav-bar/nav-bar';
 
 const Search: React.FC = () => {
   const [recipes, setRecipes] = React.useState<any[]>([]);
@@ -21,7 +22,8 @@ const Search: React.FC = () => {
             title: q
           })
         };
-        const fetchedRecipes = await fetch(process.env.REACT_APP_API_URL + "/api/recipes/searchName/", req).then((res) => res.json());
+        let fetchedRecipes = await fetch(process.env.REACT_APP_API_URL + "/api/recipes/searchName/", req).then((res) => res.json());
+        fetchedRecipes = fetchedRecipes.filter((recipe: { isPublic: boolean; }) => recipe.isPublic);
         setRecipes(fetchedRecipes);
       } catch (err) {
         console.error(err);
@@ -32,17 +34,18 @@ const Search: React.FC = () => {
   }, [q]);
 
   return (
+    <><NavBar></NavBar>
     <div className="search-page">
       <h1>Search Results</h1>
       <p className="search-query">Search query: {q}</p>
       <Row xs="auto" md="auto" lg="auto">
-        {recipes.filter(recipe => recipe.isPublic).map((recipe) => (
+        {recipes.map((recipe) => (
           <Col key={recipe._id}>
             {RecipeCard(recipe)}
           </Col>
         ))}
       </Row>
-    </div>
+    </div></>
   );
 };
 

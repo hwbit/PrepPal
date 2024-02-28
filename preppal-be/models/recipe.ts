@@ -50,7 +50,7 @@ const RecipeSchema = new Schema({
     tags: {type: [String]},
     isPublic: {
         type: Boolean,
-        default: true,
+        required: true,
     },
 });
 
