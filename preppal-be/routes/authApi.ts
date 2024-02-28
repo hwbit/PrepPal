@@ -5,6 +5,7 @@ const configAuthApi = require("../configs/secrets.ts");
 const authAuthApi = require("../auth/authorization.ts");
 const UserAuth = require("../models/user.ts");
 
+const SESSION_EXPIRY = 86400;
 
 /**
  * GET - Get all accounts
