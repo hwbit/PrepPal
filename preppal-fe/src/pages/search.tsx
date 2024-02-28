@@ -22,7 +22,8 @@ const Search: React.FC = () => {
             title: q
           })
         };
-        const fetchedRecipes = await fetch("http://localhost:9001/api/recipes/searchName/", req).then((res) => res.json());
+        let fetchedRecipes = await fetch("http://localhost:9001/api/recipes/searchName/", req).then((res) => res.json());
+        fetchedRecipes = fetchedRecipes.filter((recipe: { isPublic: boolean; }) => recipe.isPublic);
         setRecipes(fetchedRecipes);
       } catch (err) {
         console.error(err);
@@ -38,7 +39,7 @@ const Search: React.FC = () => {
       <h1>Search Results</h1>
       <p className="search-query">Search query: {q}</p>
       <Row xs="auto" md="auto" lg="auto">
-        {recipes.filter(recipe => recipe.isPublic).map((recipe) => (
+        {recipes.map((recipe) => (
           <Col key={recipe._id}>
             {RecipeCard(recipe)}
           </Col>

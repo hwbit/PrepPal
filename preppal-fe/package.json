@@ -26,8 +26,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "npx eslint --ignore-pattern \"node_modules/\" --ext .ts,.tsx,.js .",
-    "lint-fix": "npx eslint --fix --ignore-pattern \"node_modules/\" --ext .ts,.tsx,.js ."
+    "lint": "npx eslint --ext .ts,.tsx,.js .",
+    "lint-fix": "npx eslint --fix --ext .ts,.tsx,.js ."
   },
   "eslintConfig": {
     "extends": [
@@ -35,6 +35,7 @@
       "react-app/jest"
     ]
   },
+  "eslintIgnore": ["node_modules/", "build/"],
   "browserslist": {
     "production": [
       ">0.2%",

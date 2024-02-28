@@ -17,7 +17,8 @@
     "eslint-plugin-react-hooks": "^4.6.0"
   },
   "scripts": {
-    "lint": "npx eslint --ignore-pattern \"node_modules/\" --ext .ts,.tsx,.js .",
-    "lint-fix": "npx eslint --fix --ignore-pattern \"node_modules/\" --ext .ts,.tsx,.js ."
-  }
+    "lint": "npx eslint --ext .ts,.tsx,.js .",
+    "lint-fix": "npx eslint --fix --ext .ts,.tsx,.js ."
+  },
+  "eslintIgnore": ["node_modules/", "build/"]
 }
