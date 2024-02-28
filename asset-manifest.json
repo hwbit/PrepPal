@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/PrepPal/static/css/main.db63a735.css",
-    "main.js": "/PrepPal/static/js/main.68f6f4bc.js",
+    "main.js": "/PrepPal/static/js/main.e53f7ba7.js",
     "static/media/logo.png": "/PrepPal/static/media/logo.9507ac0397de3d7c448e.png",
     "index.html": "/PrepPal/index.html",
     "main.db63a735.css.map": "/PrepPal/static/css/main.db63a735.css.map",
-    "main.68f6f4bc.js.map": "/PrepPal/static/js/main.68f6f4bc.js.map"
+    "main.e53f7ba7.js.map": "/PrepPal/static/js/main.e53f7ba7.js.map"
   },
   "entrypoints": [
     "static/css/main.db63a735.css",
-    "static/js/main.68f6f4bc.js"
+    "static/js/main.e53f7ba7.js"
   ]
 }
