@@ -5,6 +5,7 @@ const configAuthApi = require("../configs/secrets.ts");
 const authAuthApi = require("../auth/authorization.ts");
 const UserAuth = require("../models/user.ts");
 
+
 /**
  * GET - Get all accounts
  */
@@ -25,14 +26,14 @@ routerAuthApi.get("/", authAuthApi, async (req, res) => {
 routerAuthApi.post("/", async (req, res) => {
     try {
         const { username, password } = req.body;
-        const user = await UserAuth.findOne({ username: username });
-        if (!user || password != user.password) {
+        const user = await UserAuth.findOne({ username });
+        if (!user || password !== user.password) {
             return res.status(400).json({ errors: [ { msg: "Invalid username or password!" } ] });
         }
 
         const payload = {user: {id: user.id}};
 
-        jwtAuthApi.sign(payload, configAuthApi.jwtSecret, { expiresIn: 3600 * 24 }, (err, token) => {
+        jwtAuthApi.sign(payload, configAuthApi.jwtSecret, { expiresIn: SESSION_EXPIRY }, (err, token) => {
             if (err) throw err;
             res.status(200).json({ token });
         });

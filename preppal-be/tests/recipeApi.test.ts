@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 const request = require("supertest");
 const db = require("../configs/db.ts");
 const app = require("../app.ts");
@@ -122,7 +123,7 @@ describe("recipeApi test", function() {
         }
 
         const user = await new AuthorModel({ _id, username, password, bio, ownRecipes, savedRecipes, following });
-        await AuthorModel.findOneAndUpdate({ username: username }, user);
+        await AuthorModel.findOneAndUpdate({ username }, user);
         await RecipeModel.findOneAndDelete({ _id: recipeId });
     });
     it("incorrect test - create a new recipe with no author", async () => {
@@ -502,14 +503,12 @@ describe("recipeApi test", function() {
         });
         await recipe.save();
 
-        const res = await request(app)
-            ["delete"](`/api/recipes/deleteRecipe/${recipe._id.toString()}`);
+        const res = await request(app)["delete"](`/api/recipes/deleteRecipe/${recipe._id.toString()}`);
         expect(res.statusCode).toEqual(200);
     });
     it("incorrect test - delete recipe bad id", async () => {
         // create recipe to delete
-        const res = await request(app)
-            ["delete"]("/api/recipes/deleteRecipe/111111111111111111111111");
+        const res = await request(app)["delete"]("/api/recipes/deleteRecipe/111111111111111111111111");
         expect(res.statusCode).toEqual(500);
     });
 });
