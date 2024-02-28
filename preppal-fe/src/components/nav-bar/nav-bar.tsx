@@ -1,7 +1,7 @@
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Form } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './nav-bar.css';
 import React from 'react';
 
@@ -11,6 +11,7 @@ const NavBar = () => {
   React.useEffect(() => {
     fillUserContent();
   }, []);
+  const navigate = useNavigate();
 
   const fillUserContent = async () => {
     const token = localStorage.getItem("token");
@@ -28,7 +29,7 @@ const NavBar = () => {
     if (!searchQuery.trim()) {
       return;
     }
-    window.location.href = `/PrepPal/search/${encodeURIComponent(searchQuery)}`;
+    navigate(`/search/${encodeURIComponent(searchQuery)}`);
   };
 
   const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
