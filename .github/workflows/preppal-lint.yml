@@ -24,6 +24,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Set prefer dedupe to true for conflicting package versions
+        run: npm config set prefer-dedupe true
+
       - name: Install dependencies (including ESLint)
         run: npm ci
 
