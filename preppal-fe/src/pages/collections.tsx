@@ -15,7 +15,7 @@ const Collections = () => {
     }, [username, myRecipes]);
 
     const getUser = async () => {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
         try {
             if (token) {
                 const req = {
@@ -64,31 +64,31 @@ const Collections = () => {
 
     return (
         <><NavBar></NavBar>
-        <div className='collections-page'>
-            <Tabs
-                defaultActiveKey="MyRecipes"
-                id="collections"
-                onSelect={key => handleSelect(key)}>
-                <Tab eventKey="MyRecipes" title="My Recipes">
-                    <Row xs="auto" md="auto" lg="auto">
-                        {recipes.map((recipe) => (
-                            <Col key={recipe._id}>
-                                {RecipeCard(recipe)}
-                            </Col>
-                        ))}
-                    </Row>
-                </Tab>
-                <Tab eventKey="Favourites" title="Favourites">
-                    <Row xs="auto" md="auto" lg="auto">
-                        {recipes.filter(recipe => recipe.isPublic).map((recipe) => (
-                            <Col key={recipe._id}>
-                                {RecipeCard(recipe)}
-                            </Col>
-                        ))}
-                    </Row>
-                </Tab>
-            </Tabs>
-        </div></>
+            <div className='collections-page'>
+                <Tabs
+                    defaultActiveKey="MyRecipes"
+                    id="collections"
+                    onSelect={key => handleSelect(key)}>
+                    <Tab eventKey="MyRecipes" title="My Recipes">
+                        <Row xs="auto" md="auto" lg="auto">
+                            {recipes.map((recipe) => (
+                                <Col key={recipe._id}>
+                                    {RecipeCard(recipe)}
+                                </Col>
+                            ))}
+                        </Row>
+                    </Tab>
+                    <Tab eventKey="Favourites" title="Favourites">
+                        <Row xs="auto" md="auto" lg="auto">
+                            {recipes.filter(recipe => recipe.isPublic).map((recipe) => (
+                                <Col key={recipe._id}>
+                                    {RecipeCard(recipe)}
+                                </Col>
+                            ))}
+                        </Row>
+                    </Tab>
+                </Tabs>
+            </div></>
     )
 }
 
