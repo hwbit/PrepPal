@@ -1,0 +1,19 @@
+.list {
+    padding-left: 4em;
+}
+
+.recipe-info-attr {
+    padding: 10px;
+}
+
+.recipe-info-row {
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.title-list {
+    margin-bottom: 10px;
+}
