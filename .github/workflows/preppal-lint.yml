@@ -27,6 +27,12 @@ jobs:
       - name: Install dependencies (including ESLint)
         run: npm ci
 
-      - name: Run ESLint
+      - name: Run ESLint on backend
+        working-directory: ./preppal-be
+        run: npm run lint
+        continue-on-error: true
+
+      - name: Run ESLint on frontend
+        working-directory: ./preppal-fe
         run: npm run lint
         continue-on-error: true
