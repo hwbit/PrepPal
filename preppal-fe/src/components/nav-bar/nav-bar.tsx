@@ -14,7 +14,7 @@ const NavBar = () => {
   const navigate = useNavigate();
 
   const fillUserContent = async () => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     try {
       if (token) {
         setLoggedIn(true);
