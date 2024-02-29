@@ -14,7 +14,8 @@
   },
   "eslintIgnore": [
     "node_modules/",
-    "build/"
+    "build/",
+    "public/"
   ],
   "browserslist": {
     "production": [

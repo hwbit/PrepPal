@@ -55,7 +55,9 @@ module.exports = {
             },
             settings: {react: {version: "detect"}},
             rules: {
-                "indent": ["error", INDENT_LONG, { SwitchCase: 1 } ],
+                "indent": ["error", INDENT_SHORT, { SwitchCase: 1 } ],
+                "new-cap": "off",
+                "no-shadow": "warn",
                 "@typescript-eslint/no-explicit-any": 0,
                 "@typescript-eslint/no-var-requires": ["off", {allow: ["^..?/"]} ],
                 "@typescript-eslint/no-unused-vars": ["warn"],
@@ -63,6 +65,7 @@ module.exports = {
                 "react/jsx-indent": ["error", INDENT_SHORT, { indentLogicalExpressions: true } ],
                 "react/jsx-indent-props": ["error", INDENT_SHORT],
                 "react/no-unknown-property": "error",
+                "react/no-unescaped-entities": "warn",
                 "react/prop-types": "off",
                 "react/display-name": "off",
                 "react/jsx-key": "error",
@@ -111,6 +114,7 @@ module.exports = {
                 "react/jsx-curly-brace-presence": ["error", { children: "never", props: "always" } ],
                 "react-hooks/rules-of-hooks": "error",
                 "react-hooks/exhaustive-deps": "off",
+                "react/react-in-jsx-scope": "off",
             },
 
         },

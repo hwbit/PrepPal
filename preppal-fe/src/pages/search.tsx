@@ -1,8 +1,8 @@
-import React from 'react';
-import { Row, Col } from 'react-bootstrap';
-import RecipeCard from '../components/recipe-card/recipe-card';
-import '../styles/global.css';
-import NavBar from '../components/nav-bar/nav-bar';
+import React from "react";
+import { Row, Col } from "react-bootstrap";
+import RecipeCard from "../components/recipe-card/recipe-card";
+import "../styles/global.css";
+import NavBar from "../components/nav-bar/nav-bar";
 
 const Search: React.FC = () => {
   const [recipes, setRecipes] = React.useState<any[]>([]);
@@ -16,17 +16,14 @@ const Search: React.FC = () => {
       try {
         const req = {
           method: "POST",
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            title: query
-          })
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({title: query}),
         };
         let fetchedRecipes = await fetch("http://localhost:9001/api/recipes/searchName/", req).then((res) => res.json());
         fetchedRecipes = fetchedRecipes.filter((recipe: { isPublic: boolean; }) => recipe.isPublic);
         setRecipes(fetchedRecipes);
-      } catch (err) {
+      }
+      catch (err) {
         console.error(err);
       }
     };
@@ -35,18 +32,26 @@ const Search: React.FC = () => {
   }, [query]);
 
   return (
-    <><NavBar></NavBar>
-    <div className="search-page">
-      <h1>Search Results</h1>
-      <p className="search-query">Search query: {query}</p>
-      <Row xs="auto" md="auto" lg="auto">
-        {recipes.map((recipe) => (
-          <Col key={recipe._id}>
-            {RecipeCard(recipe)}
-          </Col>
-        ))}
-      </Row>
-    </div>
+    <>
+      <NavBar></NavBar>
+      <div className={"search-page"}>
+        <h1>Search Results</h1>
+        <p className={"search-query"}>
+          Search query:
+          {query}
+        </p>
+        <Row
+          xs={"auto"}
+          md={"auto"}
+          lg={"auto"}
+        >
+          {recipes.map((recipe) => (
+            <Col key={recipe._id}>
+              {RecipeCard(recipe)}
+            </Col>
+          ))}
+        </Row>
+      </div>
     </>
   );
 };
