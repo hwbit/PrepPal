@@ -1,4 +1,4 @@
-import { Container, Image, Stack, Card } from 'react-bootstrap';
+import { Container, Image, Card } from 'react-bootstrap';
 import { dateToString } from '../utils/date';
 import { useLocation } from 'react-router-dom';
 import NavBar from '../components/nav-bar/nav-bar';
@@ -12,17 +12,13 @@ const Recipe = () => {
     const datePublished = dateToString(new Date(recipeInfo.creationDate));
     return (
         <><NavBar></NavBar>
-            <Container style={{ display: 'flex', justifyContent: 'center', margin: '40px' }}>
-                <div
-                    className='recipe'
-                    style={{ maxWidth: '100%' }}>
-                    <div
-                        className='recipe-header'
-                        style={{ display: 'flex', paddingBottom: '20px' }}>
-                        <Image src={require('../assets/' + recipeInfo.image)} width={150} />
-                        <div style={{ paddingLeft: '80px' }}>
-                            <h1>{recipeInfo.title}</h1>
-                            <div>{recipeInfo.description}</div>
+            <Container>
+                <div className='form' style={{ width: '700px' }}>
+                    <div className='recipe-header'>
+                        <Image src={require('../assets/' + recipeInfo.image)} width={150} height={120} />
+                        <div style={{ paddingLeft: '100px' }}>
+                            <h1 className='recipe-header-row'>{recipeInfo.title}</h1>
+                            <div className='recipe-header-row' style={{ paddingLeft: '20px' }}>{recipeInfo.description}</div>
                         </div>
                     </div>
                     <div className='recipe-info'>
@@ -45,15 +41,15 @@ const Recipe = () => {
                             </div>
                         </Card>
                     </div>
-                    <div >
+                    <div className='list'>
                         <h1 className='title-list'>Ingredients</h1>
-                        <ul className='list'>
+                        <ul className='items'>
                             {ingredientsArray}
                         </ul>
                     </div>
-                    <div>
+                    <div className='list'>
                         <h1 className='title-list'>Instructions</h1>
-                        <ol className='list'>
+                        <ol className='items'>
                             {instructionsArray}
                         </ol>
                     </div>

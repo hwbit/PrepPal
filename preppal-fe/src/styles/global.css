@@ -6,8 +6,10 @@
     --light-red: #ff907f;
 }
 
-.collections-page {
-    margin: 40px;
+.container {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
 }
 
 .explore-page {
