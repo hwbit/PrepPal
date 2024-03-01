@@ -64,7 +64,7 @@ const Collections = () => {
 
     return (
         <><NavBar></NavBar>
-            <div className='collections-page'>
+            <div className='page'>
                 <Tabs
                     defaultActiveKey="MyRecipes"
                     id="collections"

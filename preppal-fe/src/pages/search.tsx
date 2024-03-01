@@ -36,17 +36,17 @@ const Search: React.FC = () => {
 
   return (
     <><NavBar></NavBar>
-    <div className="search-page">
-      <h1>Search Results</h1>
-      <p className="search-query">Search query: {query}</p>
-      <Row xs="auto" md="auto" lg="auto">
-        {recipes.map((recipe) => (
-          <Col key={recipe._id}>
-            {RecipeCard(recipe)}
-          </Col>
-        ))}
-      </Row>
-    </div>
+      <div className="page">
+        <h1>Search Results</h1>
+        <p className="search-query">Search query: {query}</p>
+        <Row xs="auto" md="auto" lg="auto">
+          {recipes.map((recipe) => (
+            <Col key={recipe._id}>
+              {RecipeCard(recipe)}
+            </Col>
+          ))}
+        </Row>
+      </div>
     </>
   );
 };
