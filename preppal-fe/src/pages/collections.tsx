@@ -1,4 +1,4 @@
-import { Tabs, Tab, Row, Col, Container } from 'react-bootstrap';
+import { Tabs, Tab, Row, Col } from 'react-bootstrap';
 import React, { useState } from 'react';
 import RecipeCard from '../components/recipe-card/recipe-card';
 import NavBar from '../components/nav-bar/nav-bar';
