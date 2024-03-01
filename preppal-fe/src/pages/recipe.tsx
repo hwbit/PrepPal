@@ -31,7 +31,7 @@ const Recipe = () => {
                         </div>
                         <Card className='recipe-info-row' style={{ flexDirection: 'row' }}>
                             <div className='recipe-info-attr'>
-                                Prep Time:{recipeInfo.prepTime} min
+                                Prep Time: {recipeInfo.prepTime} min
                             </div>
                             <div className='recipe-info-attr'>
                                 Cooking Time: {recipeInfo.cookingTime} min
