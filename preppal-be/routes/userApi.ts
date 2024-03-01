@@ -37,7 +37,7 @@ routerUserApi.get("/lookup/:username", async (req, res) => {
 /**
  * POST - Create a user
  */
-routerUserApi.post("/createUsers", async (req, res) => {
+routerUserApi.post("/createUser", async (req, res) => {
     try {
         const { username, password } = req.body;
         if (!username || !password || password.length < PWD_LENGTH) {
@@ -51,7 +51,7 @@ routerUserApi.post("/createUsers", async (req, res) => {
         user = new User({ username, password });
         user.save();
 
-        const payload = {user: {id: user.id}};
+        const payload = { user: { id: user.id } };
         jwtUserApi.sign(payload, configUserApi.jwtSecret, { expiresIn: SESSION_EXPIRY }, (err, token) => {
             if (err) throw err;
             res.status(201).json({ token });
@@ -67,7 +67,7 @@ routerUserApi.post("/createUsers", async (req, res) => {
 /**
  * POST - Update user
  */
-routerUserApi.post("/updateUsers", async (req, res) => {
+routerUserApi.post("/updateUser", async (req, res) => {
     try {
         const { _id, username, password, bio, ownRecipes, savedRecipes, following } = req.body;
 

@@ -43,7 +43,7 @@ describe("userApi test", function() {
     it("correct test - creating a new user", async () => {
         const tempUserName = `testAccount${Date.now().toString()}`;
         const res = await request(app)
-            .post("/api/users/createUsers")
+            .post("/api/users/createUser")
             .send({
                 username: tempUserName,
                 password: "43293taA",
@@ -55,7 +55,7 @@ describe("userApi test", function() {
     });
     it("incorrect createUser test - empty string for username", async () => {
         const res = await request(app)
-            .post("/api/users/createUsers")
+            .post("/api/users/createUser")
             .send({
                 username: "",
                 password: "43293taA",
@@ -64,7 +64,7 @@ describe("userApi test", function() {
     });
     it("incorrect createUser test - empty string for password", async () => {
         const res = await request(app)
-            .post("/api/users/createUsers")
+            .post("/api/users/createUser")
             .send({
                 username: `testAccount${Date.now().toString()}`,
                 password: "",
@@ -73,7 +73,7 @@ describe("userApi test", function() {
     });
     it("incorrect createUser test - not enough characters for password", async () => {
         const res = await request(app)
-            .post("/api/users/createUsers")
+            .post("/api/users/createUser")
             .send({
                 username: `testAccount${Date.now().toString()}`,
                 password: "1234",
@@ -86,7 +86,7 @@ describe("userApi test", function() {
     it("correct updateUser test - updating an existing user", async () => {
         const newBio = `This is my new bio! ${Date.now().toString()}`;
         const res = await request(app)
-            .post("/api/users/updateUsers")
+            .post("/api/users/updateUser")
             .send({
                 _id: testId,
                 username: testAccount,
@@ -103,7 +103,7 @@ describe("userApi test", function() {
     });
     it("incorrect updateUser test - invalid userid", async () => {
         const res = await request(app)
-            .post("/api/users/updateUsers")
+            .post("/api/users/updateUser")
             .send({
                 _id: "111111111111111111111111",
                 username: testAccount,
@@ -117,7 +117,7 @@ describe("userApi test", function() {
     });
     it("incorrect updateUser test - no username", async () => {
         const res = await request(app)
-            .post("/api/users/updateUsers")
+            .post("/api/users/updateUser")
             .send({
                 _id: testId,
                 username: "",
@@ -131,7 +131,7 @@ describe("userApi test", function() {
     });
     it("incorrect updateUser test - user does not exist", async () => {
         const res = await request(app)
-            .post("/api/users/updateUsers")
+            .post("/api/users/updateUser")
             .send({
                 _id: testId,
                 username: testAccount + Date.now().toString(),
@@ -145,7 +145,7 @@ describe("userApi test", function() {
     });
     it("incorrect updateUser test - no password", async () => {
         const res = await request(app)
-            .post("/api/users/updateUsers")
+            .post("/api/users/updateUser")
             .send({
                 _id: testId,
                 username: testAccount,
@@ -159,7 +159,7 @@ describe("userApi test", function() {
     });
     it("incorrect updateUser test - not enough characters for password", async () => {
         const res = await request(app)
-            .post("/api/users/updateUsers")
+            .post("/api/users/updateUser")
             .send({
                 _id: testId,
                 username: testAccount,
