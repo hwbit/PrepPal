@@ -7,8 +7,8 @@ const recipeInfo: any = {
     title: "Chicken's Fried Rice",
     description: "A chicken fried this rice.",
     image: "logo.png",
-    ingredients: ["ingredient 1","ingredient 2"],
-    instructions: ["step 1","step 2"],
+    ingredients: ["ingredient 1", "ingredient 2"],
+    instructions: ["step 1", "step 2"],
     servingSize: 1,
     prepTime: 20,
     cookingTime: 30,
@@ -43,12 +43,9 @@ describe('Collections page tests', () => {
         const step1 = screen.queryByText("step 1");
         const step2 = screen.queryByText("step 2");
         const servings = screen.queryByText("Serving Size: 1");
-        const prepTimeSubtitle = screen.queryByText("Prep Time:");
-        const prepTime = screen.queryByText("20 min");
-        const cookingTimeSubtitle = screen.queryByText("Cooking Time:");
-        const cookingTime = screen.queryByText("30 min");
-        const totalTimeSubtitle = screen.queryByText("Total Time:");
-        const totalTime = screen.queryByText("50 min");
+        const prepTime = screen.queryByText("Prep Time: 20 min");
+        const cookingTime = screen.queryByText("Cooking Time: 30 min");
+        const totalTime = screen.queryByText("Total Time: 50 min");
 
         expect(title).toBeTruthy();
         expect(desc).toBeTruthy();
@@ -61,11 +58,8 @@ describe('Collections page tests', () => {
         expect(step1).toBeTruthy();
         expect(step2).toBeTruthy();
         expect(servings).toBeTruthy();
-        expect(prepTimeSubtitle).toBeTruthy();
         expect(prepTime).toBeTruthy();
-        expect(cookingTimeSubtitle).toBeTruthy();
         expect(cookingTime).toBeTruthy();
-        expect(totalTimeSubtitle).toBeTruthy();
         expect(totalTime).toBeTruthy();
     });
 })
