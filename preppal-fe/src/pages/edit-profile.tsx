@@ -26,7 +26,7 @@ function EditProfile() {
 
     //fill page content with user details
     const fillUserContent = async () => {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
         try {
             if (token) {
                 const req = {
@@ -53,7 +53,7 @@ function EditProfile() {
     //else update given bio as requested if possible
     const updateUser = async (event: { preventDefault: () => void; }) => {
         event.preventDefault();
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
         try {
             //Using inputted userPassword, confirm user ID
             if (token) {
