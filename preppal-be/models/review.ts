@@ -18,9 +18,17 @@ const ReviewSchema = new Schema({
                 type: Number,
                 required: true
             },
+            title: {
+                type: String,
+                required: true
+            },
             comment: {
                 type: String,
             },
+            date: {
+                type: Date,
+                default: date,
+            }
         }
     ]});
 
