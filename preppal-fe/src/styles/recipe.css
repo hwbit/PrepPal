@@ -1,0 +1,53 @@
+.items li {
+    max-width: 600x;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    list-style-position: inside;
+}
+
+.items li:hover {
+    overflow: visible;
+    white-space: normal;
+    height: auto;
+    word-wrap: break-word;
+}
+
+.list {
+    width: 100%;
+}
+
+.recipe-header {
+    display: flex;
+    padding-bottom: 20px;
+}
+
+.recipe-header-row {
+    max-width: 425px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.recipe-header-row:hover {
+    overflow: visible;
+    white-space: normal;
+    height: auto;
+    word-wrap: break-word;
+}
+
+.recipe-info-attr {
+    padding: 10px;
+}
+
+.recipe-info-row {
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.title-list {
+    margin-bottom: 10px;
+}
