@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 
-const FavouriteButton = (user: any, recipe: any, event: any) => {
+const FavouriteButton = (recipe: any) => {
     const [favourited, setFavourite] = React.useState<boolean>(false);
-
+    const recipeId = recipe.id
     React.useEffect(() => {
         saveRecipe();
     }, [favourited]);
@@ -16,15 +16,16 @@ const FavouriteButton = (user: any, recipe: any, event: any) => {
                     method: "POST",
 
                     headers: {
+                        'Content-Type': 'application/json',
                         "x-auth-token": token
                     },
 
                     body: JSON.stringify({
-                        id: recipe._id
+                        "recipeId": recipeId
                     })
                 };
 
-                const res = await fetch("http://localhost:9001/api/recipes/", req).then(res => res.json());
+                const res = await fetch("http://localhost:9001/api/user/favRecipe", req).then(res => res.json());
 
                 setFavourite(res.saved);
             }
@@ -35,8 +36,14 @@ const FavouriteButton = (user: any, recipe: any, event: any) => {
 
     }
 
+    function handleClick(event: any): void {
+        setFavourite(!favourited);
+    }
+
     return (
-        <img src={require("../../assets/logo.png")} width={20} height={20} className='bi bi-heart' alt='fav'></img>
+        favourited 
+        ? <img onClick={handleClick} src={require("../../assets/filled-heart.png")} width={40} height={40} alt='fav'></img>
+        : <img onClick={handleClick} src={require("../../assets/unfilled-heart.png")} width={40} height={40} alt='fav'></img>
     )
 }
 
