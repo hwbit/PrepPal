@@ -14,6 +14,7 @@ function Profile() {
 
     const matches = window.location.href.match(/\/profile\/(.+)/);
     const query = matches ? decodeURI(matches[1]) : "";
+    const myProfile = (query === "");
     
     React.useEffect(() => {
         fillUserContent();
@@ -31,7 +32,7 @@ function Profile() {
                     }
                 };
                 let res;
-                if (query === "")
+                if (myProfile)
                 {
                     res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
                     setName(res.username);
@@ -67,7 +68,7 @@ function Profile() {
                                 <Col>
                                     <Stack gap={3}>
                                         <div className='d-flex justify-content-end'>
-                                            <Button className='d-flex' variant="primary" href="edit-profile" title="Edit" size="sm" style={{ maxWidth: '40px', backgroundColor: "#401E01" }}>Edit</Button>
+                                            {myProfile && (<Button className='d-flex' variant="primary" href="edit-profile" title="Edit" size="sm" style={{ maxWidth: '40px', backgroundColor: "#401E01" }}>Edit</Button>)}
                                         </div>
                                         <Card.Subtitle className='d-flex justify-content-end'>Following: {userFollowingCount}</Card.Subtitle>
                                     </Stack>
