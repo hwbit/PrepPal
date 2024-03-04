@@ -9,7 +9,7 @@ const routerReviewApi = expressReviewApi.Router();
 
 
 /**
- * GET - Get all recipes
+ * GET - Get all reviews
  */
 routerReviewApi.get("/", async (req, res) => {
     try {

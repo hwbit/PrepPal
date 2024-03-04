@@ -88,9 +88,8 @@ const Recipe = () => {
                     'Content-Type': 'application/json'
                 }
             };
-            // eslint-disable-next-line
-            const fetchedReviews = await fetch(`http://localhost:9001/api/reviews/${recipeId}`, req).then((res) => res.json());
-            setReviews(fetchedReviews.reviews);
+            const res = await fetch(`http://localhost:9001/api/reviews/${recipeId}`, req).then((res) => res.json());
+            setReviews(res.reviews);
         } catch (err) {
             console.error(err);
         }
