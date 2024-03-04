@@ -139,4 +139,31 @@ routerUserApi.post("/unsaveRecipe", auth, async (req, res) => {
     }
 });
 
+/**
+ * GET - check if recipe id is in user's savedRecipes
+ */
+routerUserApi.get("/saveRecipeStatus", auth, async (req, res) => {
+    try {
+        const { recipeId } = req.body;
+
+        const user = await User.findById(req.user.id).select("-password");
+
+        if (!user) {
+            return res.status(400).json({ errors: [{ msg: "Invalid token." }] });
+        }
+        const result = await User.find({ _id: req.user.id, savedRecipes: recipeId });
+
+        if (result.length > 0) {
+            res.status(200).json(true);
+        }
+        else {
+            res.status(200).json(false);
+        }
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).send("Server error.");
+    }
+});
+
 module.exports = routerUserApi;
