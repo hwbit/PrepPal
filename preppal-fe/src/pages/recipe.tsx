@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Image, Dropdown, Card, Form, Row, Col, Button } from 'react-bootstrap';
+import { Container, Image, Card, Form, Row, Col, Button } from 'react-bootstrap';
 import { dateToString } from '../utils/date';
 import { useParams } from 'react-router-dom';
 import NavBar from '../components/nav-bar/nav-bar';
@@ -88,6 +88,7 @@ const Recipe = () => {
                     'Content-Type': 'application/json'
                 }
             };
+            // eslint-disable-next-line
             const fetchedReviews = await fetch(`http://localhost:9001/api/reviews/${recipeId}`, req).then((res) => res.json());
             setReviews(fetchedReviews.reviews);
         } catch (err) {
@@ -177,11 +178,11 @@ const Recipe = () => {
 
                     <h1 className='title-leave-comment'>Leave a review</h1>
                     <Form onSubmit={handleNewReview}>
-                        <Form.Group controlId="title" style={{ paddingBottom: '24px' }} title="Title">
+                        <Form.Group controlId="review-title" style={{ paddingBottom: '24px' }} title="Review Title">
                             <Form.Label>Title</Form.Label>
                             <Form.Control
                                 required
-                                name='title'
+                                name='review-title'
                                 type='text'
                                 onChange={(event) => handleChange(event)} />
                             <Form.Control.Feedback type="invalid">Please enter a title</Form.Control.Feedback>
@@ -197,12 +198,12 @@ const Recipe = () => {
                                 </span>
                             ))}
                         </div>
-                        <Form.Group controlId='comment' style={{ paddingBottom: '24px' }} title="Comment">
+                        <Form.Group controlId='review-comment' style={{ paddingBottom: '24px' }} title="Comment">
                             <Form.Label>Comment</Form.Label>
                             <Form.Control
                                 type='text' as='textarea'
                                 rows={3}
-                                name='comment'
+                                name='review-comment'
                                 onChange={(event) => handleChange(event)} />
                         </Form.Group>
                         {error && <p className="error">{error}</p>}

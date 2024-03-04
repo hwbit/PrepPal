@@ -1,5 +1,4 @@
 import { Card } from "react-bootstrap";
-import { Link } from 'react-router-dom';
 import '../../styles/global.css';
 import { dateToString } from "../../utils/date";
 import './review.css';
