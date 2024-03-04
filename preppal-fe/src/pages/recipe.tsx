@@ -1,7 +1,8 @@
-import { Container, Image, Stack, Card} from 'react-bootstrap';
+import { Container, Image, Card } from 'react-bootstrap';
 import { dateToString } from '../utils/date';
 import { useLocation, Link } from 'react-router-dom';
 import NavBar from '../components/nav-bar/nav-bar';
+import '../styles/recipe.css';
 
 const Recipe = () => {
     const location = useLocation();
@@ -11,52 +12,49 @@ const Recipe = () => {
     const datePublished = dateToString(new Date(recipeInfo.creationDate));
     return (
         <><NavBar></NavBar>
-        <Container style={{ display: 'flex', justifyContent: 'center', width: '66%' }}>
-            <div>
-                <Stack direction='horizontal' className='ms-auto'>
-                    <div>
-                        <Image src={require("../assets/" + recipeInfo.image)} width={150} />
-                    </div>
-                    <div>
-                        <h1>{recipeInfo.title}</h1>
-                        <div>{recipeInfo.description}</div>
-                    </div>
-                </Stack>
-                <Stack direction="horizontal">
-                    <div>
-                        Author: <Link to={"/profile/"+recipeInfo.author}>{recipeInfo.author}</Link>
-                    </div>
-                    <div className="ms-auto">
-                        Date published: {datePublished}
-                    </div>
-                </Stack>
-                <div>Serving Size: {recipeInfo.servingSize}</div>
-                <Card style={{}}>
-                    <Stack direction='horizontal'>
-                        <div className='me-auto'>
-                            <Card.Subtitle>Prep Time:</Card.Subtitle>
-                            {recipeInfo.prepTime} min
+            <Container>
+                <div className='form' style={{ width: '700px' }}>
+                    <div className='recipe-header'>
+                        <Image src={require('../assets/' + recipeInfo.image)} width={150} height={120} />
+                        <div style={{ paddingLeft: '100px' }}>
+                            <h1 className='recipe-header-row'>{recipeInfo.title}</h1>
+                            <div className='recipe-header-row' style={{ paddingLeft: '20px' }}>{recipeInfo.description}</div>
                         </div>
-                        <div className='me-auto'>
-                            <Card.Subtitle>Cooking Time:</Card.Subtitle>
-                            {recipeInfo.cookingTime} min
+                    </div>
+                    <div className='recipe-info'>
+                        <div className='recipe-info-row'>
+                            <div className='author'> Author: <Link to={"/profile/"+recipeInfo.author}>{recipeInfo.author}</Link></div>
+                            <div className='date-published'>Date published: {datePublished}</div>
                         </div>
-                        <div>
-                            <Card.Subtitle>Total Time:</Card.Subtitle>
-                            {recipeInfo.prepTime + recipeInfo.cookingTime} min
+                        <div className='recipe-info-row'>
+                            Serving Size: {recipeInfo.servingSize}
                         </div>
-                    </Stack>
-                </Card>
-                <h1>Ingredients</h1>
-                <ul>
-                    {ingredientsArray}
-                </ul>
-                <h1>Instructions</h1>
-                <ol>
-                    {instructionsArray}
-                </ol>
-            </div>
-        </Container></>
+                        <Card className='recipe-info-row' style={{ flexDirection: 'row' }}>
+                            <div className='recipe-info-attr'>
+                                Prep Time: {recipeInfo.prepTime} min
+                            </div>
+                            <div className='recipe-info-attr'>
+                                Cooking Time: {recipeInfo.cookingTime} min
+                            </div>
+                            <div className='recipe-info-attr'>
+                                Total Time: {recipeInfo.prepTime + recipeInfo.cookingTime} min
+                            </div>
+                        </Card>
+                    </div>
+                    <div className='list'>
+                        <h1 className='title-list'>Ingredients</h1>
+                        <ul className='items'>
+                            {ingredientsArray}
+                        </ul>
+                    </div>
+                    <div className='list'>
+                        <h1 className='title-list'>Instructions</h1>
+                        <ol className='items'>
+                            {instructionsArray}
+                        </ol>
+                    </div>
+                </div>
+            </Container ></>
     )
 }
 
