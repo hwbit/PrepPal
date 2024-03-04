@@ -27,7 +27,7 @@ const FavouriteButton = (recipe: any) => {
         return saved;
     }
 
-    async function saveRecipe(saveRecipeId: string, save: boolean) {
+    async function updateSavedRecipes(saveRecipeId: string, save: boolean) {
         const token = sessionStorage.getItem("token");
         try {
             if (token) {
@@ -42,7 +42,7 @@ const FavouriteButton = (recipe: any) => {
 
                         body: JSON.stringify({ recipeId: saveRecipeId }),
                     };
-                    const res = await fetch("http://localhost:9001/api/users/saveRecipe", req).then((res) => res.json());
+                    await fetch("http://localhost:9001/api/users/saveRecipe", req).then((res) => res.json());
                 }
                 else {
                     const req = {
@@ -55,7 +55,7 @@ const FavouriteButton = (recipe: any) => {
 
                         body: JSON.stringify({ recipeId: saveRecipeId }),
                     };
-                    const res = await fetch("http://localhost:9001/api/users/unsaveRecipe", req).then((res) => res.json());
+                    await fetch("http://localhost:9001/api/users/unsaveRecipe", req).then((res) => res.json());
                 }
             }
         }
@@ -66,7 +66,7 @@ const FavouriteButton = (recipe: any) => {
 
     function handleClick(): void {
         setFavourite(!favourite);
-        saveRecipe(recipe.id, !favourite);
+        updateSavedRecipes(recipe.id, !favourite);
     }
 
     return (
