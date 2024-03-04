@@ -39,7 +39,7 @@ const CreateRecipe = () => {
     }, []);
 
     const getUser = async () => {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
         try {
             if (token) {
                 const req = {
@@ -65,7 +65,7 @@ const CreateRecipe = () => {
             e.stopPropagation();
         } else {
             e.preventDefault();
-            const token = localStorage.getItem("token");
+            const token = sessionStorage.getItem("token");
             try {
                 if (token) {
                     const req = {
