@@ -70,11 +70,7 @@ const Collections = () => {
                         'x-auth-token': token
                     }
                 };
-                const fetchedRecipeIds = await fetch("http://localhost:9001/api/users/savedRecipes/", req).then((res) => res.json());
-                fetchedRecipeIds.forEach(async (id: string) => {
-                    const recipe = await getRecipe(id);
-                    fetchedRecipes.push(recipe);
-                });
+                fetchedRecipes = await fetch("http://localhost:9001/api/users/savedRecipes/", req).then((res) => res.json());
             }
             return fetchedRecipes;
         }
@@ -82,17 +78,6 @@ const Collections = () => {
             console.log(err);
             return fetchedRecipes;
         }
-    }
-
-    async function getRecipe(recipeId: string) {
-        const req = {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-        const result = await fetch("http://localhost:9001/api/recipes/lookupId/" + recipeId, req).then((res) => res.json());
-        return result;
     }
 
     function fillRecipes(recipes: any[]) {

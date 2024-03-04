@@ -177,7 +177,16 @@ routerUserApi.get("/savedRecipes", auth, async (req, res) => {
             return res.status(400).json({ errors: [{ msg: "Invalid token." }] });
         }
         const result = await User.findOne({ _id: req.user.id });
-        const recipes = result?.savedRecipes ?? [];
+        const recipeIds = result?.savedRecipes ?? [];
+        const recipes = [];
+        for (const savedRecipeId of recipeIds) {
+            const recipeReq = {
+                method: "GET",
+                headers: { "Content-Type": "application/json" },
+            };
+            const recipe = await fetch(`http://localhost:9001/api/recipes/lookupId/${savedRecipeId}`, recipeReq).then((recipeRes) => recipeRes.json());
+            recipes.push(recipe);
+        }
         res.status(200).json(recipes);
     }
     catch (error) {
