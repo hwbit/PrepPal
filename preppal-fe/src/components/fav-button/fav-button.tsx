@@ -1,11 +1,15 @@
 import React from "react";
 
-const FavouriteButton = (recipeId: any) => {
-    const [favourite, setFavourite] = React.useState<boolean>(false);
+const FavouriteButton = (recipe: any) => {
+    const [favourite, setFavourite] = React.useState<boolean>();
+
+    React.useEffect(() => {
+        saveStatus(recipe.id).then(result => setFavourite(result));
+    }, [recipe.id]);
 
     async function saveStatus(id: string) {
         const token = sessionStorage.getItem("token");
-        let res = false;
+        let saved = false;
         if (token) {
             const req = {
                 method: "POST",
@@ -17,12 +21,11 @@ const FavouriteButton = (recipeId: any) => {
 
                 body: JSON.stringify({ recipeId: id }),
             };
-            res = await fetch("http://localhost:9001/api/users/saveRecipeStatus", req).then((res) => res.json());
+            const res = await fetch("http://localhost:9001/api/users/saveRecipeStatus", req).then((res) => res.json());
+            saved = res?.status ?? false;
         }
-        return res;
+        return saved;
     }
-
-    saveStatus(recipeId).then(result => setFavourite(result))
 
     async function saveRecipe(saveRecipeId: string, save: boolean) {
         const token = sessionStorage.getItem("token");
@@ -63,7 +66,7 @@ const FavouriteButton = (recipeId: any) => {
 
     function handleClick(): void {
         setFavourite(!favourite);
-        saveRecipe(recipeId, favourite);
+        saveRecipe(recipe.id, !favourite);
     }
 
     return (

@@ -142,7 +142,7 @@ routerUserApi.post("/unsaveRecipe", auth, async (req, res) => {
 /**
  * GET - check if recipe id is in user's savedRecipes
  */
-routerUserApi.get("/saveRecipeStatus", auth, async (req, res) => {
+routerUserApi.post("/saveRecipeStatus", auth, async (req, res) => {
     try {
         const { recipeId } = req.body;
 
@@ -154,10 +154,10 @@ routerUserApi.get("/saveRecipeStatus", auth, async (req, res) => {
         const result = await User.find({ _id: req.user.id, savedRecipes: recipeId });
 
         if (result.length > 0) {
-            res.status(200).json(true);
+            res.status(200).json({ status: true });
         }
         else {
-            res.status(200).json(false);
+            res.status(200).json({ status: false });
         }
     }
     catch (error) {

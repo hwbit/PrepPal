@@ -23,7 +23,7 @@ const Recipe = () => {
                             <div className='recipe-header-row' style={{ paddingLeft: '20px' }}>{recipeInfo.description}</div>
                         </div>
                         <div className="recipe-icons">
-                        <FavouriteButton recipe = {recipeId}></FavouriteButton>
+                            <FavouriteButton id={recipeId}></FavouriteButton>
                         </div>
                     </div>
                     <div className='recipe-info'>
