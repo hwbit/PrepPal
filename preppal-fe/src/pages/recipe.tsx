@@ -122,7 +122,7 @@ const Recipe = () => {
                         'comment': review.comment,
                     })
                 };
-                const res = await fetch("http://localhost:9001/api/reviews/post", req).then(res => res.json());
+                await fetch("http://localhost:9001/api/reviews/post", req).then(res => res.json());
             }
         } catch (err) {
             console.error(err);
