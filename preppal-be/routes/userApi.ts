@@ -41,11 +41,11 @@ routerUserApi.post("/createUser", async (req, res) => {
     try {
         const { username, password } = req.body;
         if (!username || !password || password.length < PWD_LENGTH) {
-            return res.status(400).json({ errors: [ { msg: "Invalid username and/or password." } ] });
+            return res.status(400).json({ errors: [{ msg: "Invalid username and/or password." }] });
         }
         let user = await User.findOne({ username });
         if (user) {
-            return res.status(400).json({ errors: [ { msg: "Username already exists." } ] });
+            return res.status(400).json({ errors: [{ msg: "Username already exists." }] });
         }
 
         user = new User({ username, password });
@@ -74,11 +74,11 @@ routerUserApi.post("/updateUser", async (req, res) => {
         const verifyUser = await User.findOne({ _id, username });
 
         if (!verifyUser) {
-            return res.status(400).json({ errors: [ { msg: "Invalid Id for user." } ] });
+            return res.status(400).json({ errors: [{ msg: "Invalid Id for user." }] });
         }
 
         if (!username || !password || password.length < PWD_LENGTH) {
-            return res.status(400).json({ errors: [ { msg: "Invalid username and/or password." } ] });
+            return res.status(400).json({ errors: [{ msg: "Invalid username and/or password." }] });
         }
         const user = await new User({ _id, username, password, bio, ownRecipes, savedRecipes, following });
         const newUser = await User.findOneAndUpdate({ username }, user);
@@ -88,6 +88,50 @@ routerUserApi.post("/updateUser", async (req, res) => {
         }
 
         res.status(200).json(user);
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).send("Server error.");
+    }
+});
+
+/**
+ * POST - Add recipe to user's savedRecipes
+ */
+routerUserApi.post("/saveRecipe", auth, async (req, res) => {
+    try {
+        const { recipeId } = req.body;
+
+        const user = await User.findById(req.user.id).select("-password");
+
+        if (!user) {
+            return res.status(400).json({ errors: [{ msg: "Invalid token." }] });
+        }
+        const result = await User.findOneAndUpdate({ _id: req.user.id }, { $push: { savedRecipes: recipeId } }, { new: true });
+        const recipes = result?.savedRecipes;
+        res.status(200).json({ recipes });
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).send("Server error.");
+    }
+});
+
+/**
+ * POST - Remove recipe from user's savedRecipes
+ */
+routerUserApi.post("/unsaveRecipe", auth, async (req, res) => {
+    try {
+        const { recipeId } = req.body;
+
+        const user = await User.findById(req.user.id).select("-password");
+
+        if (!user) {
+            return res.status(400).json({ errors: [{ msg: "Invalid token." }] });
+        }
+        const result = await User.findOneAndUpdate({ _id: req.user.id }, { $pull: { savedRecipes: recipeId } }, { new: true });
+        const recipes = result?.savedRecipes ?? [];
+        res.status(200).json({ recipes });
     }
     catch (error) {
         console.error(error);
