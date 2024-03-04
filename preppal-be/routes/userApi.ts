@@ -107,8 +107,14 @@ routerUserApi.post("/saveRecipe", auth, async (req, res) => {
         if (!user) {
             return res.status(400).json({ errors: [{ msg: "Invalid token." }] });
         }
+
+        let recipes = user.savedRecipes;
+        if (recipes.includes(recipeId)) {
+            return res.status(200).json({ recipes });
+        }
+
         const result = await User.findOneAndUpdate({ _id: req.user.id }, { $push: { savedRecipes: recipeId } }, { new: true });
-        const recipes = result?.savedRecipes;
+        recipes = result?.savedRecipes;
         res.status(200).json({ recipes });
     }
     catch (error) {
@@ -129,8 +135,14 @@ routerUserApi.post("/unsaveRecipe", auth, async (req, res) => {
         if (!user) {
             return res.status(400).json({ errors: [{ msg: "Invalid token." }] });
         }
+
+        let recipes = user.savedRecipes;
+        if (!recipes.includes(recipeId)) {
+            return res.status(200).json({ recipes });
+        }
+
         const result = await User.findOneAndUpdate({ _id: req.user.id }, { $pull: { savedRecipes: recipeId } }, { new: true });
-        const recipes = result?.savedRecipes ?? [];
+        recipes = result?.savedRecipes ?? [];
         res.status(200).json({ recipes });
     }
     catch (error) {

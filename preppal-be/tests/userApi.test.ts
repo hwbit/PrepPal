@@ -3,18 +3,18 @@ const db = require("../configs/db.ts");
 const app = require("../app.ts");
 const UserModel = require("../models/user.ts");
 
-describe("userApi test", function() {
+describe("userApi test", function () {
     const testId = "65d030c7c3c181f694ab9b85";
     const testAccount = "testApiSandboxAccount";
     const testPassword = "lp12asr35Sa45";
 
-    beforeEach(function() {
+    beforeEach(function () {
         const userApiTestRouter = require("../routes/userApi.ts");
     });
-    beforeAll(function() {
+    beforeAll(function () {
         db.connectDB();
     });
-    afterAll(function() {
+    afterAll(function () {
         db.closeDatabase();
     });
 
@@ -170,5 +170,25 @@ describe("userApi test", function() {
                 following: [],
             });
         expect(res.statusCode).toEqual(400);
+    });
+
+    it("correct savedRecipe test - get saved recipes", async () => {
+        const res = await request(app)
+            .get("/api/users/savedRecipes");
+        expect(res.statusCode).toEqual(200);
+    });
+
+    it("correct saveRecipe test - save recipeId", async () => {
+        const res = await request(app)
+            .post("/api/users/saveRecipe")
+            .send({ recipeId: "65d03151c3c181f694ab9b8f" });
+        expect(res.statusCode).toEqual(200);
+    });
+
+    it("correct unsaveRecipe test - unsave recipeId", async () => {
+        const res = await request(app)
+            .post("/api/users/saveRecipe")
+            .send({ recipeId: "65d03151c3c181f694ab9b8f" });
+        expect(res.statusCode).toEqual(200);
     });
 });
