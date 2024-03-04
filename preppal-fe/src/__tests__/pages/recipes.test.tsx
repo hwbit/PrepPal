@@ -34,7 +34,8 @@ describe('Collections page tests', () => {
 
         const title = screen.queryByText("Chicken's Fried Rice");
         const desc = screen.queryByText("A chicken fried this rice.");
-        const author = screen.queryByText("Author: John Doe");
+        const author = screen.queryByText("Author:");
+        const authorLink = screen.getByText("John Doe");
         const date = screen.queryByText("Date published: Feb 17 2024");
         const ingredientsHeader = screen.queryByText("Ingredients");
         const ingredient1 = screen.queryByText("ingredient 1");
@@ -50,6 +51,7 @@ describe('Collections page tests', () => {
         expect(title).toBeTruthy();
         expect(desc).toBeTruthy();
         expect(author).toBeTruthy();
+        expect(authorLink).toBeTruthy();
         expect(date).toBeTruthy();
         expect(ingredientsHeader).toBeTruthy();
         expect(ingredient1).toBeTruthy();
