@@ -1,6 +1,6 @@
 import { Container, Image, Stack, Card} from 'react-bootstrap';
 import { dateToString } from '../utils/date';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import NavBar from '../components/nav-bar/nav-bar';
 
 const Recipe = () => {
@@ -24,7 +24,7 @@ const Recipe = () => {
                 </Stack>
                 <Stack direction="horizontal">
                     <div>
-                        Author: {recipeInfo.author}
+                        Author: <Link to={"/profile/"+recipeInfo.author}>{recipeInfo.author}</Link>
                     </div>
                     <div className="ms-auto">
                         Date published: {datePublished}

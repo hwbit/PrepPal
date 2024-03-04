@@ -11,6 +11,10 @@ function Profile() {
     const [userBio, setBio] = React.useState("");
     const [userFollowing, setFollowing] = React.useState<any[]>([]);
     const [userFollowingCount, setFollowingCount] = React.useState(0);
+
+    const matches = window.location.href.match(/\/profile\/(.+)/);
+    const query = matches ? decodeURI(matches[1]) : "";
+    
     React.useEffect(() => {
         fillUserContent();
         // eslint-disable-next-line
@@ -26,11 +30,23 @@ function Profile() {
                         "x-auth-token": token
                     }
                 };
-                const res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
-                setName(res.username);
-                setBio(res.bio);
-                setFollowing(res.following);
-                setFollowingCount(userFollowing.length)
+                let res;
+                if (query === "")
+                {
+                    res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
+                    setName(res.username);
+                    setBio(res.bio);
+                    setFollowing(res.following);
+                    setFollowingCount(userFollowing.length)
+                }
+                else
+                {
+                    res = await fetch("http://localhost:9001/api/users/lookup/"+query, req).then(res => res.json());
+                    setName(res.user[0].username);
+                    setBio(res.user[0].bio);
+                    setFollowing(res.user[0].following);
+                    setFollowingCount(res.user[0].following.length)
+                }
             }
         } catch (err) {
             console.error(err);
