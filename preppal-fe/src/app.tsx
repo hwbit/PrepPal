@@ -24,7 +24,7 @@ function App() {
           <Route path="new-recipe" element={<NewRecipe />} />
           <Route path="collections" element={<Collections />} />
           <Route path="search/:query" element={<Search />} />
-          <Route path=":author/:titleUrl" element={<Recipe />} />
+          <Route path="recipe/:recipeId" element={<Recipe />} />
         </Routes>
       </div>
     </BrowserRouter>

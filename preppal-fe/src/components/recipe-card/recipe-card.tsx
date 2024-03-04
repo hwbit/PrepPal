@@ -7,7 +7,7 @@ function RecipeCard(recipe: any): JSX.Element {
   const recipeImage = require(`../../assets/${recipe.image}`);
   return (
     <Card className="recipe-card">
-      <Link to={"/"+recipe.author+"/"+recipe.titleUrl} state={{recipeInfo: recipe}}>
+      <Link to={"/recipe/"+recipe._id} >
         <Card.Img className='recipe-img' variant='top' src={recipeImage} alt={recipe.title} />
       </Link>
       <Card.Body>
