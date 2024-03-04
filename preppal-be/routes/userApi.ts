@@ -166,4 +166,24 @@ routerUserApi.get("/saveRecipeStatus", auth, async (req, res) => {
     }
 });
 
+/**
+ * GET - get user's savedRecipes
+ */
+routerUserApi.get("/savedRecipes", auth, async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id).select("-password");
+
+        if (!user) {
+            return res.status(400).json({ errors: [{ msg: "Invalid token." }] });
+        }
+        const result = await User.findOne({ _id: req.user.id });
+        const recipes = result?.savedRecipes ?? [];
+        res.status(200).json(recipes);
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).send("Server error.");
+    }
+});
+
 module.exports = routerUserApi;

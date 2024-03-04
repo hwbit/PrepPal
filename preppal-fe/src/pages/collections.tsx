@@ -36,16 +36,39 @@ const Collections = () => {
 
     const fillRecipes = async (myRecipes: boolean) => {
         try {
-            if (myRecipes && username !== "") {
-                const req = {
-                    method: "GET",
-                    headers: {
-                        'Content-Type': 'application/json'
+            if (username !== "") {
+                if (myRecipes) {
+                    const req = {
+                        method: "GET",
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    };
+                    const fetchedRecipes = await fetch("http://localhost:9001/api/recipes/lookupAuthor/" + username, req).then((res) => res.json());
+                    setRecipes(fetchedRecipes);
+                }
+                else {
+                    const token = sessionStorage.getItem("token");
+                    try {
+                        if (token) {
+                            const req = {
+                                method: "GET",
+                                headers: {
+                                    'x-auth-token': token
+                                }
+                            };
+                            const fetchedRecipes = await fetch("http://localhost:9001/api/users/savedRecipes/", req).then((res) => res.json());
+                            setRecipes(fetchedRecipes);
+                        } else {
+                            setRecipes([]);
+                        }
                     }
-                };
-                const fetchedRecipes = await fetch("http://localhost:9001/api/recipes/lookupAuthor/" + username, req).then((res) => res.json());
-                setRecipes(fetchedRecipes);
-            } else {
+                    catch (err) {
+
+                    }
+                }
+            }
+            else {
                 setRecipes([]);
             }
 
