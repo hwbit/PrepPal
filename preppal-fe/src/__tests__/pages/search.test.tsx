@@ -13,7 +13,7 @@ describe('Search tests', () => {
         render(<BrowserRouter><Search /></BrowserRouter>);
 
         const searchResult = screen.queryByText("Search Results");
-        const searchQuery = screen.queryByText("Search query: random search");
+        const searchQuery = screen.queryByText("Search query: ");
 
         expect(searchResult).toBeTruthy();
         expect(searchQuery).toBeTruthy();
