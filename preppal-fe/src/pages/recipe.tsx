@@ -1,6 +1,6 @@
 import { Container, Image, Card } from 'react-bootstrap';
 import { dateToString } from '../utils/date';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import NavBar from '../components/nav-bar/nav-bar';
 import '../styles/recipe.css';
 import FavouriteButton from '../components/fav-button/fav-button';
@@ -28,7 +28,7 @@ const Recipe = () => {
                     </div>
                     <div className='recipe-info'>
                         <div className='recipe-info-row'>
-                            <div className='author'> Author: {recipeInfo.author}</div>
+                            <div className='author'> Author: <Link to={"/profile/"+recipeInfo.author}>{recipeInfo.author}</Link></div>
                             <div className='date-published'>Date published: {datePublished}</div>
                         </div>
                         <div className='recipe-info-row'>

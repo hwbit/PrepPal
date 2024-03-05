@@ -20,6 +20,7 @@ function App() {
           <Route path="login" element={<LoginPage />} />
           <Route path="signup" element={<Signup />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="profile/:username" element={<Profile />} />
           <Route path="edit-profile" element={<EditProfile />} />
           <Route path="new-recipe" element={<CreateRecipe />} />
           <Route path="collections" element={<Collections />} />
