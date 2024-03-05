@@ -3,7 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import Recipe from "../../pages/recipe";
 
 describe('Recipe tests', () => {
-    test('Render standard component --> headers and data', async () => {
+    test('Render standard component --> headers', async () => {
         render(<BrowserRouter><Recipe /></BrowserRouter>);
         const author = screen.queryByText("Author:");
         expect(author).toBeTruthy();
@@ -13,12 +13,15 @@ describe('Recipe tests', () => {
         expect(instructions).toBeTruthy();
         const servings = screen.queryByText("Serving Size:");
         expect(servings).toBeTruthy();
+    });
+
+    test('Render standard component --> reviews', async () => {
+        render(<BrowserRouter><Recipe /></BrowserRouter>);
 
         const leaveReview = screen.queryByText("Leave a review");
         expect(leaveReview ).toBeTruthy();
         const reviews = screen.queryByText("Reviews");
         expect(reviews).toBeTruthy();
-
     });
 })
 
