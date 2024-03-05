@@ -64,7 +64,8 @@ routerRecipeApi.post("/searchName/", async (req, res) => {
         // https://www.mongodb.com/docs/manual/reference/collation/
         const recipes = await Recipe.find({ title: { $regex: new RegExp(title, "i") } })
             .collation({ locale: "en", strength: 2 });
-        res.status(200).json(recipes);
+        const publicRecipes = recipes.filter((recipe) => recipe.isPublic);
+        res.status(200).json(publicRecipes);
     }
     catch (error) {
         console.error(error.message);
