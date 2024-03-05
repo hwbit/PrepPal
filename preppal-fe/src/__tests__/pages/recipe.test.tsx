@@ -24,4 +24,3 @@ describe('Recipe tests', () => {
         expect(reviews).toBeTruthy();
     });
 })
-

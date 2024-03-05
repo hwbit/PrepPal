@@ -10,6 +10,7 @@ const routerReviewApi = expressReviewApi.Router();
 
 /**
  * GET - Get all reviews
+ * GET - Get all review
  */
 routerReviewApi.get("/", async (req, res) => {
     try {
@@ -38,6 +39,7 @@ routerReviewApi.get("/:recipeId", async (req, res) => {
 
 /**
  * GET - Init the review for a recipe
+ * Used to generate a new table in the database
  */
 routerReviewApi.get("/new/:recipeId", async (req, res) => {
     try {
@@ -66,7 +68,7 @@ routerReviewApi.get("/new/:recipeId", async (req, res) => {
 });
 
 /**
- * POST - Add a comment to a recipe
+ * POST - Add a review/comment to a recipe
  */
 routerReviewApi.post("/post", async (req, res) => {
     try {
@@ -75,36 +77,39 @@ routerReviewApi.post("/post", async (req, res) => {
             author,
             rating,
             title,
-            comment
-        } 
-        = req.body;
+            comment,
+        }
+            = req.body;
 
         if (!author) {
-            return res.status(400).json({msg: "Comment requires an author."});
-        } else if (!rating) {
-            return res.status(400).json({msg: "Comment requires a rating."});
-        } else if (!title) {
-            return res.status(400).json({msg: "Comment requires a title."});
+            return res.status(400).json({ msg: "Comment requires an author." });
+        }
+        else if (!rating) {
+            return res.status(400).json({ msg: "Comment requires a rating." });
+        }
+        else if (!title) {
+            return res.status(400).json({ msg: "Comment requires a title." });
         }
 
         const recipeReview = await Review.findOne({ recipeId });
         const authorReview = await Author.findOne({ username: author });
 
         if (!recipeReview) {
-            return res.status(400).json({ errors: [{ msg: "Invalid Id for recipe." }] });
-        } else if (!authorReview) {
-            return res.status(400).json({ errors: [{ msg: "Invalid Id for author." }] });
+            return res.status(400).json({ errors: [ { msg: "Invalid Id for recipe." } ] });
+        }
+        else if (!authorReview) {
+            return res.status(400).json({ errors: [ { msg: "Invalid id for author." } ] });
         }
 
         const reviews = await recipeReview.reviews;
 
         const date = new Date().toString();
         const review = {
-            author: author,
-            rating: rating,
-            title: title,
-            comment: comment,
-            date: date
+            author,
+            rating,
+            title,
+            comment,
+            date,
         };
 
         // adds item to the front of the array and update
@@ -115,7 +120,8 @@ routerReviewApi.post("/post", async (req, res) => {
         const updatedRecipeReview = await Review.findOne({ recipeId });
 
         if (!updatedRecipeReview) {
-            return res.status(404).json({ msg: "Review was not found." });
+            // eslint-disable-next-line no-magic-numbers
+            return res.status(404).json({ msg: "Unable to update recipe." });
         }
 
         res.status(201).json({ updatedRecipeReview });

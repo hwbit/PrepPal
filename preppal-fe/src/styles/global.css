@@ -28,6 +28,10 @@ link {
     color: var(--light-red);
 }
 
+a {
+    color: var(--dark-brown)
+}
+
 .nav-item {
     margin-left: 20px;
 }

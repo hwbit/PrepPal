@@ -1,10 +1,11 @@
 import React from 'react';
 import { Container, Image, Card, Form, Row, Col, Button } from 'react-bootstrap';
 import { dateToString } from '../utils/date';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import NavBar from '../components/nav-bar/nav-bar';
 import Review from '../components/review/review';
 import '../styles/recipe.css';
+import FavouriteButton from '../components/fav-button/fav-button';
 
 const Recipe = () => {
     const { recipeId } = useParams();
@@ -147,10 +148,16 @@ const Recipe = () => {
                             <h1 className='recipe-header-row'>{recipeTitle}</h1>
                             <div className='recipe-header-row' style={{ paddingLeft: '20px' }}>{recipeDescription}</div>
                         </div>
+                        <div className="recipe-icons">
+                            <FavouriteButton id={recipeId}></FavouriteButton>
+                        </div>
+                        <div className="recipe-icons">
+                            <FavouriteButton id={recipeId}></FavouriteButton>
+                        </div>
                     </div>
                     <div className='recipe-info'>
                         <div className='recipe-info-row'>
-                            <div className='author'> Author: {recipeAuthor}</div>
+                            <div className='author'> Author: <Link to={"/profile/"+recipeAuthor}>{recipeAuthor}</Link></div>
                             <div className='date-published'>Date published: {recipeDate}</div>
                         </div>
                         <div className='recipe-info-row'>
