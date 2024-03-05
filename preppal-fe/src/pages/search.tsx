@@ -5,7 +5,7 @@ import '../styles/global.css';
 import NavBar from '../components/nav-bar/nav-bar';
 import { useParams } from 'react-router-dom';
 
-const Search: React.FC = () => {
+const Search = () => {
   const [recipes, setRecipes] = React.useState<any[]>([]);
 
   // Extract the 'query' parameter from the URL
