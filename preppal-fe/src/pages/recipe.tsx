@@ -151,9 +151,6 @@ const Recipe = () => {
                         <div className="recipe-icons">
                             <FavouriteButton id={recipeId}></FavouriteButton>
                         </div>
-                        <div className="recipe-icons">
-                            <FavouriteButton id={recipeId}></FavouriteButton>
-                        </div>
                     </div>
                     <div className='recipe-info'>
                         <div className='recipe-info-row'>
