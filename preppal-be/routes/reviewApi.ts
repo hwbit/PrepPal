@@ -9,7 +9,7 @@ const routerReviewApi = expressReviewApi.Router();
 
 
 /**
- * GET - Get all recipes
+ * GET - Get all review
  */
 routerReviewApi.get("/", async (req, res) => {
     try {
@@ -38,6 +38,7 @@ routerReviewApi.get("/:recipeId", async (req, res) => {
 
 /**
  * GET - Init the review for a recipe
+ * Used to generate a new table in the database
  */
 routerReviewApi.get("/new/:recipeId", async (req, res) => {
     try {
@@ -66,7 +67,7 @@ routerReviewApi.get("/new/:recipeId", async (req, res) => {
 });
 
 /**
- * POST - Add a comment to a recipe
+ * POST - Add a review/comment to a recipe
  */
 routerReviewApi.post("/post", async (req, res) => {
     try {
@@ -91,9 +92,9 @@ routerReviewApi.post("/post", async (req, res) => {
         const authorReview = await Author.findOne({ username: author });
 
         if (!recipeReview) {
-            return res.status(400).json({ errors: [{ msg: "Invalid Id for recipe." }] });
+            return res.status(400).json({ errors: [{ msg: "Invalid id for recipe." }] });
         } else if (!authorReview) {
-            return res.status(400).json({ errors: [{ msg: "Invalid Id for author." }] });
+            return res.status(400).json({ errors: [{ msg: "Invalid id for author." }] });
         }
 
         const reviews = await recipeReview.reviews;
@@ -115,7 +116,7 @@ routerReviewApi.post("/post", async (req, res) => {
         const updatedRecipeReview = await Review.findOne({ recipeId });
 
         if (!updatedRecipeReview) {
-            return res.status(404).json({ msg: "Review was not found." });
+            return res.status(404).json({ msg: "Unable to update recipe." });
         }
 
         res.status(201).json({ updatedRecipeReview });
