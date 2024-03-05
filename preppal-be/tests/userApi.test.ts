@@ -4,17 +4,31 @@ const app = require("../app.ts");
 const UserModel = require("../models/user.ts");
 
 describe("userApi test", function () {
+    let token;
     const testId = "65d030c7c3c181f694ab9b85";
     const testAccount = "testApiSandboxAccount";
     const testPassword = "lp12asr35Sa45";
 
-    beforeEach(function () {
+    beforeEach(async () => {
         const userApiTestRouter = require("../routes/userApi.ts");
+
+        const response = await request(app)
+            .post("/api/auth")
+            .send({
+                username: testAccount,
+                password: testPassword,
+            });
+        token = response._body.token;
     });
-    beforeAll(function () {
+
+    beforeAll(async () => {
         db.connectDB();
     });
-    afterAll(function () {
+    afterAll(async () => {
+        await request(app)
+            .post("/api/users/unsaveRecipe")
+            .send({ recipeId: "65d03151c3c181f694ab9b8f" })
+            .set("x-auth-token", token);
         db.closeDatabase();
     });
 
@@ -80,7 +94,6 @@ describe("userApi test", function () {
             });
         expect(res.statusCode).toEqual(400);
     });
-
 
     // test update users
     it("correct updateUser test - updating an existing user", async () => {
@@ -172,23 +185,93 @@ describe("userApi test", function () {
         expect(res.statusCode).toEqual(400);
     });
 
-    it("correct savedRecipe test - get saved recipes", async () => {
+    it("correct savedRecipes test - get saved recipes", async () => {
         const res = await request(app)
-            .get("/api/users/savedRecipes");
+            .get("/api/users/savedRecipes")
+            .set("x-auth-token", token);
+
         expect(res.statusCode).toEqual(200);
     });
 
     it("correct saveRecipe test - save recipeId", async () => {
         const res = await request(app)
             .post("/api/users/saveRecipe")
-            .send({ recipeId: "65d03151c3c181f694ab9b8f" });
+            .send({ recipeId: "65d03151c3c181f694ab9b8f" })
+            .set("x-auth-token", token);
         expect(res.statusCode).toEqual(200);
+        expect(res._body.recipes).toBeTruthy();
+        expect(res._body.recipes).toContain("65d03151c3c181f694ab9b8f");
+    });
+
+    it("correct saveRecipe test - recipeId should not be saved twice", async () => {
+        let res = await request(app)
+            .post("/api/users/saveRecipe")
+            .send({ recipeId: "65d03151c3c181f694ab9b8f" })
+            .set("x-auth-token", token);
+        expect(res.statusCode).toEqual(200);
+        const numRecipes = res._body.recipes.length;
+
+        res = await request(app)
+            .post("/api/users/saveRecipe")
+            .send({ recipeId: "65d03151c3c181f694ab9b8f" })
+            .set("x-auth-token", token);
+
+        expect(res.statusCode).toEqual(200);
+        expect(res._body.recipes).toBeTruthy();
+        expect(res._body.recipes.length).toBe(numRecipes);
+        expect(res._body.recipes).toContain("65d03151c3c181f694ab9b8f");
     });
 
     it("correct unsaveRecipe test - unsave recipeId", async () => {
-        const res = await request(app)
+        let res = await request(app)
             .post("/api/users/saveRecipe")
-            .send({ recipeId: "65d03151c3c181f694ab9b8f" });
+            .send({ recipeId: "65d03151c3c181f694ab9b8f" })
+            .set("x-auth-token", token);
+        expect(res._body.recipes).toContain("65d03151c3c181f694ab9b8f");
+        res = await request(app)
+            .post("/api/users/unsaveRecipe")
+            .send({ recipeId: "65d03151c3c181f694ab9b8f" })
+            .set("x-auth-token", token);
+
         expect(res.statusCode).toEqual(200);
+        expect(res._body.recipes).toBeTruthy();
+        expect(res._body.recipes).not.toContain("65d03151c3c181f694ab9b8f");
+    });
+
+    it("correct unsaveRecipe test - unsave recipeId that is not there should be safe", async () => {
+        const res = await request(app)
+            .post("/api/users/unsaveRecipe")
+            .send({ recipeId: "random-id" })
+            .set("x-auth-token", token);
+
+        expect(res.statusCode).toEqual(200);
+        expect(res._body.recipes).toBeTruthy();
+        expect(res._body.recipes).not.toContain("random-id");
+    });
+
+    it("correct saveRecipeStatus test - should return true when recipeId is saved", async () => {
+        let res = await request(app)
+            .post("/api/users/saveRecipe")
+            .send({ recipeId: "65d03151c3c181f694ab9b8f" })
+            .set("x-auth-token", token);
+        expect(res._body.recipes).toContain("65d03151c3c181f694ab9b8f");
+
+        res = await request(app)
+            .post("/api/users/saveRecipeStatus")
+            .send({ recipeId: "65d03151c3c181f694ab9b8f" })
+            .set("x-auth-token", token);
+
+        expect(res.statusCode).toEqual(200);
+        expect(res._body.status).toBe(true);
+    });
+
+    it("correct saveRecipeStatus test - should return false when recipeId is not saved", async () => {
+        const res = await request(app)
+            .post("/api/users/saveRecipeStatus")
+            .send({ recipeId: "random-id" })
+            .set("x-auth-token", token);
+
+        expect(res.statusCode).toEqual(200);
+        expect(res._body.status).toBe(false);
     });
 });
