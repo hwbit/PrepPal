@@ -7,10 +7,9 @@ import Review from '../components/review/review';
 import '../styles/recipe.css';
 
 const Recipe = () => {
-    const [error, setError] = React.useState('');
-
     const { recipeId } = useParams();
-    const [username, setUsername] = React.useState("");
+
+    // for recipes
     const [recipeAuthor, setAuthor] = React.useState("");
     const [recipeDate, setDate] = React.useState("");
     const [recipeTitle, setTitle] = React.useState("");
@@ -21,14 +20,17 @@ const Recipe = () => {
     const [recipeServingSize, setServingSize] = React.useState("");
     const [recipePrepTime, setPrepTime] = React.useState("");
     const [recipeCookTime, setCookTime] = React.useState("");
-    const [reviews, setReviews] = React.useState<any[]>([]);
 
+    // for reviews
+    const [username, setUsername] = React.useState("");
+    const [loggedIn, setLoggedIn] = React.useState(false);
+    const [reviews, setReviews] = React.useState<any[]>([]);
     const [review, setNewReview] = React.useState({
         'title': "",
         'comment': "",
     });
-
     const [rating, setRating] = React.useState(0);
+    const [isComplete, setIsComplete] = React.useState(false);
     const ratings = [1, 2, 3, 4, 5];
 
     React.useEffect(() => {
@@ -50,6 +52,7 @@ const Recipe = () => {
                 };
                 const res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
                 setUsername(res.username);
+                setLoggedIn(true);
             }
         } catch (err) {
             console.error(err);
@@ -97,33 +100,38 @@ const Recipe = () => {
 
     const handleChange = (e: any) => {
         setNewReview({ ...review, [e.target.name]: e.target.value });
+        checkCompletion(review.title, rating);
     };
 
     const handleStarClick = (value: any) => {
         setRating(value);
-        setError('');
+        checkCompletion(review.title, value);
+    };
+
+    const checkCompletion = (title: any, rating: any) => {
+        if (title.trim() !== '' && rating > 0) {
+            setIsComplete(true);
+        } else {
+            setIsComplete(false);
+        }
     };
 
     const handleNewReview = async () => {
         try {
-            if (rating === 0) {
-                setError('Please select a rating.');
-            } else {
-                const req = {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        'recipeId': recipeId,
-                        'author': username,
-                        'rating': rating,
-                        'title': review.title,
-                        'comment': review.comment,
-                    })
-                };
-                await fetch("http://localhost:9001/api/reviews/post", req).then(res => res.json());
-            }
+            const req = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    'recipeId': recipeId,
+                    'author': username,
+                    'rating': rating,
+                    'title': review.title,
+                    'comment': review.comment,
+                })
+            };
+            await fetch("http://localhost:9001/api/reviews/post", req).then(res => res.json());
         } catch (err) {
             console.error(err);
         }
@@ -176,46 +184,49 @@ const Recipe = () => {
                     <hr className="divider" />
 
                     <h1 className='title-leave-comment'>Leave a review</h1>
-                    <Form onSubmit={handleNewReview}>
-                        <Form.Group controlId="review-title" style={{ paddingBottom: '24px' }} title="Review Title">
-                            <Form.Label>Title</Form.Label>
-                            <Form.Control
-                                required
-                                name='review-title'
-                                type='text'
-                                onChange={(event) => handleChange(event)} />
-                            <Form.Control.Feedback type="invalid">Please enter a title</Form.Control.Feedback>
-                        </Form.Group>
-                        <div className="star-rating" title="Rating">
-                            Rating: {ratings.map((star) => (
-                                <span
-                                    key={star}
-                                    className={star <= rating ? 'star filled' : 'star'}
-                                    onClick={() => handleStarClick(star)}
-                                >
-                                    ★
-                                </span>
-                            ))}
-                        </div>
-                        <Form.Group controlId='review-comment' style={{ paddingBottom: '24px' }} title="Comment">
-                            <Form.Label>Comment</Form.Label>
-                            <Form.Control
-                                type='text' as='textarea'
-                                rows={3}
-                                name='review-comment'
-                                onChange={(event) => handleChange(event)} />
-                        </Form.Group>
-                        {error && <p className="error">{error}</p>}
-                        <Button
-                            variant='primary'
-                            type='submit'
-                            title='Submit'
-                            size='lg'
-                        >
-                            Submit
-                        </Button>
-                    </Form>
+                    {!loggedIn ? <Card>Must be logged in to leave a review</Card> :
+                        // review form
+                        <Form onSubmit={handleNewReview}>
+                            <Form.Group controlId="title" style={{ paddingBottom: '24px' }} title="Review Title">
+                                <Form.Label>Review Title (Required)</Form.Label>
+                                <Form.Control
+                                    required
+                                    name='title'
+                                    type='text'
+                                    onChange={(event) => handleChange(event)} />
+                                <Form.Control.Feedback type="invalid">Please enter a title</Form.Control.Feedback>
+                            </Form.Group>
+                            <div className="star-rating" title="Rating">
+                                Rating (Required): {ratings.map((star) => (
+                                    <span
+                                        key={star}
+                                        className={star <= rating ? 'star filled' : 'star'}
+                                        onClick={() => handleStarClick(star)}
+                                    >
+                                        ★
+                                    </span>
+                                ))}
+                            </div>
+                            <Form.Group controlId='comment' style={{ paddingBottom: '24px' }} title="Comment">
+                                <Form.Label>Comment</Form.Label>
+                                <Form.Control
+                                    type='text' as='textarea'
+                                    rows={3}
+                                    name='comment'
+                                    onChange={(event) => handleChange(event)} />
+                            </Form.Group>
+                            <Button
+                                variant='primary'
+                                type='submit'
+                                title='Submit'
+                                size='lg'
+                                disabled={!isComplete}
+                            >
+                                Submit
+                            </Button>
 
+                        </Form>
+                    }
                     <h1 className='title-view-list'>Reviews</h1>
                     <Row xs="auto" md="auto" lg="auto">
                         {reviews.map((review) => (
