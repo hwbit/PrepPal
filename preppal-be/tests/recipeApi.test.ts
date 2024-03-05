@@ -60,10 +60,11 @@ describe("recipeApi test", function () {
     it("correct test - lookup a valid recipe", async () => {
         const res = await request(app)
             .post("/api/recipes/searchName")
-            .send({ title: "tesT rEcIpE 1000" });
+            .send({ title: "tesT rEcIpE 2000" });
         expect(res.statusCode).toEqual(200);
+        expect(res.body[0].isPublic).toEqual(true);
         expect(res.body[0].author).toEqual(testAuthor);
-        expect(res.body[0].description).toEqual("Test Recipe - DO NOT DELETE");
+        expect(res.body[0].description).toEqual("Test Recipe To Update - DO NOT DELETE 1709671712290");
         expect(res.body[0].ingredients[0]).toEqual("item1");
         expect(res.body[0].ingredients[1]).toEqual("item2");
         expect(res.body[0].ingredients[2]).toEqual("item3");
