@@ -15,7 +15,7 @@ interface Recipe {
     isPublic: boolean
 }
 
-const NewRecipe = () => {
+const CreateRecipe = () => {
 
     const navigate = useNavigate();
 
@@ -318,4 +318,4 @@ const NewRecipe = () => {
     );
 };
 
-export default NewRecipe;
+export default CreateRecipe;

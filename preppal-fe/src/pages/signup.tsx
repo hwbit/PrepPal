@@ -32,7 +32,7 @@ const Signup = () => {
                     'password': password
                 }),
             };
-            const res = await fetch("http://localhost:9001/api/users/createUsers", req).then(res => res.json());
+            const res = await fetch("http://localhost:9001/api/users/createUser", req).then(res => res.json());
             sessionStorage.setItem("token", res.token);
         } catch (err) {
             alert("something went wrong");
