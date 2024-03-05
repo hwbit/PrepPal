@@ -34,12 +34,18 @@ const Recipe = () => {
     const [isComplete, setIsComplete] = React.useState(false);
     const ratings = [1, 2, 3, 4, 5];
 
+    const [recipeRatings, setRecipeRatings] = React.useState(0);
+    const [recipeRatingTally, setRecipeRatingTally] = React.useState(0);
+
+    
+
     React.useEffect(() => {
         getUser();
         getRecipe();
         getReviews();
+        renderStars();
         // eslint-disable-next-line
-    }, []);
+    }, [recipeRatings, recipeRatingTally]);
 
     const getUser = async () => {
         const token = sessionStorage.getItem("token");
@@ -94,10 +100,39 @@ const Recipe = () => {
             };
             const res = await fetch(`http://localhost:9001/api/reviews/${recipeId}`, req).then((res) => res.json());
             setReviews(res.reviews);
+            calculateRecipeRating(res.reviews);
         } catch (err) {
             console.error(err);
         }
     };
+
+    const calculateRecipeRating = (reviews: any) => {
+        var tally = 0;
+        var count = 0;
+
+        for (const review of reviews) {
+            tally += review.rating;
+            count++;
+        }
+        setRecipeRatingTally(count);
+        // prevent divide by zero
+        setRecipeRatings(count === 0 ? 0 : tally / count);  
+    }
+
+
+    const renderStars = () => {
+        const stars = [];
+        // Logic to render stars based on rating
+        for (let i = 1; i <= 5; i++) {
+            if (i <= recipeRatings) {
+                stars.push(<span key={i} className="star filled">&#9733;</span>);
+            } else {
+                stars.push(<span key={i} className="star">&#9733;</span>);
+            }
+        }
+        return stars;
+    };
+
 
     const handleChange = (e: any) => {
         setNewReview({ ...review, [e.target.name]: e.target.value });
@@ -146,6 +181,7 @@ const Recipe = () => {
                         <Image src={require('../assets/' + recipeImage)} width={150} height={120} />
                         <div style={{ paddingLeft: '100px' }}>
                             <h1 className='recipe-header-row'>{recipeTitle}</h1>
+                            <div className='recipe-header-row' style={{ paddingLeft: '20px' }}>{renderStars()} {recipeRatings.toFixed(2)} ({recipeRatingTally})</div>
                             <div className='recipe-header-row' style={{ paddingLeft: '20px' }}>{recipeDescription}</div>
                         </div>
                         <div className="recipe-icons">
@@ -154,7 +190,7 @@ const Recipe = () => {
                     </div>
                     <div className='recipe-info'>
                         <div className='recipe-info-row'>
-                            <div className='author'> Author: <Link to={"/profile/"+recipeAuthor}>{recipeAuthor}</Link></div>
+                            <div className='author'> Author: <Link to={"/profile/" + recipeAuthor}>{recipeAuthor}</Link></div>
                             <div className='date-published'>Date published: {recipeDate}</div>
                         </div>
                         <div className='recipe-info-row'>
