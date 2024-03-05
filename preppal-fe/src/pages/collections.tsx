@@ -1,20 +1,22 @@
 import { Tabs, Tab, Row, Col } from 'react-bootstrap';
-import React, { useState } from 'react';
+import React from 'react';
 import RecipeCard from '../components/recipe-card/recipe-card';
 import NavBar from '../components/nav-bar/nav-bar';
 
 const Collections = () => {
-    const [username, setUsername] = useState("");
-    const [recipes, setRecipes] = useState<any[]>([]);
-    const [myRecipes, setMyRecipes] = useState(true);
+    const [username, setUsername] = React.useState("");
+    const [ownRecipes, setOwnRecipes] = React.useState<any[]>([]);
+    const [savedRecipes, setSavedRecipes] = React.useState<any[]>([]);
+    const [key, setKey] = React.useState("MyRecipes");
 
     React.useEffect(() => {
-        getUser();
-        fillRecipes(myRecipes);
-        // eslint-disable-next-line
-    }, [username, myRecipes]);
+        getUser().then(result => setUsername(result));
+        getOwnRecipes().then(result => setOwnRecipes(result));
+        getSavedRecipes().then(result => setSavedRecipes(result));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [username]);
 
-    const getUser = async () => {
+    async function getUser() {
         const token = sessionStorage.getItem("token");
         try {
             if (token) {
@@ -26,66 +28,80 @@ const Collections = () => {
                 };
 
                 const res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
-                setUsername(res.username);
+                return res.username;
             }
+
+            return "";
 
         } catch (err) {
 
         }
     };
 
-    const fillRecipes = async (myRecipes: boolean) => {
+    async function getOwnRecipes() {
+        let fetchedRecipes: any[] = [];
         try {
-            if (myRecipes && username !== "") {
+            let fetchedRecipes = [];
+            if (username !== "") {
                 const req = {
                     method: "GET",
                     headers: {
                         'Content-Type': 'application/json'
                     }
                 };
-                const fetchedRecipes = await fetch("http://localhost:9001/api/recipes/lookupAuthor/" + username, req).then((res) => res.json());
-                setRecipes(fetchedRecipes);
-            } else {
-                setRecipes([]);
+                fetchedRecipes = await fetch("http://localhost:9001/api/recipes/lookupAuthor/" + username, req).then((res) => res.json());
             }
-
-        } catch (err) {
-            console.error(err);
+            return fetchedRecipes;
         }
-    };
-
-    function handleSelect(key: string | null): void {
-        if (key === "MyRecipes") {
-            setMyRecipes(true);
-        } else {
-            setMyRecipes(false);
+        catch (err) {
+            console.log(err);
+            return fetchedRecipes;
         }
+    }
+
+    async function getSavedRecipes() {
+        const token = sessionStorage.getItem("token");
+        let fetchedRecipes: any[] = [];
+        try {
+            if (token) {
+                const req = {
+                    method: "GET",
+                    headers: {
+                        'x-auth-token': token
+                    }
+                };
+                fetchedRecipes = await fetch("http://localhost:9001/api/users/savedRecipes/", req).then((res) => res.json());
+            }
+            return fetchedRecipes;
+        }
+        catch (err) {
+            console.log(err);
+            return fetchedRecipes;
+        }
+    }
+
+    function fillRecipes(recipes: any[]) {
+        return (<Row xs="auto" md="auto" lg="auto">
+            {recipes.map((recipe) => (
+                <Col key={recipe._id}>
+                    {RecipeCard(recipe)}
+                </Col>
+            ))}
+        </Row>)
     }
 
     return (
         <><NavBar></NavBar>
             <div className='page'>
                 <Tabs
-                    defaultActiveKey="MyRecipes"
+                    activeKey={key}
                     id="collections"
-                    onSelect={key => handleSelect(key)}>
+                    onSelect={k => setKey(k ?? "MyRecipes")}>
                     <Tab eventKey="MyRecipes" title="My Recipes">
-                        <Row xs="auto" md="auto" lg="auto">
-                            {recipes.map((recipe) => (
-                                <Col key={recipe._id}>
-                                    {RecipeCard(recipe)}
-                                </Col>
-                            ))}
-                        </Row>
+                        {fillRecipes(ownRecipes)}
                     </Tab>
                     <Tab eventKey="Favourites" title="Favourites">
-                        <Row xs="auto" md="auto" lg="auto">
-                            {recipes.filter(recipe => recipe.isPublic).map((recipe) => (
-                                <Col key={recipe._id}>
-                                    {RecipeCard(recipe)}
-                                </Col>
-                            ))}
-                        </Row>
+                        {fillRecipes(savedRecipes)}
                     </Tab>
                 </Tabs>
             </div></>

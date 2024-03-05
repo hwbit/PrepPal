@@ -3,18 +3,32 @@ const db = require("../configs/db.ts");
 const app = require("../app.ts");
 const UserModel = require("../models/user.ts");
 
-describe("userApi test", function() {
+describe("userApi test", function () {
+    let token;
     const testId = "65d030c7c3c181f694ab9b85";
     const testAccount = "testApiSandboxAccount";
     const testPassword = "lp12asr35Sa45";
 
-    beforeEach(function() {
+    beforeEach(async () => {
         const userApiTestRouter = require("../routes/userApi.ts");
+
+        const response = await request(app)
+            .post("/api/auth")
+            .send({
+                username: testAccount,
+                password: testPassword,
+            });
+        token = response._body.token;
     });
-    beforeAll(function() {
+
+    beforeAll(async () => {
         db.connectDB();
     });
-    afterAll(function() {
+    afterAll(async () => {
+        await request(app)
+            .post("/api/users/unsaveRecipe")
+            .send({ recipeId: "65d03151c3c181f694ab9b8f" })
+            .set("x-auth-token", token);
         db.closeDatabase();
     });
 
@@ -43,7 +57,7 @@ describe("userApi test", function() {
     it("correct test - creating a new user", async () => {
         const tempUserName = `testAccount${Date.now().toString()}`;
         const res = await request(app)
-            .post("/api/users/createUsers")
+            .post("/api/users/createUser")
             .send({
                 username: tempUserName,
                 password: "43293taA",
@@ -55,7 +69,7 @@ describe("userApi test", function() {
     });
     it("incorrect createUser test - empty string for username", async () => {
         const res = await request(app)
-            .post("/api/users/createUsers")
+            .post("/api/users/createUser")
             .send({
                 username: "",
                 password: "43293taA",
@@ -64,7 +78,7 @@ describe("userApi test", function() {
     });
     it("incorrect createUser test - empty string for password", async () => {
         const res = await request(app)
-            .post("/api/users/createUsers")
+            .post("/api/users/createUser")
             .send({
                 username: `testAccount${Date.now().toString()}`,
                 password: "",
@@ -73,7 +87,7 @@ describe("userApi test", function() {
     });
     it("incorrect createUser test - not enough characters for password", async () => {
         const res = await request(app)
-            .post("/api/users/createUsers")
+            .post("/api/users/createUser")
             .send({
                 username: `testAccount${Date.now().toString()}`,
                 password: "1234",
@@ -81,12 +95,11 @@ describe("userApi test", function() {
         expect(res.statusCode).toEqual(400);
     });
 
-
     // test update users
     it("correct updateUser test - updating an existing user", async () => {
         const newBio = `This is my new bio! ${Date.now().toString()}`;
         const res = await request(app)
-            .post("/api/users/updateUsers")
+            .post("/api/users/updateUser")
             .send({
                 _id: testId,
                 username: testAccount,
@@ -103,7 +116,7 @@ describe("userApi test", function() {
     });
     it("incorrect updateUser test - invalid userid", async () => {
         const res = await request(app)
-            .post("/api/users/updateUsers")
+            .post("/api/users/updateUser")
             .send({
                 _id: "111111111111111111111111",
                 username: testAccount,
@@ -117,7 +130,7 @@ describe("userApi test", function() {
     });
     it("incorrect updateUser test - no username", async () => {
         const res = await request(app)
-            .post("/api/users/updateUsers")
+            .post("/api/users/updateUser")
             .send({
                 _id: testId,
                 username: "",
@@ -131,7 +144,7 @@ describe("userApi test", function() {
     });
     it("incorrect updateUser test - user does not exist", async () => {
         const res = await request(app)
-            .post("/api/users/updateUsers")
+            .post("/api/users/updateUser")
             .send({
                 _id: testId,
                 username: testAccount + Date.now().toString(),
@@ -145,7 +158,7 @@ describe("userApi test", function() {
     });
     it("incorrect updateUser test - no password", async () => {
         const res = await request(app)
-            .post("/api/users/updateUsers")
+            .post("/api/users/updateUser")
             .send({
                 _id: testId,
                 username: testAccount,
@@ -159,7 +172,7 @@ describe("userApi test", function() {
     });
     it("incorrect updateUser test - not enough characters for password", async () => {
         const res = await request(app)
-            .post("/api/users/updateUsers")
+            .post("/api/users/updateUser")
             .send({
                 _id: testId,
                 username: testAccount,
@@ -170,5 +183,95 @@ describe("userApi test", function() {
                 following: [],
             });
         expect(res.statusCode).toEqual(400);
+    });
+
+    it("correct savedRecipes test - get saved recipes", async () => {
+        const res = await request(app)
+            .get("/api/users/savedRecipes")
+            .set("x-auth-token", token);
+
+        expect(res.statusCode).toEqual(200);
+    });
+
+    it("correct saveRecipe test - save recipeId", async () => {
+        const res = await request(app)
+            .post("/api/users/saveRecipe")
+            .send({ recipeId: "65d03151c3c181f694ab9b8f" })
+            .set("x-auth-token", token);
+        expect(res.statusCode).toEqual(200);
+        expect(res._body.recipes).toBeTruthy();
+        expect(res._body.recipes).toContain("65d03151c3c181f694ab9b8f");
+    });
+
+    it("correct saveRecipe test - recipeId should not be saved twice", async () => {
+        let res = await request(app)
+            .post("/api/users/saveRecipe")
+            .send({ recipeId: "65d03151c3c181f694ab9b8f" })
+            .set("x-auth-token", token);
+        expect(res.statusCode).toEqual(200);
+        const numRecipes = res._body.recipes.length;
+
+        res = await request(app)
+            .post("/api/users/saveRecipe")
+            .send({ recipeId: "65d03151c3c181f694ab9b8f" })
+            .set("x-auth-token", token);
+
+        expect(res.statusCode).toEqual(200);
+        expect(res._body.recipes).toBeTruthy();
+        expect(res._body.recipes.length).toBe(numRecipes);
+        expect(res._body.recipes).toContain("65d03151c3c181f694ab9b8f");
+    });
+
+    it("correct unsaveRecipe test - unsave recipeId", async () => {
+        let res = await request(app)
+            .post("/api/users/saveRecipe")
+            .send({ recipeId: "65d03151c3c181f694ab9b8f" })
+            .set("x-auth-token", token);
+        expect(res._body.recipes).toContain("65d03151c3c181f694ab9b8f");
+        res = await request(app)
+            .post("/api/users/unsaveRecipe")
+            .send({ recipeId: "65d03151c3c181f694ab9b8f" })
+            .set("x-auth-token", token);
+
+        expect(res.statusCode).toEqual(200);
+        expect(res._body.recipes).toBeTruthy();
+        expect(res._body.recipes).not.toContain("65d03151c3c181f694ab9b8f");
+    });
+
+    it("correct unsaveRecipe test - unsave recipeId that is not there should be safe", async () => {
+        const res = await request(app)
+            .post("/api/users/unsaveRecipe")
+            .send({ recipeId: "random-id" })
+            .set("x-auth-token", token);
+
+        expect(res.statusCode).toEqual(200);
+        expect(res._body.recipes).toBeTruthy();
+        expect(res._body.recipes).not.toContain("random-id");
+    });
+
+    it("correct saveRecipeStatus test - should return true when recipeId is saved", async () => {
+        let res = await request(app)
+            .post("/api/users/saveRecipe")
+            .send({ recipeId: "65d03151c3c181f694ab9b8f" })
+            .set("x-auth-token", token);
+        expect(res._body.recipes).toContain("65d03151c3c181f694ab9b8f");
+
+        res = await request(app)
+            .post("/api/users/saveRecipeStatus")
+            .send({ recipeId: "65d03151c3c181f694ab9b8f" })
+            .set("x-auth-token", token);
+
+        expect(res.statusCode).toEqual(200);
+        expect(res._body.status).toBe(true);
+    });
+
+    it("correct saveRecipeStatus test - should return false when recipeId is not saved", async () => {
+        const res = await request(app)
+            .post("/api/users/saveRecipeStatus")
+            .send({ recipeId: "random-id" })
+            .set("x-auth-token", token);
+
+        expect(res.statusCode).toEqual(200);
+        expect(res._body.status).toBe(false);
     });
 });

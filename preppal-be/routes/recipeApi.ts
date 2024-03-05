@@ -26,6 +26,11 @@ routerRecipeApi.get("/", async (req, res) => {
 routerRecipeApi.get("/lookupId/:id", async (req, res) => {
     try {
         const recipe = await Recipe.findOne({ _id: req.params.id });
+
+        if (!recipe) {
+            return res.status(400).json({ errors: [{ msg: "Invalid id for recipe." }] });
+        }
+
         res.status(200).json(recipe);
     }
     catch (error) {
@@ -84,7 +89,7 @@ routerRecipeApi.post("/createRecipe", async (req, res) => {
             cookingTime,
             isPublic,
         }
-        = req.body;
+            = req.body;
 
         if (!author) {
             return res.status(400).json({ msg: "Recipe requires an author." });
@@ -152,12 +157,12 @@ routerRecipeApi.post("/updateRecipe", async (req, res) => {
             tags,
             isPublic,
         }
-        = req.body;
+            = req.body;
 
         const verifyRecipe = await Recipe.findOne({ _id });
 
         if (!verifyRecipe) {
-            return res.status(400).json({ errors: [ { msg: "Invalid Id for recipe."} ] });
+            return res.status(400).json({ errors: [{ msg: "Invalid id for recipe." }] });
         }
         else if (!author) {
             return res.status(400).json({ msg: "Recipe requires an author." });

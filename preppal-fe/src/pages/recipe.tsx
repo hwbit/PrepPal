@@ -3,6 +3,7 @@ import { dateToString } from '../utils/date';
 import { useLocation, Link } from 'react-router-dom';
 import NavBar from '../components/nav-bar/nav-bar';
 import '../styles/recipe.css';
+import FavouriteButton from '../components/fav-button/fav-button';
 
 const Recipe = () => {
     const location = useLocation();
@@ -10,6 +11,7 @@ const Recipe = () => {
     const ingredientsArray = (recipeInfo.ingredients).map((ingredient: string) => <li>{ingredient}</li>);
     const instructionsArray = (recipeInfo.instructions).map((step: string) => <li>{step}</li>);
     const datePublished = dateToString(new Date(recipeInfo.creationDate));
+    const recipeId: string = recipeInfo._id;
     return (
         <><NavBar></NavBar>
             <Container>
@@ -19,6 +21,9 @@ const Recipe = () => {
                         <div style={{ paddingLeft: '100px' }}>
                             <h1 className='recipe-header-row'>{recipeInfo.title}</h1>
                             <div className='recipe-header-row' style={{ paddingLeft: '20px' }}>{recipeInfo.description}</div>
+                        </div>
+                        <div className="recipe-icons">
+                            <FavouriteButton id={recipeId}></FavouriteButton>
                         </div>
                     </div>
                     <div className='recipe-info'>
