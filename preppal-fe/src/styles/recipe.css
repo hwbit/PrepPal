@@ -36,6 +36,10 @@
     word-wrap: break-word;
 }
 
+.recipe-icons {
+    margin-left: auto;
+}
+
 .recipe-info-attr {
     padding: 10px;
 }

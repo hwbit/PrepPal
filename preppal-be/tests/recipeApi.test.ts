@@ -5,20 +5,20 @@ const app = require("../app.ts");
 const RecipeModel = require("../models/recipe.ts");
 const AuthorModel = require("../models/user.ts");
 
-describe("recipeApi test", function() {
+describe("recipeApi test", function () {
     const testRecipeId = "65d03133c3c181f694ab9b8b"; // test recipe 1000 - do not delete
     const testAuthor = "testApiSandboxAccount";
 
     const testUpdateRecipeId = "65d03151c3c181f694ab9b8f";
     const testUpdateRecipeTitle = "Test Recipe 2000";
 
-    beforeEach(function() {
+    beforeEach(function () {
         const recipeApiTestRouter = require("../routes/recipeApi.ts");
     });
-    beforeAll(function() {
+    beforeAll(function () {
         db.connectDB();
     });
-    afterAll(function() {
+    afterAll(function () {
         db.closeDatabase();
     });
 
@@ -38,8 +38,9 @@ describe("recipeApi test", function() {
     it("incorrect test - lookup recipe that does not exist", async () => {
         const res = await request(app)
             .get("/api/recipes/lookupId/111111111111111111111111");
-        expect(res.statusCode).toEqual(200);
-        expect(res.body).toBeNull();
+        expect(res.statusCode).toEqual(400);
+        expect(res.body.errors.length).toBe(1);
+        expect(res.body.errors[0].msg).toEqual("Invalid id for recipe.");
     });
 
     // lookup author
@@ -59,7 +60,7 @@ describe("recipeApi test", function() {
     it("correct test - lookup a valid recipe", async () => {
         const res = await request(app)
             .post("/api/recipes/searchName")
-            .send({title: "tesT rEcIpE 1000"});
+            .send({ title: "tesT rEcIpE 1000" });
         expect(res.statusCode).toEqual(200);
         expect(res.body[0].author).toEqual(testAuthor);
         expect(res.body[0].description).toEqual("Test Recipe - DO NOT DELETE");
@@ -77,7 +78,7 @@ describe("recipeApi test", function() {
     it("incorrect test - lookup a recipe that does not exist", async () => {
         const res = await request(app)
             .post("/api/recipes/searchName")
-            .send({title: `tesT rEcIpE${Date.now().toString()}`});
+            .send({ title: `tesT rEcIpE${Date.now().toString()}` });
         expect(res.statusCode).toEqual(200);
         expect(res.body).toEqual([]);
     });

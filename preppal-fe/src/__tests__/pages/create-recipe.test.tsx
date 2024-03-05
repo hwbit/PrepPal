@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/react";
 import { BrowserRouter } from 'react-router-dom';
-import NewRecipe from "../../pages/new-recipe";
+import CreateRecipe from "../../pages/create-recipe";
 
 describe('New recipe tests', () => {
     test('Render standard component --> Buttons', async () => {
-        render(<BrowserRouter><NewRecipe /></BrowserRouter>);
+        render(<BrowserRouter><CreateRecipe /></BrowserRouter>);
 
         const submitBtn = screen.queryByText("Submit");
         const cancelBtn = screen.queryByText("Cancel");
@@ -14,7 +14,7 @@ describe('New recipe tests', () => {
     });
 
     test('Render standard component --> input title fields', () => {
-        render(<BrowserRouter><NewRecipe /></BrowserRouter>);
+        render(<BrowserRouter><CreateRecipe /></BrowserRouter>);
 
         const title = screen.queryByText("Title");
         expect(title).toBeTruthy();
@@ -33,7 +33,7 @@ describe('New recipe tests', () => {
     });
 
     test('Render standard component --> input fields', () => {
-        render(<BrowserRouter><NewRecipe /></BrowserRouter>);
+        render(<BrowserRouter><CreateRecipe /></BrowserRouter>);
 
         const title = screen.queryByTitle("Title");
         expect(title).toBeTruthy();

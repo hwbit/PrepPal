@@ -111,7 +111,7 @@ function EditProfile() {
                     'following': userFollowing
                 })
             };
-            const res = await fetch("http://localhost:9001/api/users/updateUsers", req).then(res => res.json());
+            const res = await fetch("http://localhost:9001/api/users/updateUser", req).then(res => res.json());
             if (res.errors) {
                 alert(res.errors[0].msg);
             }
@@ -142,7 +142,7 @@ function EditProfile() {
                     'following': userFollowing
                 })
             };
-            const res = await fetch("http://localhost:9001/api/users/updateUsers", req).then(res => res.json());
+            const res = await fetch("http://localhost:9001/api/users/updateUser", req).then(res => res.json());
             if (res.errors) {
                 alert(res.errors[0].msg);
             }
