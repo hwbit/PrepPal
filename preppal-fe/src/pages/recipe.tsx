@@ -106,7 +106,7 @@ const Recipe = () => {
         }
     };
 
-    const calculateRecipeRating = (review: any) => {
+    const calculateRecipeRating = (reviews: any) => {
         var tally = 0;
         var count = 0;
 
