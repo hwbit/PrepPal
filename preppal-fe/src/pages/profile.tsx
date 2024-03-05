@@ -15,40 +15,45 @@ function Profile() {
     const matches = window.location.href.match(/\/profile\/(.+)/);
     const query = matches ? decodeURI(matches[1]) : "";
     const myProfile = (query === "");
-    
+
     React.useEffect(() => {
         fillUserContent();
         // eslint-disable-next-line
-    }, []);
+    }, [query]);
 
     const fillUserContent = async () => {
         const token = sessionStorage.getItem("token");
         try {
-            if (token) {
-                const req = {
-                    method: "GET",
-                    headers: {
-                        "x-auth-token": token
-                    }
-                };
-                let res;
-                if (myProfile)
-                {
+            let res;
+            if (myProfile) {
+                if (token) {
+                    const req = {
+                        method: "GET",
+                        headers: {
+                            "x-auth-token": token
+                        }
+                    };
                     res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
                     setName(res.username);
                     setBio(res.bio);
                     setFollowing(res.following);
                     setFollowingCount(userFollowing.length)
                 }
-                else
-                {
-                    res = await fetch("http://localhost:9001/api/users/lookup/"+query, req).then(res => res.json());
-                    setName(res.user[0].username);
-                    setBio(res.user[0].bio);
-                    setFollowing(res.user[0].following);
-                    setFollowingCount(res.user[0].following.length)
-                }
             }
+            else {
+                const req = {
+                    method: "GET",
+                    headers: {
+                        "Content-type": "application/json"
+                    }
+                };
+                res = await fetch("http://localhost:9001/api/users/lookup/" + query, req).then(res => res.json());
+                setName(res.user[0].username);
+                setBio(res.user[0].bio);
+                setFollowing(res.user[0].following);
+                setFollowingCount(res.user[0].following.length)
+            }
+
         } catch (err) {
             console.error(err);
         }
