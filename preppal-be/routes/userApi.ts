@@ -4,6 +4,7 @@ const jwtUserApi = require("jsonwebtoken");
 const configUserApi = require("../configs/secrets.ts");
 const auth = require("../auth/authorization.ts");
 const User = require("../models/user.ts");
+const Recipe = require("../models/recipe.ts");
 
 const SESSION_EXPIRY = 86400;
 const PWD_LENGTH = 5;
@@ -198,6 +199,33 @@ routerUserApi.get("/savedRecipes", auth, async (req, res) => {
             };
             const recipe = await fetch(`http://localhost:9001/api/recipes/lookupId/${savedRecipeId}`, recipeReq).then((recipeRes) => recipeRes.json());
             recipes.push(recipe);
+        }
+        res.status(200).json(recipes);
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).send("Server error.");
+    }
+});
+
+/**
+ * GET - get user's ownRecipes
+ */
+routerUserApi.get("/ownRecipes", auth, async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id).select("-password");
+
+        if (!user) {
+            return res.status(400).json({ errors: [{ msg: "Invalid token." }] });
+        }
+        const result = await User.findOne({ _id: req.user.id });
+        const recipeIds = result?.ownRecipes ?? [];
+        const recipes = [];
+        for (const recipeId of recipeIds) {
+            const recipe = await Recipe.findOne({ _id: recipeId });
+            if (recipe) {
+                recipes.push(recipe);
+            }
         }
         res.status(200).json(recipes);
     }

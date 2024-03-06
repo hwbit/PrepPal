@@ -7,12 +7,13 @@ const Author = require("../models/user.ts");
 const routerRecipeApi = expressRecipeApi.Router();
 
 /**
- * GET - Get all recipes
+ * GET - Get all public recipes
  */
 routerRecipeApi.get("/", async (req, res) => {
     try {
         const recipes = await Recipe.find();
-        res.status(200).json(recipes);
+        const publicRecipes = recipes?.filter((recipe) => recipe.isPublic) ?? [];
+        res.status(200).json(publicRecipes);
     }
     catch (error) {
         console.error(error.message);
@@ -40,12 +41,13 @@ routerRecipeApi.get("/lookupId/:id", async (req, res) => {
 });
 
 /**
- * GET - Get all recipes with the URL
+ * GET - Get all public recipes by author
  */
 routerRecipeApi.get("/lookupAuthor/:author", async (req, res) => {
     try {
         const recipes = await Recipe.find({ author: req.params.author });
-        res.status(200).json(recipes);
+        const publicRecipes = recipes?.filter((recipe) => recipe.isPublic) ?? [];
+        res.status(200).json(publicRecipes);
     }
     catch (error) {
         console.error(error.message);
