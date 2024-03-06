@@ -93,7 +93,9 @@ const Recipe = () => {
                 }
             };
             const res = await fetch(`http://localhost:9001/api/reviews/${recipeId}`, req).then((res) => res.json());
-            setReviews(res.reviews);
+            if (res) {
+                setReviews(res.reviews);
+            }
         } catch (err) {
             console.error(err);
         }

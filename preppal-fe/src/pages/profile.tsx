@@ -36,7 +36,7 @@ function Profile() {
                         }
                     };
                     res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
-                    if (res.length > 0) {
+                    if (res) {
                         setUsername(res.username);
                         setBio(res.bio);
                         setFollowing(res.following);
