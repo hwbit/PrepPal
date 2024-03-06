@@ -48,9 +48,7 @@ describe("userApi test", function () {
     it("incorrect test - lookup user that does not exist", async () => {
         const res = await request(app)
             .get(`/api/users/lookup/${testAccount}${Date.now().toString()}`);
-        expect(res.statusCode).toEqual(200);
-        // body returns an empty array
-        expect(res.body.user).toEqual([]);
+        expect(res.statusCode).toEqual(400);
     });
 
     // create users

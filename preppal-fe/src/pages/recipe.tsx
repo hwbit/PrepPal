@@ -37,7 +37,7 @@ const Recipe = () => {
     const [recipeRatings, setRecipeRatings] = React.useState(0);
     const [recipeRatingTally, setRecipeRatingTally] = React.useState(0);
 
-    
+
 
     React.useEffect(() => {
         getUser();
@@ -80,8 +80,8 @@ const Recipe = () => {
             setTitle(res.title);
             setDescription(res.description);
             setImage(res.image);
-            setIngredients(res.ingredients.map((ingredient: string) => <li>{ingredient}</li>));
-            setInstructions(res.instructions.map((step: string) => <li>{step}</li>));
+            setIngredients(res.ingredients.map((ingredient: string, i: number) => <li key={i}>{ingredient}</li>));
+            setInstructions(res.instructions.map((step: string, i: number) => <li key={i}>{step}</li>));
             setServingSize(res.servingSize);
             setPrepTime(res.prepTime);
             setCookTime(res.cookingTime);
@@ -99,8 +99,10 @@ const Recipe = () => {
                 }
             };
             const res = await fetch(`http://localhost:9001/api/reviews/${recipeId}`, req).then((res) => res.json());
-            setReviews(res.reviews);
-            calculateRecipeRating(res.reviews);
+            if (res) {
+                setReviews(res.reviews);
+                calculateRecipeRating(res.reviews);
+            }
         } catch (err) {
             console.error(err);
         }
@@ -116,7 +118,7 @@ const Recipe = () => {
         }
         setRecipeRatingTally(count);
         // prevent divide by zero
-        setRecipeRatings(count === 0 ? 0 : tally / count);  
+        setRecipeRatings(count === 0 ? 0 : tally / count);
     }
 
 
@@ -269,8 +271,8 @@ const Recipe = () => {
                     }
                     <h1 className='title-view-list'>Reviews</h1>
                     <Row xs="auto" md="auto" lg="auto">
-                        {reviews.map((review) => (
-                            <Col key={review.author}>
+                        {reviews.map((review, i) => (
+                            <Col key={i}>
                                 {Review(review)}
                             </Col>
                         ))}

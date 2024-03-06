@@ -4,6 +4,7 @@ const jwtUserApi = require("jsonwebtoken");
 const configUserApi = require("../configs/secrets.ts");
 const auth = require("../auth/authorization.ts");
 const User = require("../models/user.ts");
+const Recipe = require("../models/recipe.ts");
 
 const SESSION_EXPIRY = 86400;
 const PWD_LENGTH = 5;
@@ -28,9 +29,26 @@ routerUserApi.get("/", async (req, res) => {
  */
 routerUserApi.get("/lookup/:username", async (req, res) => {
     const username = req.params.username;
-    const user = await User.find({ username }).select("-password");
+    const user = await User.findOne({ username }).select("-password");
 
-    res.status(200).json({ user });
+    if (!user) {
+        return res.status(400).json({ errors: [{ msg: "Invalid id for user." }] });
+    }
+    const recipeIds = user.ownRecipes ?? [];
+    const publicRecipes = [];
+    for (const recipeId of recipeIds) {
+        const recipe = await Recipe.findOne({ _id: recipeId });
+        if (recipe && recipe.isPublic) {
+            publicRecipes.push(recipe);
+        }
+    }
+
+    res.status(200).json({
+        username: user.username,
+        bio: user.bio,
+        following: user.following,
+        recipes: publicRecipes,
+    });
 });
 
 
@@ -74,7 +92,7 @@ routerUserApi.post("/updateUser", async (req, res) => {
         const verifyUser = await User.findOne({ _id, username });
 
         if (!verifyUser) {
-            return res.status(400).json({ errors: [{ msg: "Invalid Id for user." }] });
+            return res.status(400).json({ errors: [{ msg: "Invalid id for user." }] });
         }
 
         if (!username || !password || password.length < PWD_LENGTH) {
@@ -191,13 +209,11 @@ routerUserApi.get("/savedRecipes", auth, async (req, res) => {
         const result = await User.findOne({ _id: req.user.id });
         const recipeIds = result?.savedRecipes ?? [];
         const recipes = [];
-        for (const savedRecipeId of recipeIds) {
-            const recipeReq = {
-                method: "GET",
-                headers: { "Content-Type": "application/json" },
-            };
-            const recipe = await fetch(`http://localhost:9001/api/recipes/lookupId/${savedRecipeId}`, recipeReq).then((recipeRes) => recipeRes.json());
-            recipes.push(recipe);
+        for (const recipeId of recipeIds) {
+            const recipe = await Recipe.findOne({ _id: recipeId });
+            if (recipe && recipe.isPublic) {
+                publicRecipes.push(recipe);
+            }
         }
         res.status(200).json(recipes);
     }

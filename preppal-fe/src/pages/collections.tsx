@@ -1,7 +1,7 @@
-import { Tabs, Tab, Row, Col } from 'react-bootstrap';
+import { Tabs, Tab } from 'react-bootstrap';
 import React from 'react';
-import RecipeCard from '../components/recipe-card/recipe-card';
 import NavBar from '../components/nav-bar/nav-bar';
+import RecipeCatalog from '../components/recipe-catalog/recipe-catalog';
 
 const Collections = () => {
     const [username, setUsername] = React.useState("");
@@ -80,16 +80,6 @@ const Collections = () => {
         }
     }
 
-    function fillRecipes(recipes: any[]) {
-        return (<Row xs="auto" md="auto" lg="auto">
-            {recipes.map((recipe) => (
-                <Col key={recipe._id}>
-                    {RecipeCard(recipe)}
-                </Col>
-            ))}
-        </Row>)
-    }
-
     return (
         <><NavBar></NavBar>
             <div className='page'>
@@ -98,10 +88,10 @@ const Collections = () => {
                     id="collections"
                     onSelect={k => setKey(k ?? "MyRecipes")}>
                     <Tab eventKey="MyRecipes" title="My Recipes">
-                        {fillRecipes(ownRecipes)}
+                        <RecipeCatalog catalog={ownRecipes}></RecipeCatalog>
                     </Tab>
                     <Tab eventKey="Favourites" title="Favourites">
-                        {fillRecipes(savedRecipes)}
+                        <RecipeCatalog catalog={savedRecipes}></RecipeCatalog>
                     </Tab>
                 </Tabs>
             </div></>

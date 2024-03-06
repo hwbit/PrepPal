@@ -1,9 +1,8 @@
 import React from 'react';
-import { Row, Col } from 'react-bootstrap';
-import RecipeCard from '../components/recipe-card/recipe-card';
 import '../styles/global.css';
 import NavBar from '../components/nav-bar/nav-bar';
 import { useParams } from 'react-router-dom';
+import RecipeCatalog from '../components/recipe-catalog/recipe-catalog';
 
 const Search = () => {
   const [recipes, setRecipes] = React.useState<any[]>([]);
@@ -38,13 +37,7 @@ const Search = () => {
       <div className="page">
         <h1>Search Results</h1>
         <p className="search-query">Search query: {query}</p>
-        <Row xs="auto" md="auto" lg="auto">
-          {recipes.map((recipe) => (
-            <Col key={recipe._id}>
-              {RecipeCard(recipe)}
-            </Col>
-          ))}
-        </Row>
+        <RecipeCatalog catalog={recipes}></RecipeCatalog>
       </div>
     </>
   );

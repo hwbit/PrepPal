@@ -3,14 +3,16 @@ import Image from 'react-bootstrap/Image';
 import { Button, Col, Row, Stack } from 'react-bootstrap';
 import React from 'react';
 import NavBar from '../components/nav-bar/nav-bar';
+import RecipeCatalog from '../components/recipe-catalog/recipe-catalog';
 
 const logo = require('../assets/logo.png')
 
 function Profile() {
-    const [userName, setName] = React.useState("");
+    const [username, setUsername] = React.useState("");
     const [userBio, setBio] = React.useState("");
     const [userFollowing, setFollowing] = React.useState<any[]>([]);
     const [userFollowingCount, setFollowingCount] = React.useState(0);
+    const [recipes, setRecipes] = React.useState<any[]>([]);
 
     const matches = window.location.href.match(/\/profile\/(.+)/);
     const query = matches ? decodeURI(matches[1]) : "";
@@ -34,10 +36,12 @@ function Profile() {
                         }
                     };
                     res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
-                    setName(res.username);
-                    setBio(res.bio);
-                    setFollowing(res.following);
-                    setFollowingCount(userFollowing.length)
+                    if (res) {
+                        setUsername(res.username);
+                        setBio(res.bio);
+                        setFollowing(res.following);
+                        setFollowingCount(userFollowing.length)
+                    }
                 }
             }
             else {
@@ -48,10 +52,12 @@ function Profile() {
                     }
                 };
                 res = await fetch("http://localhost:9001/api/users/lookup/" + query, req).then(res => res.json());
-                setName(res.user[0].username);
-                setBio(res.user[0].bio);
-                setFollowing(res.user[0].following);
-                setFollowingCount(res.user[0].following.length)
+                if (res) {
+                    setUsername(res.username);
+                    setBio(res.bio);
+                    setFollowingCount(res.following.length);
+                    setRecipes(res.recipes);
+                }
             }
 
         } catch (err) {
@@ -68,7 +74,7 @@ function Profile() {
                             <Card.Header className='d-flex align-items-center'>
                                 <Col className='d-flex justify-content-start align-items-center'>
                                     <Image src={logo} alt="Logo" rounded style={{ maxWidth: '200px' }} />
-                                    <Card.Title className='p-2'>{userName}</Card.Title>
+                                    <Card.Title className='p-2'>{username}</Card.Title>
                                 </Col>
                                 <Col>
                                     <Stack gap={3}>
@@ -90,10 +96,10 @@ function Profile() {
                     <div className="w-100" style={{ maxWidth: '2000px' }}>
                         <Card className="p-4" style={{ backgroundColor: "#F2E8DC" }}>
                             <Card.Header>
-                                <Card.Title>Following</Card.Title>
+                                <Card.Title>{myProfile ? "Following" : "Recipes"}</Card.Title>
                             </Card.Header>
                             <Card.Body>
-                                <Card.Text>{userFollowing}</Card.Text>
+                                {myProfile ? userFollowing : <RecipeCatalog catalog={recipes}></RecipeCatalog>}
                             </Card.Body>
                         </Card>
                     </div>
