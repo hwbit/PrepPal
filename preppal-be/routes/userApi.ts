@@ -4,6 +4,7 @@ const jwtUserApi = require("jsonwebtoken");
 const configUserApi = require("../configs/secrets.ts");
 const auth = require("../auth/authorization.ts");
 const User = require("../models/user.ts");
+const Recipe = require("../models/recipe.ts");
 
 const SESSION_EXPIRY = 86400;
 const PWD_LENGTH = 5;
@@ -28,15 +29,24 @@ routerUserApi.get("/", async (req, res) => {
  */
 routerUserApi.get("/lookup/:username", async (req, res) => {
     const username = req.params.username;
-    let user = await User.find({ username }).select("-password");
+    const user = await User.findOne({ username }).select("-password");
 
     if (!user) {
         return res.status(400).json({ errors: [{ msg: "Invalid id for user." }] });
     }
+    const recipeIds = user.ownRecipes ?? [];
+    const publicRecipes = [];
+    for (const recipeId of recipeIds) {
+        const recipe = await Recipe.findOne({ _id: recipeId });
+        publicRecipes.push(recipe);
+    }
 
-    const publicRecipes = user.ownRecipes.filter((recipe) => recipe.isPublic);
-    user = { ...user, recipes: publicRecipes };
-    res.status(200).json({ user });
+    res.status(200).json({
+        username: user.username,
+        bio: user.bio,
+        following: user.following,
+        recipes: publicRecipes,
+    });
 });
 
 
@@ -197,12 +207,8 @@ routerUserApi.get("/savedRecipes", auth, async (req, res) => {
         const result = await User.findOne({ _id: req.user.id });
         const recipeIds = result?.savedRecipes ?? [];
         const recipes = [];
-        for (const savedRecipeId of recipeIds) {
-            const recipeReq = {
-                method: "GET",
-                headers: { "Content-Type": "application/json" },
-            };
-            const recipe = await fetch(`http://localhost:9001/api/recipes/lookupId/${savedRecipeId}`, recipeReq).then((recipeRes) => recipeRes.json());
+        for (const recipeId of recipeIds) {
+            const recipe = await Recipe.findOne({ _id: recipeId });
             recipes.push(recipe);
         }
         res.status(200).json(recipes);

@@ -74,8 +74,8 @@ const Recipe = () => {
             setTitle(res.title);
             setDescription(res.description);
             setImage(res.image);
-            setIngredients(res.ingredients.map((ingredient: string) => <li>{ingredient}</li>));
-            setInstructions(res.instructions.map((step: string) => <li>{step}</li>));
+            setIngredients(res.ingredients.map((ingredient: string, i: number) => <li key={i}>{ingredient}</li>));
+            setInstructions(res.instructions.map((step: string, i: number) => <li key={i}>{step}</li>));
             setServingSize(res.servingSize);
             setPrepTime(res.prepTime);
             setCookTime(res.cookingTime);
@@ -154,7 +154,7 @@ const Recipe = () => {
                     </div>
                     <div className='recipe-info'>
                         <div className='recipe-info-row'>
-                            <div className='author'> Author: <Link to={"/profile/"+recipeAuthor}>{recipeAuthor}</Link></div>
+                            <div className='author'> Author: <Link to={"/profile/" + recipeAuthor}>{recipeAuthor}</Link></div>
                             <div className='date-published'>Date published: {recipeDate}</div>
                         </div>
                         <div className='recipe-info-row'>
@@ -233,8 +233,8 @@ const Recipe = () => {
                     }
                     <h1 className='title-view-list'>Reviews</h1>
                     <Row xs="auto" md="auto" lg="auto">
-                        {reviews.map((review) => (
-                            <Col key={review.author}>
+                        {reviews.map((review, i) => (
+                            <Col key={i}>
                                 {Review(review)}
                             </Col>
                         ))}

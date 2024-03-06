@@ -52,11 +52,11 @@ function Profile() {
                     }
                 };
                 res = await fetch("http://localhost:9001/api/users/lookup/" + query, req).then(res => res.json());
-                if (res.length > 0) {
-                    setUsername(res.user[0].username);
-                    setBio(res.user[0].bio);
-                    setFollowingCount(res.user[0].following.length);
-                    setRecipes(res.user[0].recipes);
+                if (res) {
+                    setUsername(res.username);
+                    setBio(res.bio);
+                    setFollowingCount(res.following.length);
+                    setRecipes(res.recipes);
                 }
             }
 
@@ -99,7 +99,7 @@ function Profile() {
                                 <Card.Title>{myProfile ? "Following" : "Recipes"}</Card.Title>
                             </Card.Header>
                             <Card.Body>
-                                <Card.Text>{myProfile ? <RecipeCatalog catalog={recipes}></RecipeCatalog> : userFollowing}</Card.Text>
+                                {myProfile ? userFollowing : <RecipeCatalog catalog={recipes}></RecipeCatalog>}
                             </Card.Body>
                         </Card>
                     </div>
