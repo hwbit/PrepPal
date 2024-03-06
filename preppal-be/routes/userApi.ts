@@ -28,8 +28,14 @@ routerUserApi.get("/", async (req, res) => {
  */
 routerUserApi.get("/lookup/:username", async (req, res) => {
     const username = req.params.username;
-    const user = await User.find({ username }).select("-password");
+    let user = await User.find({ username }).select("-password");
 
+    if (!user) {
+        return res.status(400).json({ errors: [{ msg: "Invalid id for user." }] });
+    }
+
+    const publicRecipes = user.ownRecipes.filter((recipe) => recipe.isPublic);
+    user = { ...user, recipes: publicRecipes };
     res.status(200).json({ user });
 });
 
@@ -74,7 +80,7 @@ routerUserApi.post("/updateUser", async (req, res) => {
         const verifyUser = await User.findOne({ _id, username });
 
         if (!verifyUser) {
-            return res.status(400).json({ errors: [{ msg: "Invalid Id for user." }] });
+            return res.status(400).json({ errors: [{ msg: "Invalid id for user." }] });
         }
 
         if (!username || !password || password.length < PWD_LENGTH) {
