@@ -223,4 +223,31 @@ routerUserApi.get("/savedRecipes", auth, async (req, res) => {
     }
 });
 
+/**
+ * GET - get user's ownRecipes
+ */
+routerUserApi.get("/ownRecipes", auth, async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id).select("-password");
+
+        if (!user) {
+            return res.status(400).json({ errors: [{ msg: "Invalid token." }] });
+        }
+        const result = await User.findOne({ _id: req.user.id });
+        const recipeIds = result?.ownRecipes ?? [];
+        const recipes = [];
+        for (const recipeId of recipeIds) {
+            const recipe = await Recipe.findOne({ _id: recipeId });
+            if (recipe) {
+                recipes.push(recipe);
+            }
+        }
+        res.status(200).json(recipes);
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).send("Server error.");
+    }
+});
+
 module.exports = routerUserApi;
