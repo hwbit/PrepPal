@@ -1,5 +1,4 @@
-export function dateToString(dateObject: Date)
-{
+export function dateToString(dateObject: Date) {
     let dateString = dateObject.toDateString();
-    return dateString.substring(dateString.indexOf(" ")+1);
+    return dateString.substring(dateString.indexOf(" ") + 1);
 }
