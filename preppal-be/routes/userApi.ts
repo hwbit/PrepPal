@@ -38,7 +38,9 @@ routerUserApi.get("/lookup/:username", async (req, res) => {
     const publicRecipes = [];
     for (const recipeId of recipeIds) {
         const recipe = await Recipe.findOne({ _id: recipeId });
-        publicRecipes.push(recipe);
+        if (recipe) {
+            publicRecipes.push(recipe);
+        }
     }
 
     res.status(200).json({
@@ -209,7 +211,9 @@ routerUserApi.get("/savedRecipes", auth, async (req, res) => {
         const recipes = [];
         for (const recipeId of recipeIds) {
             const recipe = await Recipe.findOne({ _id: recipeId });
-            recipes.push(recipe);
+            if (recipe) {
+                publicRecipes.push(recipe);
+            }
         }
         res.status(200).json(recipes);
     }
