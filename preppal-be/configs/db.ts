@@ -1,7 +1,11 @@
 const mongoose = require("mongoose");
-const secrets = require("./secrets.ts");
+// const secrets = require("./secrets.ts");
 
-const uri = secrets.mongoURI;
+require("dotenv");
+
+// const uri = secrets.mongoURI;
+
+const uri = process.env.MONGO_URI;
 
 mongoose.set("strictQuery", true);
 

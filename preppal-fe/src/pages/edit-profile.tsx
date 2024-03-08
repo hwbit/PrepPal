@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import React from 'react';
 import NavBar from '../components/nav-bar/nav-bar';
 
-const logo = require('../assets/logo.png')
+// const logo = require('../assets/logo.png')
 
 function EditProfile() {
     const [userID, setID] = React.useState(0);
@@ -16,6 +16,7 @@ function EditProfile() {
     const [userOwn, setOwn] = React.useState<any[]>([]);
     const [userSaved, setSaved] = React.useState<any[]>([]);
     const [userFollowing, setFollowing] = React.useState<any[]>([]);
+    const [userImage, setImage] = React.useState(process.env.DEFAULT_LOGO_URL);
 
     const navigate = useNavigate();
 
@@ -42,6 +43,7 @@ function EditProfile() {
                 setOwn(res.ownRecipes);
                 setSaved(res.savedRecipes);
                 setFollowing(res.following);
+                setImage(res.image);
             }
         } catch (err) {
             console.error(err);
@@ -108,7 +110,8 @@ function EditProfile() {
                     'bio': userBio,
                     'ownRecipes': userOwn,
                     'savedRecipes': userSaved,
-                    'following': userFollowing
+                    'following': userFollowing,
+                    'image': userImage
                 })
             };
             const res = await fetch("http://localhost:9001/api/users/updateUser", req).then(res => res.json());
@@ -139,7 +142,8 @@ function EditProfile() {
                     'bio': userBio,
                     'ownRecipes': userOwn,
                     'savedRecipes': userSaved,
-                    'following': userFollowing
+                    'following': userFollowing,
+                    'image': userImage
                 })
             };
             const res = await fetch("http://localhost:9001/api/users/updateUser", req).then(res => res.json());
@@ -181,6 +185,10 @@ function EditProfile() {
                                     </Form.Group>
                                 </Col>
                             </Row>
+                            <Form.Group title="uploadPic" controlId="formPic" style={{ paddingBottom: '8px' }}>
+                                <label className='p-2'>Profile Picture (Optional)</label>
+                                <Form.Control type="file" accept="image/*" defaultValue={userImage} onChange={(event) => setImage( (event.target as HTMLInputElement).files[0] )} />
+                            </Form.Group>
                             <Form.Group title="inputBio" controlId="formBio" style={{ paddingBottom: '8px' }}>
                                 <label className='p-2'>Profile's Bio</label>
                                 <Form.Control type="text" defaultValue={userBio} onChange={(event) => setBio(event.target.value)} />

@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+require("dotenv");
+
 const UserSchema = new Schema({
     username: {
         type: String,
@@ -17,6 +19,10 @@ const UserSchema = new Schema({
     ownRecipes: {type: [String]},
     savedRecipes: {type: [String]},
     following: {type: [String]},
+    image: {
+        type: [String],
+        default: "logo.png",
+    },
 });
 
 const User = mongoose.model("User", UserSchema);
