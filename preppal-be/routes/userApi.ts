@@ -333,31 +333,4 @@ routerUserApi.post("/userFollowingStatus", auth, async (req, res) => {
     }
 });
 
-/**
- * GET - Get list of users the logged in user is following
- */
-routerUserApi.get("/followingList", auth, async (req, res) => {
-    try {
-        const user = await User.findById(req.user.id).select("-password");
-
-        if (!user) {
-            return res.status(400).json({ errors: [{ msg: "Invalid token." }] });
-        }
-        const result = await User.findOne({ _id: req.user.id });
-        const usernames = result?.following ?? [];
-        const following = [];
-        for (const username of usernames) {
-            const user = await User.findOne({ username });
-            if (user) {
-                following.push(user);
-            }
-        }
-        res.status(200).json(following);
-    }
-    catch (error) {
-        console.error(error);
-        res.status(500).send("Server error.");
-    }
-});
-
 module.exports = routerUserApi;
