@@ -212,7 +212,7 @@ routerUserApi.get("/savedRecipes", auth, async (req, res) => {
         for (const recipeId of recipeIds) {
             const recipe = await Recipe.findOne({ _id: recipeId });
             if (recipe && recipe.isPublic) {
-                publicRecipes.push(recipe);
+                recipes.push(recipe);
             }
         }
         res.status(200).json(recipes);
