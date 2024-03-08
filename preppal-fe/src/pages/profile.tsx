@@ -13,6 +13,7 @@ function Profile() {
     const [userFollowing, setFollowing] = React.useState<any[]>([]);
     const [userFollowingCount, setFollowingCount] = React.useState(0);
     const [recipes, setRecipes] = React.useState<any[]>([]);
+    const [userImage, setImage] = React.useState(process.env.DEFAULT_LOGO_URL);
 
     const matches = window.location.href.match(/\/profile\/(.+)/);
     const query = matches ? decodeURI(matches[1]) : "";
@@ -41,6 +42,7 @@ function Profile() {
                         setBio(res.bio);
                         setFollowing(res.following);
                         setFollowingCount(userFollowing.length)
+                        setImage(res.image);
                     }
                 }
             }
@@ -57,6 +59,7 @@ function Profile() {
                     setBio(res.bio);
                     setFollowingCount(res.following.length);
                     setRecipes(res.recipes);
+                    setImage(res.image);
                 }
             }
 
@@ -73,7 +76,7 @@ function Profile() {
                         <Card className="p-4 d-flex" style={{ backgroundColor: "#F2E8DC" }}>
                             <Card.Header className='d-flex align-items-center'>
                                 <Col className='d-flex justify-content-start align-items-center'>
-                                    <Image src={logo} alt="Logo" rounded style={{ maxWidth: '200px' }} />
+                                    <Image src={userImage} alt="userImage" rounded style={{ maxWidth: '200px' }} />
                                     <Card.Title className='p-2'>{username}</Card.Title>
                                 </Col>
                                 <Col>

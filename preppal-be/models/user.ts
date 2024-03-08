@@ -3,6 +3,8 @@ const Schema = mongoose.Schema;
 
 require("dotenv");
 
+const defaultImage = process.env.DEFAULT_LOGO_URL;
+
 const UserSchema = new Schema({
     username: {
         type: String,
@@ -20,8 +22,8 @@ const UserSchema = new Schema({
     savedRecipes: {type: [String]},
     following: {type: [String]},
     image: {
-        type: [String],
-        default: "logo.png",
+        type: String,
+        default: defaultImage,
     },
 });
 

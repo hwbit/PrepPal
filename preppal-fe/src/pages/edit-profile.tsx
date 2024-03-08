@@ -5,10 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import React from 'react';
 import NavBar from '../components/nav-bar/nav-bar';
 
-// const logo = require('../assets/logo.png')
-
 function EditProfile() {
-    const [userID, setID] = React.useState(0);
+    const [userID, setID] = React.useState('');
     const [userName, setName] = React.useState("");
     const [userPassword, setPassword] = React.useState("");
     const [userNewPassword, setNewPassword] = React.useState("");
@@ -16,7 +14,8 @@ function EditProfile() {
     const [userOwn, setOwn] = React.useState<any[]>([]);
     const [userSaved, setSaved] = React.useState<any[]>([]);
     const [userFollowing, setFollowing] = React.useState<any[]>([]);
-    const [userImage, setImage] = React.useState(process.env.DEFAULT_LOGO_URL);
+    const [userImage, setImage] = React.useState();
+    const [uploadedImage, setUploadedImage] = React.useState('');
 
     const navigate = useNavigate();
 
@@ -96,24 +95,21 @@ function EditProfile() {
 
     const updateWithNew = async () => {
         try {
+            const formBody = new FormData();
+            formBody.append('_id', userID);
+            formBody.append('username', userName);
+            formBody.append('password', userPassword);
+            formBody.append('bio', userBio);
+            formBody.append('ownRecipes', userOwn.toString());
+            formBody.append('savedRecipe', userSaved.toString());
+            formBody.append('following', userFollowing.toString());
+            formBody.append('imageRaw', uploadedImage);
+
             const req = {
                 method: "POST",
-
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-
-                body: JSON.stringify({
-                    '_id': userID,
-                    'username': userName,
-                    'password': userNewPassword,
-                    'bio': userBio,
-                    'ownRecipes': userOwn,
-                    'savedRecipes': userSaved,
-                    'following': userFollowing,
-                    'image': userImage
-                })
+                body: formBody
             };
+
             const res = await fetch("http://localhost:9001/api/users/updateUser", req).then(res => res.json());
             if (res.errors) {
                 alert(res.errors[0].msg);
@@ -128,23 +124,19 @@ function EditProfile() {
 
     const updateWithOld = async () => {
         try {
+            const formBody = new FormData();
+            formBody.append('_id', userID);
+            formBody.append('username', userName);
+            formBody.append('password', userPassword);
+            formBody.append('bio', userBio);
+            formBody.append('ownRecipes', userOwn.toString());
+            formBody.append('savedRecipe', userSaved.toString());
+            formBody.append('following', userFollowing.toString());
+            formBody.append('imageRaw', uploadedImage);
+
             const req = {
                 method: "POST",
-
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-
-                body: JSON.stringify({
-                    '_id': userID,
-                    'username': userName,
-                    'password': userPassword,
-                    'bio': userBio,
-                    'ownRecipes': userOwn,
-                    'savedRecipes': userSaved,
-                    'following': userFollowing,
-                    'image': userImage
-                })
+                body: formBody
             };
             const res = await fetch("http://localhost:9001/api/users/updateUser", req).then(res => res.json());
             if (res.errors) {
@@ -158,6 +150,10 @@ function EditProfile() {
         }
     }
 
+    const handleImageUpload = (event: any) => {
+        setUploadedImage(event.target.files[0]);
+    }
+
     return (
         <><NavBar></NavBar><div className='py-3'>
             <Row className='p-3 d-flex'>
@@ -165,7 +161,7 @@ function EditProfile() {
                     <Card className="p-4 d-flex" style={{ backgroundColor: "#F2E8DC" }}>
                         <Card.Header className='d-flex align-items-center'>
                             <Col className='d-flex justify-content-start align-items-center'>
-                                <Image src={logo} alt="Logo" rounded style={{ maxWidth: '200px' }} />
+                                <Image src={userImage} alt="userImage" rounded style={{ maxWidth: '200px' }} />
                                 <Card.Title className='p-2'>{userName}</Card.Title>
                             </Col>
                         </Card.Header>
@@ -187,7 +183,7 @@ function EditProfile() {
                             </Row>
                             <Form.Group title="uploadPic" controlId="formPic" style={{ paddingBottom: '8px' }}>
                                 <label className='p-2'>Profile Picture (Optional)</label>
-                                <Form.Control type="file" accept="image/*" defaultValue={userImage} onChange={(event) => setImage( (event.target as HTMLInputElement).files[0] )} />
+                                <Form.Control type="file" accept="image/*" name="image" onChange={handleImageUpload} />
                             </Form.Group>
                             <Form.Group title="inputBio" controlId="formBio" style={{ paddingBottom: '8px' }}>
                                 <label className='p-2'>Profile's Bio</label>

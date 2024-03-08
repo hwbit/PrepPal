@@ -1,22 +1,19 @@
 const azure = require("@azure/storage-blob");
 const BlobServiceClient = azure.BlobServiceClient;
 
-require("dotenv").config();
+require("dotenv");
 
-const Uploader = async (file, fileName) => {
+const uploadImage = async (file, fileName) => {
     try {
-        const fileBuffer = file.buffer;
-        const imageType = file.mimetype;
-
         // Create the BlobServiceClient object with connection string
         const blobServiceClient = BlobServiceClient.fromConnectionString(process.env.AZURE_CONNECTION_KEY);
-        const containerClient = blobServiceClient.getContainerClient("upload");
+        const containerClient = blobServiceClient.getContainerClient(process.env.AZURE_CONTAINER);
         const blobClient = containerClient.getBlockBlobClient(fileName);
 
-        const options = { blobHTTPHeaders: { blobContentType: imageType } };
+        const options = { blobHTTPHeaders: { blobContentType: file.mimetype } };
 
         // wait for upload
-        await blobClient.upload(fileBuffer, fileBuffer.length, options);
+        await blobClient.upload(file.buffer, file.size, options);
 
         const imageUrl = blobClient.url;
 
@@ -28,4 +25,4 @@ const Uploader = async (file, fileName) => {
     }
 };
 
-module.exports = Uploader;
+module.exports.uploadImage = uploadImage;
