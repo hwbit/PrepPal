@@ -94,8 +94,6 @@ routerUserApi.post("/createUser", async (req, res) => {
  */
 routerUserApi.post("/updateUser", upload.single("imageRaw"), async (req, res) => {
     try {
-        console.log(req.body);
-        console.log(req.file);
         const { _id, username, password, bio, ownRecipes, savedRecipes, following } = req.body;
 
         let image = process.env.DEFAULT_LOGO_URL;

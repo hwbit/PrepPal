@@ -5,8 +5,6 @@ import React from 'react';
 import NavBar from '../components/nav-bar/nav-bar';
 import RecipeCatalog from '../components/recipe-catalog/recipe-catalog';
 
-const logo = require('../assets/logo.png')
-
 function Profile() {
     const [username, setUsername] = React.useState("");
     const [userBio, setBio] = React.useState("");
