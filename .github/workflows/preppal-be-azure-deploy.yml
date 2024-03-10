@@ -73,7 +73,6 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'preppal-be'
-          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
           slot-name: 'Production'
           package: .
           
