@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import NavBar from '../components/nav-bar/nav-bar';
 const logo = require('../assets/logo.png')
 
+const backendBaseURL = process.env.BACKEND_BASE_URL;
+
 const LoginPage = () => {
 
     // For Forms
@@ -28,7 +30,7 @@ const LoginPage = () => {
                 })
             };
 
-            const res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
+            const res = await fetch(backendBaseURL+"/api/auth/", req).then(res => res.json());
             sessionStorage.setItem("token", res.token);
         } catch (err) {
             console.error(err);

@@ -3,6 +3,8 @@ import React from 'react';
 import NavBar from '../components/nav-bar/nav-bar';
 import RecipeCatalog from '../components/recipe-catalog/recipe-catalog';
 
+const backendBaseURL = process.env.BACKEND_BASE_URL;
+
 const Collections = () => {
     const [ownRecipes, setOwnRecipes] = React.useState<any[]>([]);
     const [savedRecipes, setSavedRecipes] = React.useState<any[]>([]);
@@ -25,7 +27,7 @@ const Collections = () => {
                         'x-auth-token': token
                     }
                 };
-                fetchedRecipes = await fetch("http://localhost:9001/api/users/ownRecipes/", req).then((res) => res.json());
+                fetchedRecipes = await fetch(backendBaseURL+"/api/users/ownRecipes/", req).then((res) => res.json());
             }
             return fetchedRecipes;
         }
@@ -46,7 +48,7 @@ const Collections = () => {
                         'x-auth-token': token
                     }
                 };
-                fetchedRecipes = await fetch("http://localhost:9001/api/users/savedRecipes/", req).then((res) => res.json());
+                fetchedRecipes = await fetch(backendBaseURL+"/api/users/savedRecipes/", req).then((res) => res.json());
             }
             return fetchedRecipes;
         }

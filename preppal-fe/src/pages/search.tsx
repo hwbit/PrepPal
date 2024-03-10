@@ -4,6 +4,8 @@ import NavBar from '../components/nav-bar/nav-bar';
 import { useParams } from 'react-router-dom';
 import RecipeCatalog from '../components/recipe-catalog/recipe-catalog';
 
+const backendBaseURL = process.env.BACKEND_BASE_URL;
+
 const Search = () => {
   const [recipes, setRecipes] = React.useState<any[]>([]);
 
@@ -22,7 +24,7 @@ const Search = () => {
             title: query
           })
         };
-        let fetchedRecipes = await fetch("http://localhost:9001/api/recipes/searchName/", req).then((res) => res.json());
+        let fetchedRecipes = await fetch(backendBaseURL+"/api/recipes/searchName/", req).then((res) => res.json());
         setRecipes(fetchedRecipes);
       } catch (err) {
         console.error(err);

@@ -4,6 +4,8 @@ import { MdCancel } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import NavBar from '../components/nav-bar/nav-bar';
 
+const backendBaseURL = process.env.BACKEND_BASE_URL;
+
 interface Recipe {
     title: string,
     desc: string,
@@ -49,7 +51,7 @@ const CreateRecipe = () => {
                     }
                 };
 
-                const res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
+                const res = await fetch(backendBaseURL+"/api/auth/", req).then(res => res.json());
                 setUsername(res.username);
             }
 
@@ -89,7 +91,7 @@ const CreateRecipe = () => {
                         })
                     };
 
-                    await fetch("http://localhost:9001/api/recipes/createRecipe", req).then(res => res.json());
+                    await fetch(backendBaseURL+"/api/recipes/createRecipe", req).then(res => res.json());
 
                     navigate("/collections");
                 }

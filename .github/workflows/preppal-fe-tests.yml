@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [ dev, main ]
 
+env:
+  BACKEND_BASE_URL: ${{ secrets.BACKEND_BASE_URL }}
+  
 jobs:
   build:
     runs-on: ubuntu-latest

@@ -7,6 +7,8 @@ import RecipeCatalog from '../components/recipe-catalog/recipe-catalog';
 
 const logo = require('../assets/logo.png')
 
+const backendBaseURL = process.env.BACKEND_BASE_URL;
+
 function Profile() {
     const [username, setUsername] = React.useState("");
     const [userBio, setBio] = React.useState("");
@@ -35,7 +37,7 @@ function Profile() {
                             "x-auth-token": token
                         }
                     };
-                    res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
+                    res = await fetch(backendBaseURL+"/api/auth/", req).then(res => res.json());
                     if (res) {
                         setUsername(res.username);
                         setBio(res.bio);
@@ -51,7 +53,7 @@ function Profile() {
                         "Content-type": "application/json"
                     }
                 };
-                res = await fetch("http://localhost:9001/api/users/lookup/" + query, req).then(res => res.json());
+                res = await fetch(backendBaseURL+"/api/users/lookup/" + query, req).then(res => res.json());
                 if (res) {
                     setUsername(res.username);
                     setBio(res.bio);
