@@ -25,6 +25,9 @@ jobs:
         with:
           node-version: '20.x'
 
+      - name: Switch to backend dir
+        run: cd preppal-be
+        
       - name: npm install, build, and test
         run: |
           npm install
