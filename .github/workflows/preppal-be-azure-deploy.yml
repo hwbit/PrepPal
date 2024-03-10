@@ -59,7 +59,7 @@ jobs:
           path: preppal-be/
 
       - name: Unzip artifact for deployment
-        run: unzip release.zip
+        run: unzip preppal-be/release.zip
       
       - name: Login to Azure
         uses: azure/login@v1
