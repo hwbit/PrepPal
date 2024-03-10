@@ -41,7 +41,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: node-app
-          path: preppal-be/release.zip
+          path: preppal-be/node-app
 
   deploy:
     runs-on: ubuntu-latest
@@ -57,7 +57,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: node-app
-          path: preppal-be/release
+          path: preppal-be/node-app
 
       - name: Unzip artifact for deployment
         run: unzip release.zip
