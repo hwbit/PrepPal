@@ -1,10 +1,19 @@
+/* Global Variables */
+:root {
+    --dark-brown: #6d5f58;
+    --normal-text: #efeade;
+    --light-orange: #f9d6b2;
+    --nav-bar: #F2E8DC;
+    --light-red: #ff907f;
+}
+
 .links {
     margin-right: 80px;
     margin-left: auto;
 }
 
 .navbar {
-    background-color: #F2E8DC;
+    background-color: var(--nav-bar);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -14,7 +23,31 @@
     margin-left: 130px;
 }
 
+
+.search-btn {
+    color: var(--dark-brown);
+    margin-left: 10px;
+    font-size: x-large;
+    padding: 5px 6px 4px 6px;
+    border-width: 1.5px;
+    background-color: white;
+    border-color: var(--dark-brown);
+    display: flex;
+    align-items: center;
+    transition: color 0.3s, border-color 0.3s, background-color 0.5s, border-radius 0.5s;
+
+    &:hover {
+        color: var(--dark-brown);
+        background-color: var(--nav-bar);
+        border-color: var(--dark-brown);
+        border-radius: 100%;
+    }
+}
+
 .search-bar {
     margin-left: 50px;
     width: 700px;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
 }

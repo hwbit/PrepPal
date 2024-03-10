@@ -6,9 +6,14 @@ import RecipeCatalog from '../components/recipe-catalog/recipe-catalog';
 
 const Search = () => {
   const [recipes, setRecipes] = React.useState<any[]>([]);
+  const [showFilterMenu, setShowFilterMenu] = React.useState(false);
 
   // Extract the 'query' parameter from the URL
   const { query } = useParams();
+
+  const toggleFilterMenu = () => {
+    setShowFilterMenu(!showFilterMenu);
+  };
 
   React.useEffect(() => {
     const fillRecipes = async () => {

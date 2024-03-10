@@ -1,9 +1,10 @@
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { Form } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import './nav-bar.css';
 import React from 'react';
+import { FaSearch } from "react-icons/fa";
 
 const NavBar = () => {
   const [loggedIn, setLoggedIn] = React.useState(false);
@@ -32,6 +33,10 @@ const NavBar = () => {
     navigate(`/search/${encodeURIComponent(searchQuery)}`);
   };
 
+  const searchButtonClick = () => {
+    navigate(`/search/${searchQuery.trim() ? searchQuery.trim() : ""}`);
+  }
+
   const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
   };
@@ -44,11 +49,13 @@ const NavBar = () => {
       <Form className="search-bar" onSubmit={handleSearchSubmit}>
         <Form.Control
           type="text"
-          placeholder="Search"
+          placeholder="Quick Search"
           value={searchQuery}
           onChange={handleSearchInputChange}
         />
+        <Button variant="outline-light" onClick={searchButtonClick} className="search-btn"><FaSearch /></Button>
       </Form>
+
       <Nav className="links">
         {loggedIn ? <Nav.Link as={Link} to="/collections" className="nav-item">Collections</Nav.Link> : <br></br>}
         {loggedIn ? <Nav.Link as={Link} to="/new-recipe" className="nav-item">New Recipe</Nav.Link> : <br></br>}
