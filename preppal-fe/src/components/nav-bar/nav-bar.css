@@ -34,13 +34,12 @@
     border-color: var(--dark-brown);
     display: flex;
     align-items: center;
-    transition: color 0.3s, border-color 0.3s, background-color 0.5s, border-radius 0.5s;
+    transition: background-color 0.3s, transform 0.3s;
 
     &:hover {
         color: var(--dark-brown);
-        background-color: var(--nav-bar);
         border-color: var(--dark-brown);
-        border-radius: 100%;
+        transform: scale(1.1);
     }
 }
 
@@ -50,4 +49,14 @@
     display: inline-flex;
     flex-direction: row;
     align-items: center;
+}
+
+.search-bar .clear-btn {
+    margin-left: -42px;
+    color: var(--dark-brown);
+    transition: transform 0.3s;
+
+    &:hover {
+        transform: scale(1.3);
+    }
 }

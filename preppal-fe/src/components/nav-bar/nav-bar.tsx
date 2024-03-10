@@ -4,7 +4,7 @@ import { Button, Form } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import './nav-bar.css';
 import React from 'react';
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaTimes } from "react-icons/fa";
 
 const NavBar = () => {
   const [loggedIn, setLoggedIn] = React.useState(false);
@@ -53,7 +53,12 @@ const NavBar = () => {
           value={searchQuery}
           onChange={handleSearchInputChange}
         />
-        <Button variant="outline-light" onClick={searchButtonClick} className="search-btn"><FaSearch /></Button>
+        {searchQuery && (
+          <Button variant="link" className="clear-btn" onClick={() => setSearchQuery("")}>
+            <FaTimes />
+          </Button>
+        )}
+        <Button variant="outline-light" className="search-btn" onClick={searchButtonClick}><FaSearch /></Button>
       </Form>
 
       <Nav className="links">
