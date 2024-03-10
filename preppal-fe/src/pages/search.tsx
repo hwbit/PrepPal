@@ -12,20 +12,22 @@ const Search = () => {
 
   React.useEffect(() => {
     const fillRecipes = async () => {
-      try {
-        const req = {
-          method: "POST",
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            title: query
-          })
-        };
-        let fetchedRecipes = await fetch("http://localhost:9001/api/recipes/searchName/", req).then((res) => res.json());
-        setRecipes(fetchedRecipes);
-      } catch (err) {
-        console.error(err);
+      if (query) {
+        try {
+          const req = {
+            method: "POST",
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              title: query
+            })
+          };
+          let fetchedRecipes = await fetch("http://localhost:9001/api/recipes/searchName/", req).then((res) => res.json());
+          setRecipes(fetchedRecipes);
+        } catch (err) {
+          console.error(err);
+        }
       }
     };
 
