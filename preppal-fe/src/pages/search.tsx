@@ -1,8 +1,11 @@
 import React from 'react';
-import '../styles/global.css';
+import '../styles/search.css';
 import NavBar from '../components/nav-bar/nav-bar';
 import { useParams } from 'react-router-dom';
 import RecipeCatalog from '../components/recipe-catalog/recipe-catalog';
+import { Button } from 'react-bootstrap';
+import { FaFilter } from 'react-icons/fa';
+import FilterMenu from '../components/filter-menu/filter-menu';
 
 const Search = () => {
   const [recipes, setRecipes] = React.useState<any[]>([]);
@@ -42,8 +45,14 @@ const Search = () => {
   return (
     <><NavBar></NavBar>
       <div className="page">
-        <h1>Search Results</h1>
-        <p className="search-query">Search query: {query}</p>
+        <div style={{ display: "inline-flex", alignItems: "center", marginBottom: "-15px"}}>
+          <h1>Search Results</h1>
+          <Button variant="outline-dark" className="filter-button" onClick={toggleFilterMenu}>
+            Filter <FaFilter />
+          </Button>
+        </div>
+        <FilterMenu showFilterMenu={showFilterMenu} handleClose={toggleFilterMenu} titleQuery={query} />
+        <p className="search-query">Search query: <i>{query}</i></p>
         <RecipeCatalog catalog={recipes}></RecipeCatalog>
       </div>
     </>
