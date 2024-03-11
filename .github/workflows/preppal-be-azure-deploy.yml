@@ -5,7 +5,7 @@ name: Build and deploy Node.js app to Azure Web App - preppal-be
 
 on:
   push:
-    branches: [ "dev", "hwbit/deploy-to-azure" ] #TODO: change this to main later
+    branches: [ deploy ]
   workflow_dispatch:
 
 env:
