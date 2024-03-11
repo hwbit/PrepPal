@@ -1,6 +1,7 @@
 /* Global Variables */
 :root {
     --dark-brown: #6d5f58;
+    --darker-brown: #4a382f;
     --normal-text: #efeade;
     --light-orange: #f9d6b2;
     --nav-bar: #F2E8DC;
@@ -25,20 +26,20 @@
 
 
 .search-btn {
-    color: var(--dark-brown);
+    color: var(--darker-brown);
     margin-left: 10px;
     font-size: x-large;
     padding: 5px 6px 4px 6px;
     border-width: 1.5px;
     background-color: white;
-    border-color: var(--dark-brown);
+    border-color: var(--darker-brown);
     display: flex;
     align-items: center;
     transition: background-color 0.3s, transform 0.3s;
 
     &:hover {
-        color: var(--dark-brown);
-        border-color: var(--dark-brown);
+        color: var(--darker-brown);
+        border-color: var(--darker-brown);
         transform: scale(1.1);
     }
 }
@@ -53,7 +54,7 @@
 
 .search-bar .clear-btn {
     margin-left: -42px;
-    color: var(--dark-brown);
+    color: var(--darker-brown);
     transition: transform 0.3s;
 
     &:hover {

@@ -1,6 +1,7 @@
 /* Global Variables */
 :root {
     --dark-brown: #6d5f58;
+    --darker-brown: #5a4134;
     --normal-text: #efeade;
     --light-orange: #f9d6b2;
     --light-red: #ff907f;
@@ -18,13 +19,13 @@
 
 .search-query,
 h1 {
-    color: var(--dark-brown);
+    color: var(--darker-brown);
     font-weight: bolder;
     margin: 20px;
 }
 
 .filter-button {
-    color: var(--dark-brown);
+    color: var(--darker-brown);
     font-weight: bold;
     font-size: large;
     margin-left: 20px;
