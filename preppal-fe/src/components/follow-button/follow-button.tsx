@@ -73,11 +73,13 @@ const FollowButton = (user: any) => {
     return (
         isFollowing
             ? (<Button
-                onClick={handleClick}>
+                onClick={handleClick}
+                style={{ backgroundColor: "#401E01" }}>
                 Unfollow
             </Button>)
             : (<Button
-                onClick={handleClick}>
+                onClick={handleClick}
+                style={{ backgroundColor: "#401E01" }}>
                 Follow
             </Button>)
     );

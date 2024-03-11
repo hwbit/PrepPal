@@ -41,7 +41,7 @@ function Profile() {
                     setUsername(res.username);
                     setBio(res.bio);
                     setFollowing(res.following);
-                    setFollowingCount(userFollowing.length);
+                    setFollowingCount(res.following.length);
                     setLoggedIn(true);
                     if (query === "" || query === res.username) {
                         setMyProfile(true);
@@ -104,7 +104,10 @@ function Profile() {
                                 <Card.Title>{myProfile ? "Following" : "Recipes"}</Card.Title>
                             </Card.Header>
                             <Card.Body>
-                                {myProfile ? userFollowing : <RecipeCatalog catalog={recipes}></RecipeCatalog>}
+                                {myProfile ? userFollowing.map(user => (
+                                    <p>{user}</p>
+                                ))
+                                    : <RecipeCatalog catalog={recipes}></RecipeCatalog>}
                             </Card.Body>
                         </Card>
                     </div>
