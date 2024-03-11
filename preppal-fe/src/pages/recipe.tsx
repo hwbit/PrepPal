@@ -76,7 +76,7 @@ const Recipe = () => {
                     'Content-Type': 'application/json'
                 }
             };
-            const res = await fetch(`http://localhost:9001/api/recipes/lookupId/${recipeId}`, req).then(res => res.json());
+            const res = await fetch(backendBaseURL+`/api/recipes/lookupId/${recipeId}`, req).then(res => res.json());
             setAuthor(res.author);
             setDate(dateToString(new Date(res.creationDate)));
             setTitle(res.title);
@@ -100,7 +100,7 @@ const Recipe = () => {
                     'Content-Type': 'application/json'
                 }
             };
-            const res = await fetch(`http://localhost:9001/api/reviews/${recipeId}`, req).then((res) => res.json());
+            const res = await fetch(backendBaseURL+`/api/reviews/${recipeId}`, req).then((res) => res.json());
             if (res) {
                 setReviews(res.reviews);
                 calculateRecipeRating(res.reviews);

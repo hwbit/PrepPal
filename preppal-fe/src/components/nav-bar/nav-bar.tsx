@@ -15,8 +15,9 @@ const NavBar = () => {
 
   const fillUserContent = async () => {
     const token = sessionStorage.getItem("token");
+    console.log(token);
     try {
-      if (token !== "undefined") {
+      if (token && token !== "undefined") {
         setLoggedIn(true);
       }
     } catch (err) {

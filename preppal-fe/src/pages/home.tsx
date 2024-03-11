@@ -17,7 +17,6 @@ const ExplorePage: React.FC = () => {
             'Content-Type': 'application/json'
           }
         };
-        console.log(backendBaseURL);
         const fetchedRecipes = await fetch(backendBaseURL+"/api/recipes/", req).then((res) => res.json());
         setRecipes(fetchedRecipes);
       } catch (err) {
