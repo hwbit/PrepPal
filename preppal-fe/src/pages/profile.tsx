@@ -30,7 +30,7 @@ function Profile() {
         try {
             let res;
             if (myProfile) {
-                if (token) {
+                if (token && token !== "undefined") {
                     const req = {
                         method: "GET",
                         headers: {

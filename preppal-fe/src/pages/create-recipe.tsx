@@ -43,7 +43,7 @@ const CreateRecipe = () => {
     const getUser = async () => {
         const token = sessionStorage.getItem("token");
         try {
-            if (token) {
+            if (token && token !== "undefined") {
                 const req = {
                     method: "GET",
                     headers: {
@@ -69,7 +69,7 @@ const CreateRecipe = () => {
             e.preventDefault();
             const token = sessionStorage.getItem("token");
             try {
-                if (token) {
+                if (token && token !== "undefined") {
                     const req = {
                         method: "POST",
 
