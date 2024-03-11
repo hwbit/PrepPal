@@ -9,13 +9,21 @@ interface FilterMenuProps {
   titleQuery?: string | undefined;
 }
 
+interface FilterValues {
+  title: string;
+  author: string;
+  description: string;
+  ingredients: string;
+  cookingTime: number;
+}
+
 const FilterMenu: React.FC<FilterMenuProps> = ({ showFilterMenu, handleClose, handleApply, titleQuery }) => {
-  const [filterData, setFilterValues] = React.useState({
+  const [filterData, setFilterValues] = React.useState<FilterValues>({
     title: titleQuery ? titleQuery : "",
     author: "",
     description: "",
     ingredients: "",
-    cookingTime: "",
+    cookingTime: 0,
   });
 
   const handleInputChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,7 +92,7 @@ const FilterMenu: React.FC<FilterMenuProps> = ({ showFilterMenu, handleClose, ha
             <Form.Control
               type="number"
               placeholder="Filter by (maximum) cooking time (minutes)"
-              value={filterData.cookingTime}
+              value={filterData.cookingTime > 0 ? filterData.cookingTime : ""}
               onChange={handleInputChange}
             />
           </Form.Group>
