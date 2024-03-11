@@ -33,7 +33,7 @@ jobs:
       - name: Build and push client image
         uses: docker/build-push-action@v5
         with:
-          context: preppal-br
+          context: preppal-be
           push: true
           tags: ${{ secrets.DOCKERHUB_USER }}/preppal-be:latestt
           build-args: BACKEND_BASE_URL=http://localhost:9001
