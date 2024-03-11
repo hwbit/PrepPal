@@ -1,12 +1,12 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 
-const FollowButton = (username: any) => {
+const FollowButton = (user: any) => {
     const [isFollowing, setFollowing] = React.useState<boolean>();
 
     React.useEffect(() => {
-        followStatus(username).then(result => setFollowing(result));
-    }, [username]);
+        followStatus(user.username).then(result => setFollowing(result));
+    }, [user.username]);
 
     async function followStatus(username: string) {
         const token = sessionStorage.getItem("token");
@@ -67,13 +67,13 @@ const FollowButton = (username: any) => {
 
     function handleClick(): void {
         setFollowing(!isFollowing);
-        followUser(username, !isFollowing);
+        followUser(user.username, !isFollowing);
     }
 
     return (
         isFollowing
             ? (<Button
-                onClick={(e) => handleClick}>
+                onClick={handleClick}>
                 Unfollow
             </Button>)
             : (<Button
