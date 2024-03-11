@@ -28,27 +28,33 @@ routerUserApi.get("/", async (req, res) => {
  * GET - Get an account with corresponding username
  */
 routerUserApi.get("/lookup/:username", async (req, res) => {
-    const username = req.params.username;
-    const user = await User.findOne({ username }).select("-password");
+    try {
+        const username = req.params.username;
+        const user = await User.findOne({ username }).select("-password");
 
-    if (!user) {
-        return res.status(400).json({ errors: [{ msg: "Invalid id for user." }] });
-    }
-    const recipeIds = user.ownRecipes ?? [];
-    const publicRecipes = [];
-    for (const recipeId of recipeIds) {
-        const recipe = await Recipe.findOne({ _id: recipeId });
-        if (recipe && recipe.isPublic) {
-            publicRecipes.push(recipe);
+        if (!user) {
+            return res.status(400).json({ errors: [{ msg: "Invalid id for user." }] });
         }
-    }
+        const recipeIds = user.ownRecipes ?? [];
+        const publicRecipes = [];
+        for (const recipeId of recipeIds) {
+            const recipe = await Recipe.findOne({ _id: recipeId });
+            if (recipe && recipe.isPublic) {
+                publicRecipes.push(recipe);
+            }
+        }
 
-    res.status(200).json({
-        username: user.username,
-        bio: user.bio,
-        following: user.following,
-        recipes: publicRecipes,
-    });
+        res.status(200).json({
+            username: user.username,
+            bio: user.bio,
+            following: user.following,
+            recipes: publicRecipes,
+        });
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).send("Server error.");
+    }
 });
 
 

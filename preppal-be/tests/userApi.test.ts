@@ -67,7 +67,7 @@ describe("userApi test", function () {
         expect(res.statusCode).toEqual(201);
 
         // clean up
-        await UserModel.findOneAndDelete({ username: tempUserName });
+        await UserModel.deleteOne({ username: tempUserName });
     });
 
     it("incorrect createUser test - empty string for username", async () => {
