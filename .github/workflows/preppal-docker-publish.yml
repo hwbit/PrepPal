@@ -35,5 +35,5 @@ jobs:
         with:
           context: preppal-be
           push: true
-          tags: ${{ secrets.DOCKERHUB_USER }}/preppal-be:latestt
+          tags: ${{ secrets.DOCKERHUB_USER }}/preppal-be:latest
           build-args: BACKEND_BASE_URL=http://localhost:9001
