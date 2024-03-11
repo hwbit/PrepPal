@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-magic-numbers */
 const expressRecipeApi = require("express");
 const configRecipeApi = require("../configs/secrets.ts");
@@ -68,6 +69,37 @@ routerRecipeApi.post("/searchName/", async (req, res) => {
             .collation({ locale: "en", strength: 2 });
         const publicRecipes = recipes.filter((recipe) => recipe.isPublic);
         res.status(200).json(publicRecipes);
+    }
+    catch (error) {
+        console.error(error.message);
+        res.status(500).send("Could not look up name.");
+    }
+});
+
+/**
+ * POST - Get all recipes with all the received filter values
+ * Useful for ADVANCED SEARCH
+ */
+routerRecipeApi.post("/searchRecipes", async (req, res) => {
+    try {
+        const { title, author, description, ingredients, cookingTime, publicOnly } = req.body;
+
+        const query = {};
+        // @ts-expect-error any
+        if (author) query.author = author;
+        // @ts-expect-error any
+        if (title) query.title = { $regex: new RegExp(title, "i") }; // Case-insensitive title search
+        // @ts-expect-error any
+        if (description) query.description = { $regex: new RegExp(description, "i") }; // Case-insensitive description search
+        // @ts-expect-error any
+        if (ingredients) query.ingredients = { $all: ingredients };
+        // @ts-expect-error any
+        if (cookingTime) query.cookingTime = { $lte: cookingTime }; // cooking time less than or equal to the specified value
+        // @ts-expect-error any
+        if (publicOnly) query.isPublic = publicOnly; // if publicOnly, filter for public recipes, if not publicOnly, don't filter by visibility
+
+        const recipes = await Recipe.find(query);
+        res.status(200).json(recipes);
     }
     catch (error) {
         console.error(error.message);

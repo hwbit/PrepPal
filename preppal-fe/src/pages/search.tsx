@@ -6,17 +6,27 @@ import RecipeCatalog from '../components/recipe-catalog/recipe-catalog';
 import { Button } from 'react-bootstrap';
 import { FaFilter } from 'react-icons/fa';
 import FilterMenu from '../components/filter-menu/filter-menu';
+import { FilterValues} from '../components/filter-menu/filter-menu';
+
+interface RecipeQuery {
+  title?: string;
+  author?: string;
+  description?: string;
+  ingredients?: string;
+  cookingTime?: number;
+  publicOnly?: boolean;
+}
 
 const Search = () => {
   const [recipes, setRecipes] = React.useState<any[]>([]);
   const [showFilterMenu, setShowFilterMenu] = React.useState(false);
 
-  // Extract the 'query' parameter from the URL
-  const { query } = useParams();
+  // Extract the 'titleQuery' parameter from the URL
+  const { titleQuery } = useParams();
 
   React.useEffect(() => {
     const fillRecipes = async () => {
-      if (query) {
+      if (titleQuery) {
         try {
           const req = {
             method: "POST",
@@ -24,10 +34,10 @@ const Search = () => {
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              title: query
+              title: titleQuery
             })
           };
-          let fetchedRecipes = await fetch("http://localhost:9001/api/recipes/searchName/", req).then((res) => res.json());
+          const fetchedRecipes = await fetch("http://localhost:9001/api/recipes/searchName/", req).then((res) => res.json());
           setRecipes(fetchedRecipes);
         } catch (err) {
           console.error(err);
@@ -36,13 +46,35 @@ const Search = () => {
     };
 
     fillRecipes();
-  }, [query]);
+  }, [titleQuery]);
 
   const toggleFilterMenu = () => {
     setShowFilterMenu(!showFilterMenu);
   };
 
-  const applyFilters = (data: Object) => {
+  const applyFilters = async (data: FilterValues) => {
+    console.log('Filter Data:', data);
+
+    const reqBody: RecipeQuery = { publicOnly: true };
+    if (data.title) reqBody.title = data.title;
+    if (data.author) reqBody.author = data.author;
+    if (data.description) reqBody.description = data.description;
+    if (data.ingredients) reqBody.ingredients = data.ingredients;
+    if (data.cookingTime) reqBody.cookingTime = data.cookingTime;
+
+    try {
+      const req = {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(reqBody)
+      };
+      const fetchedRecipes = await fetch("http://localhost:9001/api/recipes/searchRecipes", req).then((res) => res.json());
+      setRecipes(fetchedRecipes);
+    } catch (err) {
+      console.error(err);
+    }
 
     toggleFilterMenu();
   };
@@ -56,8 +88,8 @@ const Search = () => {
             Filter <FaFilter />
           </Button>
         </div>
-        <FilterMenu showFilterMenu={showFilterMenu} handleClose={toggleFilterMenu} handleApply={applyFilters} titleQuery={query} />
-        <p className="search-query">Search query: <i>{query}</i></p>
+        <FilterMenu showFilterMenu={showFilterMenu} handleClose={toggleFilterMenu} handleApply={applyFilters} titleQuery={titleQuery} />
+        <p className="search-query">Search query: <i>{titleQuery}</i></p>
         <RecipeCatalog catalog={recipes}></RecipeCatalog>
       </div>
     </>

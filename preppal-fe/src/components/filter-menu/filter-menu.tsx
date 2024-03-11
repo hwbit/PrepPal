@@ -5,11 +5,11 @@ import './filter-menu.css';
 interface FilterMenuProps {
   showFilterMenu: boolean;
   handleClose: () => void;
-  handleApply: (data: Object) => void;
+  handleApply: (data: FilterValues) => void;
   titleQuery?: string | undefined;
 }
 
-interface FilterValues {
+export interface FilterValues {
   title: string;
   author: string;
   description: string;
