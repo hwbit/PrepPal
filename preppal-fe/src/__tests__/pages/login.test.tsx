@@ -1,3 +1,5 @@
+/* eslint-disable testing-library/no-unnecessary-act */
+/* eslint-disable testing-library/prefer-presence-queries */
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import LoginPage from "../../pages/login";
 import { BrowserRouter } from 'react-router-dom';
@@ -14,7 +16,10 @@ describe('Login Component tests', () => {
             render(<BrowserRouter><LoginPage /></BrowserRouter>);
 
             const loginBtn = screen.queryByTitle("login-button");
+            const signupLink = screen.queryByTitle("signup-button");
+
             expect(loginBtn).toBeTruthy();
+            expect(signupLink).toBeTruthy();
         });
 
         test('Render standard component --> input fields', () => {

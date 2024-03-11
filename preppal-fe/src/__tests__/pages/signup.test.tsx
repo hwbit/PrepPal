@@ -1,17 +1,17 @@
 import { render, screen } from "@testing-library/react";
-import LoginPage from "../../pages/signup";
 import { BrowserRouter } from 'react-router-dom';
+import Signup from "../../pages/signup";
 
 describe('Signup Component tests', () => {
     test('Render standard component --> Buttons', () => {
-        render(<BrowserRouter><LoginPage /></BrowserRouter>);
+        render(<BrowserRouter><Signup /></BrowserRouter>);
 
-        const loginbtn = screen.queryByTitle("SignUp");
-        expect(loginbtn).toBeTruthy();
+        const signupBtn = screen.queryByTitle("SignUp");
+        expect(signupBtn).toBeTruthy();
     });
 
     test('Render standard component --> input fields', () => {
-        render(<BrowserRouter><LoginPage /></BrowserRouter>);
+        render(<BrowserRouter><Signup /></BrowserRouter>);
 
         const username = screen.queryByTitle("inputUsername");
         expect(username).toBeTruthy();
