@@ -2,7 +2,7 @@ name: Release to Docker Hub
 
 on:
   push:
-    branches: [ "dev", "hwbit/docker-deploy"]
+    branches: [ "dev", "main" ]
 
 jobs:
   build:
