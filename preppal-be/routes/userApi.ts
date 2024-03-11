@@ -263,14 +263,14 @@ routerUserApi.post("/followUser", auth, async (req, res) => {
             return res.status(400).json({ errors: [{ msg: "Invalid token." }] });
         }
 
-        let followers = user.followers;
-        if (followers.includes(username)) {
-            return res.status(200).json({ followers });
+        let following = user.following;
+        if (following.includes(username)) {
+            return res.status(200).json({ following });
         }
 
-        const result = await User.findOneAndUpdate({ _id: req.user.id }, { $push: { followers: username } }, { new: true });
-        followers = result?.followers;
-        res.status(200).json({ followers });
+        const result = await User.findOneAndUpdate({ _id: req.user.id }, { $push: { following: username } }, { new: true });
+        following = result?.following;
+        res.status(200).json({ following });
     }
     catch (error) {
         console.error(error);
@@ -291,14 +291,14 @@ routerUserApi.post("/unfollowUser", auth, async (req, res) => {
             return res.status(400).json({ errors: [{ msg: "Invalid token." }] });
         }
 
-        let followers = user.followers;
-        if (!followers.includes(username)) {
-            return res.status(200).json({ followers });
+        let following = user.following;
+        if (!following.includes(username)) {
+            return res.status(200).json({ following });
         }
 
-        const result = await User.findOneAndUpdate({ _id: req.user.id }, { $pull: { followers: username } }, { new: true });
-        followers = result?.followers ?? [];
-        res.status(200).json({ followers });
+        const result = await User.findOneAndUpdate({ _id: req.user.id }, { $pull: { following: username } }, { new: true });
+        following = result?.following ?? [];
+        res.status(200).json({ following });
     }
     catch (error) {
         console.error(error);
@@ -309,7 +309,7 @@ routerUserApi.post("/unfollowUser", auth, async (req, res) => {
 /**
  * GET - Check if a user is followed by the logged in user or not
  */
-routerUserApi.post("/userFollowingStatus", auth, async (req, res) => {
+routerUserApi.post("/followingStatus", auth, async (req, res) => {
     try {
         const { username } = req.body;
 
@@ -318,7 +318,7 @@ routerUserApi.post("/userFollowingStatus", auth, async (req, res) => {
         if (!user) {
             return res.status(400).json({ errors: [{ msg: "Invalid token." }] });
         }
-        const result = await User.find({ _id: req.user.id, followers: username });
+        const result = await User.find({ _id: req.user.id, following: username });
 
         if (result.length > 0) {
             res.status(200).json({ status: true });
