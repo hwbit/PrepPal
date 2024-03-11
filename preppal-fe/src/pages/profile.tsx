@@ -7,7 +7,7 @@ import RecipeCatalog from '../components/recipe-catalog/recipe-catalog';
 
 const logo = require('../assets/logo.png')
 
-const backendBaseURL = process.env.BACKEND_BASE_URL;
+const backendBaseURL = process.env.REACT_APP_BACKEND_BASE_URL;
 
 function Profile() {
     const [username, setUsername] = React.useState("");

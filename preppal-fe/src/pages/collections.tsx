@@ -3,7 +3,7 @@ import React from 'react';
 import NavBar from '../components/nav-bar/nav-bar';
 import RecipeCatalog from '../components/recipe-catalog/recipe-catalog';
 
-const backendBaseURL = process.env.BACKEND_BASE_URL;
+const backendBaseURL = process.env.REACT_APP_BACKEND_BASE_URL;
 
 const Collections = () => {
     const [ownRecipes, setOwnRecipes] = React.useState<any[]>([]);

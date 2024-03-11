@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import NavBar from '../components/nav-bar/nav-bar';
 const logo = require('../assets/logo.png')
 
-const backendBaseURL = process.env.BACKEND_BASE_URL;
+const backendBaseURL = process.env.REACT_APP_BACKEND_BASE_URL;
 
 const LoginPage = () => {
 

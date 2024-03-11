@@ -4,7 +4,7 @@ import '../styles/global.css';
 import NavBar from '../components/nav-bar/nav-bar';
 import RecipeCatalog from '../components/recipe-catalog/recipe-catalog';
 
-const backendBaseURL = process.env.BACKEND_BASE_URL;
+const backendBaseURL = process.env.REACT_APP_BACKEND_BASE_URL;
 
 const ExplorePage: React.FC = () => {
   const [recipes, setRecipes] = React.useState<any[]>([]);
@@ -17,6 +17,7 @@ const ExplorePage: React.FC = () => {
             'Content-Type': 'application/json'
           }
         };
+        console.log(backendBaseURL);
         const fetchedRecipes = await fetch(backendBaseURL+"/api/recipes/", req).then((res) => res.json());
         setRecipes(fetchedRecipes);
       } catch (err) {

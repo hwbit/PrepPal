@@ -7,7 +7,7 @@ import Review from '../components/review/review';
 import '../styles/recipe.css';
 import FavouriteButton from '../components/fav-button/fav-button';
 
-const backendBaseURL = process.env.BACKEND_BASE_URL;
+const backendBaseURL = process.env.REACT_APP_BACKEND_BASE_URL;
 
 const Recipe = () => {
     const { recipeId } = useParams();
