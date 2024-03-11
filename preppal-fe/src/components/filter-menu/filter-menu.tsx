@@ -35,8 +35,6 @@ const FilterMenu: React.FC<FilterMenuProps> = ({ showFilterMenu, handleClose, ha
     };
 
   const handleSubmit = () => {
-    console.log('Filter Values:', filterData);
-    // TODO create buttons showing active filters to remove them
     handleApply(filterData);
   };
 
