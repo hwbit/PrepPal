@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  server:
+    container_name: preppal-be
+    build: ./preppal-be
+    image: hwbit3/preppal-be:local
+    ports:
+      - "9001:9001"
+
+  client:
+    container_name: preppal-fe
+    build: ./preppal-fe
+    image: hwbit3/preppal-fe:local
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
