@@ -12,7 +12,7 @@ interface RecipeQuery {
   title?: string;
   author?: string;
   description?: string;
-  ingredients?: string;
+  ingredients?: string[];
   cookingTime?: number;
   publicOnly?: boolean;
 }
@@ -59,7 +59,10 @@ const Search = () => {
     if (data.title) reqBody.title = data.title;
     if (data.author) reqBody.author = data.author;
     if (data.description) reqBody.description = data.description;
-    if (data.ingredients) reqBody.ingredients = data.ingredients;
+    if (data.ingredients) {
+      const ingredientArr = data.ingredients.split(/\s?,\s?/);
+      reqBody.ingredients = ingredientArr;
+    }
     if (data.cookingTime) reqBody.cookingTime = data.cookingTime;
 
     try {
