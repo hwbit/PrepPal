@@ -20,7 +20,7 @@ const Collections = () => {
         const token = sessionStorage.getItem("token");
         let fetchedRecipes: any[] = [];
         try {
-            if (token) {
+            if (token && token !== "undefined") {
                 const req = {
                     method: "GET",
                     headers: {
@@ -41,7 +41,7 @@ const Collections = () => {
         const token = sessionStorage.getItem("token");
         let fetchedRecipes: any[] = [];
         try {
-            if (token) {
+            if (token && token !== "undefined") {
                 const req = {
                     method: "GET",
                     headers: {

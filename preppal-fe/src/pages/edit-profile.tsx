@@ -30,7 +30,7 @@ function EditProfile() {
     const fillUserContent = async () => {
         const token = sessionStorage.getItem("token");
         try {
-            if (token) {
+            if (token && token !== "undefined") {
                 const req = {
                     method: "GET",
                     headers: {
@@ -58,7 +58,7 @@ function EditProfile() {
         const token = sessionStorage.getItem("token");
         try {
             //Using inputted userPassword, confirm user ID
-            if (token) {
+            if (token && token !== "undefined") {
                 const req = {
                     method: "POST",
 
