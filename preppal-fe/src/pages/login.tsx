@@ -34,13 +34,11 @@ const LoginPage = () => {
             console.error(err);
         }
         const token = sessionStorage.getItem("token");
-        if (token) {
-            if (token === "undefined") {
-                alert("Wrong username or password");
-            }
-            else {
-                navigate("/");
-            }
+        if (!token) {
+            alert("Wrong username or password");
+        }
+        else {
+            navigate("/");
         }
     }
 
@@ -54,16 +52,16 @@ const LoginPage = () => {
                         </div>
                         <h2 className="text-center mb-4">Sign in</h2>
                         <Form onSubmit={loginClick}>
-                            <Form.Group title="inputUsername" controlId="formUser" style={{ paddingBottom: '16px' }}>
+                            <Form.Group title="username" controlId="formUser" style={{ paddingBottom: '16px' }}>
                                 <Form.Control type="text" placeholder="Username" onChange={(event) => setUsername(event.target.value)} />
                             </Form.Group>
 
-                            <Form.Group title="inputPassword" controlId="formBasicPassword" style={{ paddingBottom: '8px' }}>
+                            <Form.Group title="password" controlId="formBasicPassword" style={{ paddingBottom: '8px' }}>
                                 <Form.Control type="password" placeholder="Password" onChange={(event) => setPassword(event.target.value)} />
                             </Form.Group>
 
                             <div className="d-grid gap-2">
-                                <Button className="mx-auto" variant="primary" type="submit" title="Login" size="lg">
+                                <Button className="mx-auto" variant="primary" type="submit" title="login-button" size="lg">
                                     Login
                                 </Button>
                             </div>
