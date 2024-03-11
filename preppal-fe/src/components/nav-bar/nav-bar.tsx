@@ -51,6 +51,7 @@ const NavBar = () => {
       </Form>
       <Nav className="links">
         {loggedIn ? <Nav.Link as={Link} to="/collections" className="nav-item">Collections</Nav.Link> : <br></br>}
+        {loggedIn ? <Nav.Link as={Link} to="/calendar" className="nav-item">Calendar</Nav.Link> : <br></br>}
         {loggedIn ? <Nav.Link as={Link} to="/new-recipe" className="nav-item">New Recipe</Nav.Link> : <br></br>}
         {loggedIn
           ? (<Nav.Link as={Link} to="/profile" className="nav-item">Profile</Nav.Link>)
