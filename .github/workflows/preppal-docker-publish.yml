@@ -26,9 +26,6 @@ jobs:
           context: preppal-fe
           push: true
           tags: ${{ secrets.DOCKERHUB_USER }}/preppal-fe:latest
-          build-args: |
-            MONGO_URI=${{ secrets.MONGO_URI }}
-            ORIGIN=http://localhost:3000
 
       - name: Build and push client image
         uses: docker/build-push-action@v5
@@ -36,4 +33,3 @@ jobs:
           context: preppal-be
           push: true
           tags: ${{ secrets.DOCKERHUB_USER }}/preppal-be:latest
-          build-args: BACKEND_BASE_URL=http://localhost:9001
