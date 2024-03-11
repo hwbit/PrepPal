@@ -10,7 +10,7 @@ const FavouriteButton = (recipe: any) => {
     async function saveStatus(id: string) {
         const token = sessionStorage.getItem("token");
         let saved = false;
-        if (token) {
+        if (token && token !== "undefined") {
             const req = {
                 method: "POST",
 
@@ -30,7 +30,7 @@ const FavouriteButton = (recipe: any) => {
     async function updateSavedRecipes(saveRecipeId: string, save: boolean) {
         const token = sessionStorage.getItem("token");
         try {
-            if (token) {
+            if (token && token !== "undefined") {
                 if (save) {
                     const req = {
                         method: "POST",
