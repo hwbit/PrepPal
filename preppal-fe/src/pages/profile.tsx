@@ -11,7 +11,7 @@ function Profile() {
     const [username, setUsername] = React.useState("");
     const [userBio, setBio] = React.useState("");
     const [userFollowing, setFollowing] = React.useState<any[]>([]);
-    const [userFollowingCount, setFollowingCount] = React.useState(0);
+    const [userFollowingCount, setFollowingCount] = React.useState<number>(0);
     const [recipes, setRecipes] = React.useState<any[]>([]);
 
     const matches = window.location.href.match(/\/profile\/(.+)/);
@@ -36,12 +36,10 @@ function Profile() {
                         }
                     };
                     res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
-                    if (res) {
-                        setUsername(res.username);
-                        setBio(res.bio);
-                        setFollowing(res.following);
-                        setFollowingCount(userFollowing.length)
-                    }
+                    setUsername(res.username);
+                    setBio(res.bio);
+                    setFollowing(res.following);
+                    setFollowingCount(res.following.length);
                 }
             }
             else {

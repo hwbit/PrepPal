@@ -43,7 +43,6 @@ describe('Home component tests', () => {
             const recipeCard = screen.queryByText(testRecipe.title)
             expect(recipeCard).toBeTruthy();
 
-
             const recipeTitle = screen.getByText(testRecipe.title);
             const recipeAuthor = screen.getByText(testRecipe.author);
             const recipeDesc = screen.getByText(testRecipe.description);
