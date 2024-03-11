@@ -1,7 +1,7 @@
 /* eslint-disable testing-library/no-unnecessary-act */
 /* eslint-disable testing-library/prefer-presence-queries */
 import { act, fireEvent, render, screen } from "@testing-library/react";
-import LoginPage from "../../pages/login";
+import Login from "../../pages/login";
 import { BrowserRouter } from 'react-router-dom';
 import { mockFetch } from "../mock-fetch";
 import NavBar from "../../components/nav-bar/nav-bar";
@@ -13,17 +13,17 @@ describe('Login Component tests', () => {
 
     describe('Unit tests', () => {
         test('Render standard component --> Buttons', () => {
-            render(<BrowserRouter><LoginPage /></BrowserRouter>);
+            render(<BrowserRouter><Login /></BrowserRouter>);
 
             const loginBtn = screen.queryByTitle("login-button");
-            const signupLink = screen.queryByTitle("signup-button");
+            const signupLink = screen.queryByTitle("signup-link");
 
             expect(loginBtn).toBeTruthy();
             expect(signupLink).toBeTruthy();
         });
 
         test('Render standard component --> input fields', () => {
-            render(<BrowserRouter><LoginPage /></BrowserRouter>);
+            render(<BrowserRouter><Login /></BrowserRouter>);
 
             const username = screen.queryByTitle("username");
             expect(username).toBeTruthy();
@@ -36,7 +36,7 @@ describe('Login Component tests', () => {
         const testAccount = "testApiSandboxAccount";
         const testPassword = "lp12asr35Sa45";
         test('Successful login in updates the navigation bar display', async () => {
-            render(<BrowserRouter><LoginPage /></BrowserRouter>);
+            render(<BrowserRouter><Login /></BrowserRouter>);
             window.fetch = mockFetch({ "token": "random-token" });
             expect(screen.queryByTitle('profile-link')).toBeFalsy();
             expect(screen.queryByTitle('collections-link')).toBeFalsy();
@@ -59,7 +59,7 @@ describe('Login Component tests', () => {
         });
 
         test('Failed login in does not update the navigation bar display', async () => {
-            render(<BrowserRouter><LoginPage /></BrowserRouter>);
+            render(<BrowserRouter><Login /></BrowserRouter>);
             window.fetch = mockFetch({ "token": "undefined" });
 
             const username = screen.getByPlaceholderText('Username');

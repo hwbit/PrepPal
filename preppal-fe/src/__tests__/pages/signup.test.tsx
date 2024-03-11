@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { BrowserRouter } from 'react-router-dom';
 import Signup from "../../pages/signup";
 
-describe('Signup Component tests', () => {
+describe('Signup component tests', () => {
     test('Render standard component --> Buttons', () => {
         render(<BrowserRouter><Signup /></BrowserRouter>);
 

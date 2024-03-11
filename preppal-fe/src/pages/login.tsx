@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import NavBar from '../components/nav-bar/nav-bar';
 const logo = require('../assets/logo.png')
 
-const LoginPage = () => {
+const Login = () => {
 
     // For Forms
     const [username, setUsername] = useState('');
@@ -76,4 +76,4 @@ const LoginPage = () => {
     );
 };
 
-export default LoginPage;
+export default Login;
