@@ -34,11 +34,12 @@ const LoginPage = () => {
             console.error(err);
         }
         const token = sessionStorage.getItem("token");
-        if (!token) {
-            alert("Wrong username or password");
-        }
-        else {
-            navigate("/");
+        if (token) {
+            if (token === "undefined") {
+                alert("Wrong username or password");
+            } else {
+                navigate("/");
+            }
         }
     }
 

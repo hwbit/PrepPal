@@ -3,9 +3,12 @@ import LoginPage from "../../pages/login";
 import { BrowserRouter } from 'react-router-dom';
 import { mockFetch } from "../mock-fetch";
 import NavBar from "../../components/nav-bar/nav-bar";
-import Home from "../../pages/home";
 
 describe('Login Component tests', () => {
+    afterEach(() => {
+        sessionStorage.removeItem('token');
+    });
+
     describe('Unit tests', () => {
         test('Render standard component --> Buttons', () => {
             render(<BrowserRouter><LoginPage /></BrowserRouter>);
@@ -29,7 +32,7 @@ describe('Login Component tests', () => {
         const testPassword = "lp12asr35Sa45";
         test('Successful login in updates the navigation bar display', async () => {
             render(<BrowserRouter><LoginPage /></BrowserRouter>);
-            window.fetch = mockFetch({ "token": "random-token", "recipes": [] });
+            window.fetch = mockFetch({ "token": "random-token" });
             expect(screen.queryByTitle('profile-link')).toBeFalsy();
             expect(screen.queryByTitle('collections-link')).toBeFalsy();
 
@@ -52,6 +55,7 @@ describe('Login Component tests', () => {
 
         test('Failed login in does not update the navigation bar display', async () => {
             render(<BrowserRouter><LoginPage /></BrowserRouter>);
+            window.fetch = mockFetch({ "token": "undefined" });
 
             const username = screen.getByPlaceholderText('Username');
             const password = screen.getByPlaceholderText('Password');
