@@ -3,13 +3,34 @@ import { Button, Form, Modal } from 'react-bootstrap';
 import './filter-menu.css';
 
 interface FilterMenuProps {
-    showFilterMenu: boolean;
-    handleClose: () => void;
-    titleQuery: string | undefined;
+  showFilterMenu: boolean;
+  handleClose: () => void;
+  handleApply: (data: Object) => void;
+  titleQuery?: string | undefined;
 }
 
-const FilterMenu: React.FC<FilterMenuProps> = ({ showFilterMenu, handleClose, titleQuery }) => {
-  // TODO filter options and logic
+const FilterMenu: React.FC<FilterMenuProps> = ({ showFilterMenu, handleClose, handleApply, titleQuery }) => {
+  const [filterData, setFilterValues] = React.useState({
+    title: titleQuery ? titleQuery : "",
+    author: "",
+    description: "",
+    ingredients: "",
+    cookingTime: "",
+  });
+
+  const handleInputChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = ev.target;
+    setFilterValues((prevValues) => ({
+        ...prevValues,
+        [id]: value,
+      }));
+    };
+
+  const handleSubmit = () => {
+    console.log('Filter Values:', filterData);
+    // TODO create buttons showing active filters to remove them
+    handleApply(filterData);
+  };
 
   return (
     <Modal show={showFilterMenu} onHide={handleClose}>
@@ -17,35 +38,60 @@ const FilterMenu: React.FC<FilterMenuProps> = ({ showFilterMenu, handleClose, ti
         <Modal.Title>Filter Menu</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form>
-          <Form.Group controlId="filterTitle">
+        <Form onSubmit={handleSubmit}>
+          <Form.Group controlId="title">
             <Form.Label className="filter-label">Title</Form.Label>
-            <Form.Control type="text" placeholder="Filter by title" value={titleQuery ? titleQuery : ""} />
+            <Form.Control
+              type="text"
+              placeholder="Filter by title"
+              value={filterData.title}
+              onChange={handleInputChange}
+            />
           </Form.Group>
 
-          <Form.Group controlId="filterAuthor">
+          <Form.Group controlId="author">
             <Form.Label className="filter-label">Author</Form.Label>
-            <Form.Control type="text" placeholder="Filter by author username" />
+            <Form.Control
+              type="text"
+              placeholder="Filter by author username"
+              value={filterData.author}
+              onChange={handleInputChange}
+            />
           </Form.Group>
 
-          <Form.Group controlId="filterDescription">
+          <Form.Group controlId="description">
             <Form.Label className="filter-label">Description</Form.Label>
-            <Form.Control type="text" placeholder="Filter by description" />
+            <Form.Control
+              type="text"
+              placeholder="Filter by description"
+              value={filterData.description}
+              onChange={handleInputChange}
+            />
           </Form.Group>
 
-          <Form.Group controlId="filterIngredients">
+          <Form.Group controlId="ingredients">
             <Form.Label className="filter-label">Ingredients</Form.Label>
-            <Form.Control type="text" placeholder="Filter by ingredients (comma separated)" />
+            <Form.Control
+              type="text"
+              placeholder="Filter by ingredients (comma separated)"
+              value={filterData.ingredients}
+              onChange={handleInputChange}
+            />
           </Form.Group>
 
-          <Form.Group controlId="filterCookingTime">
+          <Form.Group controlId="cookingTime">
             <Form.Label className="filter-label">Cooking Time</Form.Label>
-            <Form.Control type="number" placeholder="Filter by (maximum) cooking time (minutes)" />
+            <Form.Control
+              type="number"
+              placeholder="Filter by (maximum) cooking time (minutes)"
+              value={filterData.cookingTime}
+              onChange={handleInputChange}
+            />
           </Form.Group>
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button className="submit-filters" variant="primary" onClick={handleClose}>
+        <Button className="submit-filters" variant="primary" onClick={handleSubmit}>
           Apply Filters
         </Button>
         <Button  className="close-filters" variant="secondary" onClick={handleClose}>

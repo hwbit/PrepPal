@@ -14,10 +14,6 @@ const Search = () => {
   // Extract the 'query' parameter from the URL
   const { query } = useParams();
 
-  const toggleFilterMenu = () => {
-    setShowFilterMenu(!showFilterMenu);
-  };
-
   React.useEffect(() => {
     const fillRecipes = async () => {
       if (query) {
@@ -42,6 +38,15 @@ const Search = () => {
     fillRecipes();
   }, [query]);
 
+  const toggleFilterMenu = () => {
+    setShowFilterMenu(!showFilterMenu);
+  };
+
+  const applyFilters = (data: Object) => {
+
+    toggleFilterMenu();
+  };
+
   return (
     <><NavBar></NavBar>
       <div className="page">
@@ -51,7 +56,7 @@ const Search = () => {
             Filter <FaFilter />
           </Button>
         </div>
-        <FilterMenu showFilterMenu={showFilterMenu} handleClose={toggleFilterMenu} titleQuery={query} />
+        <FilterMenu showFilterMenu={showFilterMenu} handleClose={toggleFilterMenu} handleApply={applyFilters} titleQuery={query} />
         <p className="search-query">Search query: <i>{query}</i></p>
         <RecipeCatalog catalog={recipes}></RecipeCatalog>
       </div>
