@@ -1,25 +1,29 @@
 import React from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import './filter-menu.css';
 
 interface FilterMenuProps {
   showFilterMenu: boolean;
   handleClose: () => void;
-  handleApply: (data: FilterValues) => void;
-  titleQuery?: string | undefined;
 }
 
 export interface FilterValues {
-  title: string;
+  [key: string]: string | number | null;
+  title: string | null;
   author: string;
   description: string;
   ingredients: string;
   cookingTime: number;
 }
 
-const FilterMenu: React.FC<FilterMenuProps> = ({ showFilterMenu, handleClose, handleApply, titleQuery }) => {
+const FilterMenu: React.FC<FilterMenuProps> = ({ showFilterMenu, handleClose }) => {
+  const navigate = useNavigate();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const [filterData, setFilterValues] = React.useState<FilterValues>({
-    title: titleQuery ? titleQuery : "",
+    title: "", // searchParams.has("title") ? searchParams.get("title") : "",
     author: "",
     description: "",
     ingredients: "",
@@ -35,7 +39,16 @@ const FilterMenu: React.FC<FilterMenuProps> = ({ showFilterMenu, handleClose, ha
     };
 
   const handleSubmit = () => {
-    handleApply(filterData);
+    let filterQuery = "?";
+    for (const filter in filterData) {
+      if (filterData[filter]) {
+        if (filterQuery !== "?") filterQuery += "&";
+        // @ts-expect-error
+        filterQuery += `${filter}=${encodeURIComponent(filterData[filter])}`;
+      }
+    }
+    handleClose();
+    navigate(`/search${filterQuery}`);
   };
 
   return (
@@ -50,7 +63,7 @@ const FilterMenu: React.FC<FilterMenuProps> = ({ showFilterMenu, handleClose, ha
             <Form.Control
               type="text"
               placeholder="Filter by title"
-              value={filterData.title}
+              value={filterData.title ? filterData.title : ""}
               onChange={handleInputChange}
             />
           </Form.Group>

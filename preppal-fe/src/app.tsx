@@ -25,7 +25,7 @@ function App() {
           <Route path="edit-profile" element={<EditProfile />} />
           <Route path="new-recipe" element={<CreateRecipe />} />
           <Route path="collections" element={<Collections />} />
-          <Route path="search/:titleQuery?" element={<Search />} />
+          <Route path="search" element={<Search />} />
           <Route path="recipe/:recipeId" element={<Recipe />} />
           <Route path="calendar" element={<RecipeCalendar />} />
         </Routes>
