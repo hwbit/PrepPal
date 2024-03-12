@@ -27,38 +27,19 @@ routerReviewApi.get("/", async (req, res) => {
  */
 routerReviewApi.get("/:recipeId", async (req, res) => {
     try {
-        const reviews = await Review.findOne({ recipeId: req.params.recipeId });
+        let reviews = await Review.findOne({ recipeId: req.params.recipeId });
+
+        if (!reviews) {
+            const recipe = await Recipe.findOne({_id: req.params.recipeId });
+            if (!recipe) {
+                return res.status(400).json("Cannot create an entry for a review for a recipe that does not exist");
+            }
+
+            reviews = await new Review({ recipeId: req.params.recipeId });
+            await reviews.save();
+        }
+
         res.status(200).json(reviews);
-    }
-    catch (error) {
-        console.error(error.message);
-        res.status(500).send("Server error.");
-    }
-});
-
-/**
- * GET - Init the review for a recipe
- * Used to generate a new table in the database
- */
-routerReviewApi.get("/new/:recipeId", async (req, res) => {
-    try {
-        const recipeId = req.params.recipeId;
-
-        const reviews = await Review.findOne({ recipeId });
-        const recipe = await Recipe.findOne({ _id: recipeId });
-
-        if (reviews) {
-            return res.status(400).send("Cannot create an entry for a review that already exists");
-        }
-
-        if (!recipe) {
-            return res.status(400).send("Cannot create an entry for a review for a recipe that does not exist");
-        }
-
-        const review = await new Review({ recipeId });
-
-        const newReview = await review.save();
-        res.status(201).json({ newReview });
     }
     catch (error) {
         console.error(error.message);
