@@ -23,7 +23,7 @@ const FilterMenu: React.FC<FilterMenuProps> = ({ showFilterMenu, handleClose }) 
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [filterData, setFilterValues] = React.useState<FilterValues>({
-    title: searchParams.has("title") ? searchParams.get("title") : "",
+    title: "", // searchParams.has("title") ? searchParams.get("title") : "",
     author: "",
     description: "",
     ingredients: "",
