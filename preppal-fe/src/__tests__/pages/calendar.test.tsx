@@ -6,7 +6,9 @@ describe('Calendar Component tests', () => {
     test('Render standard component --> Input fields', () => {
         render(<BrowserRouter><CalendarPage /></BrowserRouter>);
 
-        const recipesButton = screen.queryByText("SubmitRecipeUpdate");
+        const calendarButton = screen.queryByTitle("SubmitCalendarUpdate");
+        expect(calendarButton).toBeTruthy();
+        const recipesButton = screen.queryByTitle("SubmitRecipeUpdate");
         expect(recipesButton).toBeTruthy();
     });
 })
