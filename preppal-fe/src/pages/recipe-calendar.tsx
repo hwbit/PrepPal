@@ -2,7 +2,7 @@ import Calendar from 'react-calendar';
 import NavBar from '../components/nav-bar/nav-bar';
 import { Button, Card, Col, Row, Stack } from 'react-bootstrap';
 import React from 'react';
-import RecipeCatalog from '../components/recipe-catalog/recipe-catalog';
+import RecipeCard from '../components/recipe-card/recipe-card';
 
 type ValuePiece = Date | null;
 
@@ -36,7 +36,7 @@ function RecipeCalendar() {
         };
         const res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
         setName(res.username);
-        
+
         //Get Calendar for user
         const reqCal = {
           method: "POST",
@@ -51,7 +51,7 @@ function RecipeCalendar() {
         const resCal = await fetch("http://localhost:9001/api/calendar/getCalendar", reqCal).then(res => res.json());
         setCalendarObject(resCal);///Confirm response object is what you intend...
         if (resCal && resCal.calendarDate && resCal.calendarDate.length > 0) {
-          const index = resCal.calendarDate.findIndex((calDate: any) => calDate.dateIs === currDate?.toString());
+          const index = resCal.calendarDate.findIndex((calDate: any) => calDate.dateIs === currDate?.toLocaleString().split(",")[0]);
           if (index > -1) {
             setRecipeID(resCal.calendarDate[index].recipeOfTheDayID);
             setRecipeTitle(resCal.calendarDate[index].recipeOfTheDayTitle);
@@ -121,29 +121,46 @@ function RecipeCalendar() {
   }
 
   //Need to rework recipe cards to be able to get ID, Title, and ingredients
-  async function updateRecipeAndShoppingList() {
-    //onSelect of a recipe, get the ID, Title, and ingredients
-    setRecipeID("");
-    setRecipeTitle("");
-    setShoppingList("");
+  const updateRecipeAndShoppingList = (event: any) => {
+    if (event && event?.target && ownRecipes) {
+
+      const thisID = (event.target as HTMLInputElement).value
+      //onSelect of a recipe, get the ID, Title, and ingredients
+      const index = ownRecipes.findIndex((recipe: any) => recipe._id === thisID);
+      if (index > -1) {
+        setRecipeID(ownRecipes[index]._id);
+        setRecipeTitle(ownRecipes[index].title);
+        const shoppingList = ownRecipes[index].ingredients.join(", ");
+        setShoppingList(shoppingList);
+      }
+      else {
+        setRecipeID("");
+        setRecipeTitle("");
+        setShoppingList("");
+      }
+    }
   }
 
   async function submitDay() {
     try {
-      const currDateString = currDate?.toString();
+      const currDateString = currDate?.toLocaleString().split(",")[0];
       if (currDateString !== undefined) {
         const req = {
           method: "POST",
           headers: {
-            "userName": username,
+            'Content-Type': 'application/json'
+          },
+
+          body: JSON.stringify({
+            "username": username,
             "dateIs": currDateString,
             "recipeOfTheDayID": recipeID,
             "recipeOfTheDayTitle": recipeTitle,
             "recipeOfTheDayIngredients": shoppingList
-          }
+          })
         };
-        const res = await fetch("http://localhost:9001/api/calendar/updateCalendar/", req).then(res => res.json());
-        setCalendarObject(res);///Confirm response object is what you intend...
+        const res = await fetch("http://localhost:9001/api/calendar/updateCalendar/", req)//.then(res => res.json());
+        setCalendarObject(res);
         //may be newCalendar or calendar. debug to confirm...
       }
     } catch (err) {
@@ -166,8 +183,8 @@ function RecipeCalendar() {
               <Col className='d-flex p-4 justify-content-center align-items-center'>
                 <div>
                   <Stack className='d-flex p-4'>
-                    <label>{currDate?.toString()}</label>
-                    <label>Recipe of the day: { }</label>
+                    <label>{currDate?.toLocaleString().split(",")[0]}</label>
+                    <label className='py-4'>Recipe of the day: {recipeTitle}</label>
                     <div>
                       <Button className="mx-auto" variant="primary" onClick={submitDay} title="SubmitUpdate" size="sm" style={{ backgroundColor: "#401E01" }}>
                         Update calendar Day
@@ -186,9 +203,18 @@ function RecipeCalendar() {
               </Col>
             </Row>
           </Card>
-          <Card className='d-flex p-4' style={{ backgroundColor: "#F2E8DC" }}>
+          <Card className={'d-flex p-4'} style={{ backgroundColor: "#F2E8DC" }}>
             <Row>
-              <RecipeCatalog catalog={ownRecipes} onSelect={updateRecipeAndShoppingList}></RecipeCatalog>
+              {ownRecipes.map((entry) => (
+                <Col key={entry._id}>
+                  <Stack>
+                    {RecipeCard(entry)}
+                    <Button variant="primary" onClick={updateRecipeAndShoppingList} value={entry._id} title="SubmitUpdate" size="sm" style={{ maxWidth: '200px', backgroundColor: "#401E01" }}>
+                      Select {entry.title} as recipe.
+                    </Button>
+                  </Stack>
+                </Col>
+              ))}
             </Row>
           </Card>
         </div>

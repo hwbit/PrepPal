@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const date = new Date().toString();
 
 const CalendarSchema = new Schema({
-    userName: {
+    username: {
         type: String,
         required: true,
     },
