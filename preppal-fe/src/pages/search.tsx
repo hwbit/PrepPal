@@ -13,7 +13,7 @@ interface RecipeQuery {
   description?: string | null;
   ingredients?: string[] | null;
   cookingTime?: number | null;
-  publicOnly?: boolean | null;
+  publicOnly: boolean | null;
 }
 
 const Search = () => {
@@ -25,7 +25,7 @@ const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   React.useEffect(() => {
-    const reqBody: RecipeQuery = {};
+    const reqBody: RecipeQuery = { publicOnly: true };
     if (searchParams.has("title")) reqBody.title = searchParams.get("title");
     if (searchParams.has("author")) reqBody.author = searchParams.get("author");
     if (searchParams.has("description")) reqBody.description = searchParams.get("description");
