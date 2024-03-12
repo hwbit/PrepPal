@@ -1,0 +1,50 @@
+/* Global Variables */
+:root {
+    --dark-brown: #6d5f58;
+    --darker-brown: #5a4134;
+    --normal-text: #efeade;
+    --light-orange: #f9d6b2;
+    --light-red: #ff907f;
+    --nav-bar: #F2E8DC;
+}
+
+.filter-menu {
+    margin-left: 30px;
+    margin-top: 10px;
+}
+
+.filter-menu-header {
+    background-color: var(--nav-bar);
+    color: var(--darker-brown);
+}
+
+.filter-label {
+    font-weight: bold;
+    color: var(--darker-brown);
+}
+
+.submit-filters {
+    background-color: var(--light-orange);
+    color: var(--darker-brown);
+    border-color: var(--dark-brown);
+    font-weight: bold;
+
+    &:hover {
+        background-color: var(--dark-brown);
+        color: var(--normal-text);
+        border-color: var(--dark-brown);
+    }
+}
+
+.close-filters {
+    background-color: white;
+    color: var(--darker-brown);
+    border-color: var(--dark-brown);
+    font-weight: bold;
+
+    &:hover {
+        background-color: var(--dark-brown);
+        color: var(--normal-text);
+        border-color: var(--dark-brown);
+    }
+}

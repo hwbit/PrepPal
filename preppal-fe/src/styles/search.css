@@ -1,7 +1,7 @@
 /* Global Variables */
 :root {
     --dark-brown: #6d5f58;
-    --darker-brown: #4a382f;
+    --darker-brown: #5a4134;
     --normal-text: #efeade;
     --light-orange: #f9d6b2;
     --light-red: #ff907f;
@@ -17,40 +17,22 @@
     margin: 35px;
 }
 
+.search-query,
 h1 {
     color: var(--darker-brown);
     font-weight: bolder;
     margin: 20px;
 }
 
-img,
-link {
-    color: var(--light-red);
-}
-
-a {
-    color: var(--dark-brown);
-}
-
-.nav-item {
-    margin-left: 20px;
-}
-
-.nav-link {
-    color: var(--darker-brown) !important;
-    border-color: #F2F2F2 !important;
+.filter-button {
+    color: var(--darker-brown);
     font-weight: bold;
-}
-
-.nav-link.active {
-    background-color: #F2E8DC !important;
-}
-
-.nav-tabs {
-    margin-bottom: 40px;
-}
-
-.tab-content {
+    font-size: large;
     margin-left: 20px;
-    margin-right: 20px;
+    height: 50%;
+    transition: all 0.3s;
+
+    &:hover {
+        background-color: var(--dark-brown);
+    }
 }
