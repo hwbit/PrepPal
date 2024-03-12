@@ -30,11 +30,11 @@ const NavBar = () => {
     if (!searchQuery.trim()) {
       return;
     }
-    navigate(`/search/${encodeURIComponent(searchQuery)}`);
+    navigate(`/search?title=${encodeURIComponent(searchQuery)}`);
   };
 
   const searchButtonClick = () => {
-    navigate(`/search/${searchQuery.trim() ? searchQuery.trim() : ""}`);
+    navigate(`/search?title=${searchQuery.trim() ? searchQuery.trim() : ""}`);
   }
 
   const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,6 +63,7 @@ const NavBar = () => {
 
       <Nav className="links">
         {loggedIn && <Nav.Link as={Link} to="/collections" className="nav-item" title="collections-link">Collections</Nav.Link>}
+        {loggedIn && <Nav.Link as={Link} to="/calendar" className="nav-item">Calendar</Nav.Link> }
         {loggedIn && <Nav.Link as={Link} to="/new-recipe" className="nav-item">New Recipe</Nav.Link>}
         {loggedIn
           ? (<Nav.Link as={Link} to="/profile" className="nav-item" title="profile-link">Profile</Nav.Link>)

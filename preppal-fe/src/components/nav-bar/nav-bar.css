@@ -37,7 +37,8 @@
     align-items: center;
     transition: background-color 0.3s, transform 0.3s;
 
-    &:hover {
+    &:hover,
+    &:focus {
         color: var(--darker-brown);
         border-color: var(--darker-brown);
         transform: scale(1.1);

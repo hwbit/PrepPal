@@ -10,6 +10,7 @@ import EditProfile from './pages/edit-profile';
 import Search from './pages/search';
 import Recipe from './pages/recipe';
 import CreateRecipe from './pages/create-recipe';
+import RecipeCalendar from './pages/recipe-calendar';
 
 function App() {
   return (
@@ -24,8 +25,9 @@ function App() {
           <Route path="edit-profile" element={<EditProfile />} />
           <Route path="new-recipe" element={<CreateRecipe />} />
           <Route path="collections" element={<Collections />} />
-          <Route path="search/:titleQuery?" element={<Search />} />
+          <Route path="search" element={<Search />} />
           <Route path="recipe/:recipeId" element={<Recipe />} />
+          <Route path="calendar" element={<RecipeCalendar />} />
         </Routes>
       </div>
     </BrowserRouter>
