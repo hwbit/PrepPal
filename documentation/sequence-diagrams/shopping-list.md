@@ -3,7 +3,7 @@ sequenceDiagram
     User->>Frontend (Browser): Go to website
     Frontend (Browser)-->>User: Display the homepage
     User->>Frontend (Browser): Click on 'Calendar' at the top navigation bar
-    Frontend (Browser)->Frontend (Browser): Generate calender (see calender sequence diagram)
+    Frontend (Browser)->Frontend (Browser): Generate calendar (see calendar sequence diagram)
     User->>Frontend (Browser): Click on 'Shopping List'
     Frontend (Browser)->>Backend (REST API): Get route on api/recipe route
     Backend (REST API)->>Database: Make query for all recipes on the calendar
