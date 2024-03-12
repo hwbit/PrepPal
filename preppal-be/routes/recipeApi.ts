@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-magic-numbers */
 const expressRecipeApi = require("express");
-const configRecipeApi = require("../configs/secrets.ts");
 const Recipe = require("../models/recipe.ts");
 const Author = require("../models/user.ts");
+const Review = require("../models/review.ts");
 
 const routerRecipeApi = expressRecipeApi.Router();
 
@@ -164,9 +164,14 @@ routerRecipeApi.post("/createRecipe", async (req, res) => {
         const user = await Author.findOne({ username: author });
         const ownRecipes = user.ownRecipes;
         ownRecipes.push(recipe.id);
-        const updatedUser = await Author.findByIdAndUpdate(user.id, { ownRecipes });
+        await Author.findByIdAndUpdate(user.id, { ownRecipes });
 
         const newRecipe = await recipe.save();
+        const recipeId = newRecipe._id;
+        await new Review({
+            recipeId: recipeId,
+            reviews: [],
+        });
         res.status(201).json({ newRecipe });
     }
     catch (error) {
@@ -272,7 +277,7 @@ routerRecipeApi["delete"]("/deleteRecipe/:id", async (req, res) => {
         }
 
         // update the author's json
-        const updatedUser = await Author.findByIdAndUpdate(_id, { ownRecipes });
+        await Author.findByIdAndUpdate(_id, { ownRecipes });
 
         // delete the recipe
         await Recipe.deleteOne({ _id: req.params.id });

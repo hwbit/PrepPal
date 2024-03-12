@@ -32,7 +32,8 @@ h1 {
     height: 50%;
     transition: all 0.3s;
 
-    &:hover {
+    &:hover,
+    &:focus {
         background-color: var(--dark-brown);
     }
 }

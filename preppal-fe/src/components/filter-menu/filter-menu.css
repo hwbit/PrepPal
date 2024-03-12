@@ -29,7 +29,8 @@
     border-color: var(--dark-brown);
     font-weight: bold;
 
-    &:hover {
+    &:hover,
+    &:focus {
         background-color: var(--dark-brown);
         color: var(--normal-text);
         border-color: var(--dark-brown);
@@ -42,7 +43,8 @@
     border-color: var(--dark-brown);
     font-weight: bold;
 
-    &:hover {
+    &:hover,
+    &:focus {
         background-color: var(--dark-brown);
         color: var(--normal-text);
         border-color: var(--dark-brown);

@@ -2,10 +2,10 @@
 Recipe app and meal planner web application.
 
 # Project Proposal
-[Project Proposal](https://github.com/algorizan/PrepPal/wiki/Project-Proposal)
+[Project Proposal](https://github.com/hwbit/PrepPal/wiki/Project-Proposal)
 
 # Architecture
-[Architecture](https://github.com/algorizan/PrepPal/blob/main/documentation/architecture.png)
+[Architecture](https://github.com/hwbit/PrepPal/blob/main/documentation/architecture.png)
 
 # Instructions
 [Instructions](./documentation/instructions.md)
