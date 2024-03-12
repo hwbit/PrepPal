@@ -89,8 +89,14 @@ const CreateRecipe = () => {
                         })
                     };
 
-                    await fetch("http://localhost:9001/api/recipes/createRecipe", req).then(res => res.json());
-
+                    const newRecipe = await fetch("http://localhost:9001/api/recipes/createRecipe", req).then(res => res.json());
+                    
+                    const recipeId = newRecipe.newRecipe._id;
+                    const reviewReq = {
+                        method: "POST"
+                    }
+                    await fetch("http://localhost:9001/api/reviews/"+recipeId, reviewReq)
+                    
                     navigate("/collections");
                 }
             } catch (err) {
