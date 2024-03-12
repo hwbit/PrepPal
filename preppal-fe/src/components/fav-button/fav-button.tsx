@@ -73,6 +73,7 @@ const FavouriteButton = (recipe: any) => {
         favourite
             ? (<img
                 onClick={handleClick}
+                className="saved"
                 src={require("../../assets/filled-heart.png")}
                 width={40}
                 height={40}
@@ -80,6 +81,7 @@ const FavouriteButton = (recipe: any) => {
             </img>)
             : (<img
                 onClick={handleClick}
+                className="unsaved"
                 src={require("../../assets/unfilled-heart.png")}
                 width={40}
                 height={40}
