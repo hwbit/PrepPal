@@ -4,7 +4,7 @@ import NavBar from '../components/nav-bar/nav-bar';
 import { useSearchParams } from 'react-router-dom';
 import RecipeCatalog from '../components/recipe-catalog/recipe-catalog';
 import { Button } from 'react-bootstrap';
-import { FaFilter } from 'react-icons/fa';
+import { FaFilter, FaTimes } from 'react-icons/fa';
 import FilterMenu from '../components/filter-menu/filter-menu';
 
 interface RecipeQuery {
@@ -65,7 +65,9 @@ const Search = () => {
           const value = searchParams.get(key);
 
           const displayItem = document.createElement("button");
-          displayItem.innerHTML = `<strong>${convertCamelCase(key)}</strong>:&nbsp;<i>${value}</i>&nbsp;&nbsp;X`;
+          displayItem.innerHTML = (<div>
+            <strong>{convertCamelCase(key)}</strong>: <i>{value}</i>  <FaTimes />
+          </div>);//`<strong>${convertCamelCase(key)}</strong>:&nbsp;<i>${value}</i>&nbsp;&nbsp;X`;
           displayItem.className = "display-item";
           displayItem.addEventListener("click", (ev) => {
             if (searchParams.has(key)) {
