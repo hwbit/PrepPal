@@ -3,7 +3,7 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import Profile from "../../pages/profile";
 import { BrowserRouter } from 'react-router-dom';
-import { mockFetch } from "../mock-fetch";
+import { mockFetch } from "../../test-utils/mock-fetch";
 
 describe('Profile component tests', () => {
     const testRecipe = {

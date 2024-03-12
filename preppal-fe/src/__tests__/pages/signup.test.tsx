@@ -2,7 +2,7 @@
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import { BrowserRouter } from 'react-router-dom';
 import Signup from "../../pages/signup";
-import { mockFetch } from "../mock-fetch";
+import { mockFetch } from "../../test-utils/mock-fetch";
 import NavBar from "../../components/nav-bar/nav-bar";
 
 describe('Signup component tests', () => {

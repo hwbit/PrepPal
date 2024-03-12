@@ -3,7 +3,7 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import { BrowserRouter } from 'react-router-dom';
 import Collections from "../../pages/collections";
-import { mockFetch } from "../mock-fetch";
+import { mockFetch } from "../../test-utils/mock-fetch";
 
 describe('Collections page tests', () => {
     const testRecipe = {

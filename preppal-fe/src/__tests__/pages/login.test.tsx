@@ -3,7 +3,7 @@
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import Login from "../../pages/login";
 import { BrowserRouter } from 'react-router-dom';
-import { mockFetch } from "../mock-fetch";
+import { mockFetch } from "../../test-utils/mock-fetch";
 import NavBar from "../../components/nav-bar/nav-bar";
 
 describe('Login Component tests', () => {
