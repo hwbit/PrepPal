@@ -11,12 +11,12 @@ module.exports = {
     // mocking assests and styling
     '^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
       '<rootDir>/src/__tests__/fileMock.ts',
-    '^.+\\.(css|less|scss|sass)$': '<rootDir>/src/__tests__/styleMock.ts',
+    '^.+\\.(css|less|scss|sass)$': '<rootDir>/src/test-utils/styleMock.ts',
     /* mock models and services folder */
-    '(assets|models|services)': '<rootDir>/src/__tests__/fileMock.ts',
+    '(assets|models|services)': '<rootDir>/src/test-utils/fileMock.ts',
   },
   // to obtain access to the matchers.
-  setupFilesAfterEnv: ['./src/__tests__/setupTests.ts'],
+  setupFilesAfterEnv: ['./src/test-utils/setupTests.ts'],
 
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   modulePaths: ['<rootDir>'],
