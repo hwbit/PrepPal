@@ -90,7 +90,7 @@ const CreateRecipe = () => {
                     };
 
                     await fetch("http://localhost:9001/api/recipes/createRecipe", req).then(res => res.json());
-
+                    
                     navigate("/collections");
                 }
             } catch (err) {

@@ -4,6 +4,7 @@ const expressRecipeApi = require("express");
 // const configRecipeApi = require("../configs/secrets.ts");
 const Recipe = require("../models/recipe.ts");
 const Author = require("../models/user.ts");
+const Review = require("../models/review.ts");
 
 const routerRecipeApi = expressRecipeApi.Router();
 
@@ -167,6 +168,11 @@ routerRecipeApi.post("/createRecipe", async (req, res) => {
         // const updatedUser = await Author.findByIdAndUpdate(user.id, { ownRecipes });
 
         const newRecipe = await recipe.save();
+        const recipeId = newRecipe._id;
+        await new Review({
+            recipeId: recipeId,
+            reviews: [],
+        });
         res.status(201).json({ newRecipe });
     }
     catch (error) {
