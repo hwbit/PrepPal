@@ -6,7 +6,6 @@ import './filter-menu.css';
 interface FilterMenuProps {
   showFilterMenu: boolean;
   handleClose: () => void;
-  handleApply: (data: FilterValues) => void;
   titleQuery?: string | null;
 }
 
@@ -19,7 +18,7 @@ export interface FilterValues {
   cookingTime: number;
 }
 
-const FilterMenu: React.FC<FilterMenuProps> = ({ showFilterMenu, handleClose, handleApply, titleQuery }) => {
+const FilterMenu: React.FC<FilterMenuProps> = ({ showFilterMenu, handleClose, titleQuery }) => {
   const navigate = useNavigate();
 
   const [filterData, setFilterValues] = React.useState<FilterValues>({
@@ -39,7 +38,6 @@ const FilterMenu: React.FC<FilterMenuProps> = ({ showFilterMenu, handleClose, ha
     };
 
   const handleSubmit = () => {
-    // handleApply(filterData);
     let filterQuery = "?";
     for (const filter in filterData) {
       if (filterQuery !== "?") filterQuery += "&";
