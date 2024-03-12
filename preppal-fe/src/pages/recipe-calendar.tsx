@@ -159,7 +159,7 @@ function RecipeCalendar() {
             "recipeOfTheDayIngredients": shoppingList
           })
         };
-        const res = await fetch("http://localhost:9001/api/calendar/updateCalendar/", req)//.then(res => res.json());
+        const res = await fetch("http://localhost:9001/api/calendar/updateCalendar/", req).then(res => res.json());
         setCalendarObject(res);
         //may be newCalendar or calendar. debug to confirm...
       }

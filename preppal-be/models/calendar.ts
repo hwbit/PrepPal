@@ -11,18 +11,19 @@ const CalendarSchema = new Schema({
     calendarDates: [
         {
             dateIs: {
-                type: Number,
+                type: String,
             },
             recipeOfTheDayID: {
-                type: String
+                type: String,
             },
             recipeOfTheDayTitle: {
-                type: String
+                type: String,
             },
             recipeOfTheDayIngredients: {
-                type: String
+                type: String,
             }
         }
-    ]});
+    ]
+});
 
 module.exports = mongoose.model("RecipeCalendar", CalendarSchema);
