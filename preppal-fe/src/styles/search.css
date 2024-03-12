@@ -37,3 +37,17 @@ h1 {
         background-color: var(--dark-brown);
     }
 }
+
+.display-item {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 10px;
+    color: var(--normal-text);
+    background-color: var(--dark-brown);
+
+    &:hover,
+    &:focus {
+        background-color: var(--light-orange);
+        color: var(--darker-brown);
+    }
+}

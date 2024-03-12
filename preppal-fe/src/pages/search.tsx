@@ -8,12 +8,13 @@ import { FaFilter } from 'react-icons/fa';
 import FilterMenu from '../components/filter-menu/filter-menu';
 
 interface RecipeQuery {
+  [key: string]: string  | string[]| number | boolean | null | undefined;
   title?: string | null;
   author?: string | null;
   description?: string | null;
   ingredients?: string[] | null;
   cookingTime?: number | null;
-  publicOnly: boolean | null;
+  publicOnly?: boolean | null;
 }
 
 const Search = () => {
@@ -21,7 +22,6 @@ const Search = () => {
   const [showFilterMenu, setShowFilterMenu] = React.useState(false);
 
   // Extract the parameters from the URL
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
 
   React.useEffect(() => {
@@ -57,12 +57,40 @@ const Search = () => {
       }
     };
 
+    const displayFilters = () => {
+      const queryDisplay = document.getElementById("query-display");
+      if (queryDisplay) {
+        queryDisplay.innerText = "Search query:";
+        for (const key of searchParams.keys()) {
+          const value = searchParams.get(key);
+
+          const displayItem = document.createElement("button");
+          displayItem.innerHTML = `<strong>${convertCamelCase(key)}</strong>:&nbsp;<i>${value}</i>&nbsp;&nbsp;X`;
+          displayItem.className = "display-item";
+          displayItem.addEventListener("click", (ev) => {
+            if (searchParams.has(key)) {
+              searchParams.delete(key);
+              setSearchParams(searchParams);
+            }
+          });
+          queryDisplay.appendChild(displayItem);
+        }
+      }
+    };
+
     fillRecipes();
-  }, [searchParams]);
+    displayFilters();
+  }, [searchParams, setSearchParams]);
 
   const toggleFilterMenu = () => {
     setShowFilterMenu(!showFilterMenu);
   };
+
+  const convertCamelCase = (camelCaseString: string) => {
+    let result = camelCaseString.replace(/([A-Z])/g, " $1");
+    result = result.charAt(0).toUpperCase() + result.slice(1);
+    return result;
+  }
 
   return (
     <><NavBar></NavBar>
@@ -74,7 +102,7 @@ const Search = () => {
           </Button>
         </div>
         <FilterMenu showFilterMenu={showFilterMenu} handleClose={toggleFilterMenu} />
-        <p className="search-query">Search query: <i>{searchParams.get("title")}</i></p>
+        <p id="query-display" className="search-query"></p>
         <RecipeCatalog catalog={recipes}></RecipeCatalog>
       </div>
     </>
