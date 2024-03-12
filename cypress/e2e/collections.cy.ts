@@ -113,8 +113,6 @@ describe("Login", () => {
         cy.get("*[id='instruction']").eq(1).type(testRecipe.instructions[1]);
         cy.get("button").contains("Add Instruction").click();
         cy.get("*[id='instruction']").eq(2).type(testRecipe.instructions[2]);
-        cy.get("*[id='title']").type(testRecipe.title);
-        cy.get("*[id='title']").type(testRecipe.title);
         cy.get("*[name='servings']").type(testRecipe.servingSize);
         cy.get("*[name='prepTime']").type(testRecipe.prepTime);
         cy.get("*[name='cookingTime']").type(testRecipe.cookingTime);
