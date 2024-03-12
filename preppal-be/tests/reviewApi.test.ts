@@ -42,49 +42,6 @@ describe("recipeApi test", function() {
         expect(res.body).toEqual("Cannot create an entry for a review for a recipe that does not exist");
     });
 
-
-    // init a new review
-    it("correct test - init recipe review", async () => {
-        const recipe = await new RecipeModel({
-            author: testAuthor,
-            title: testRecipeTitle,
-            titleUrl: "test-recipe-1234",
-            ingredients: ["1"],
-            instructions: ["1"],
-            servingSize: 1,
-            prepTime: 1,
-            cookingTime: 1,
-            isPublic: false,
-        });
-        await recipe.save();
-
-        const recipeId = recipe._id.toString();
-
-        const res = await request(app)
-            .get(`/api/reviews/new/${recipeId}`);
-        expect(res.statusCode).toEqual(201);
-        expect(res.body.newReview.recipeId).toEqual(recipeId);
-
-        // clean up
-        await ReviewModel.deleteOne({ recipeId: recipeId });
-        await RecipeModel.deleteOne({ _id: recipeId });
-    });
-
-    it("incorrect test - init recipe that already has been init", async () => {
-        const res = await request(app)
-            .get(`/api/reviews/new/${testRecipeId}`);
-        expect(res.statusCode).toEqual(400);
-        expect(res.body).toEqual({});
-    });
-
-    it("incorrect test - init recipe that does not exist", async () => {
-        const res = await request(app)
-            .get("/api/reviews/new/111111111111111111111111");
-        expect(res.statusCode).toEqual(400);
-        expect(res.body).toEqual({});
-    });
-
-
     // post review
     it("correct test - post review with no reviews", async () => {
         // init

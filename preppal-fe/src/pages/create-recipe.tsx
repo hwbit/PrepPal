@@ -91,12 +91,6 @@ const CreateRecipe = () => {
 
                     const newRecipe = await fetch("http://localhost:9001/api/recipes/createRecipe", req).then(res => res.json());
                     
-                    const recipeId = newRecipe.newRecipe._id;
-                    const reviewReq = {
-                        method: "GET"
-                    }
-                    await fetch("http://localhost:9001/api/reviews/new/"+recipeId, reviewReq)
-                    
                     navigate("/collections");
                 }
             } catch (err) {
