@@ -1,17 +1,17 @@
 import { render, screen } from "@testing-library/react";
-import LoginPage from "../../pages/edit-profile";
+import EditProfile from "../../pages/edit-profile";
 import { BrowserRouter } from 'react-router-dom';
 
-describe('Signup Component tests', () => {
+describe('Edit profile Component tests', () => {
     test('Render standard component --> Buttons', () => {
-        render(<BrowserRouter><LoginPage /></BrowserRouter>);
+        render(<BrowserRouter><EditProfile /></BrowserRouter>);
 
         const submitUpdate = screen.queryByTitle("SubmitUpdate");
         expect(submitUpdate).toBeTruthy();
     });
 
     test('Render standard component --> input fields', () => {
-        render(<BrowserRouter><LoginPage /></BrowserRouter>);
+        render(<BrowserRouter><EditProfile /></BrowserRouter>);
 
         const oldPassword = screen.queryByTitle("inputOldPassword");
         expect(oldPassword).toBeTruthy();
