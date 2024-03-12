@@ -39,7 +39,7 @@ const Search = () => {
               title: titleQuery
             })
           };
-          const fetchedRecipes = await fetch("http://localhost:9001/api/recipes/searchName/", req).then((res) => res.json());
+          const fetchedRecipes = await fetch(backendBaseURL+"/api/recipes/searchName/", req).then((res) => res.json());
           setRecipes(fetchedRecipes);
         } catch (err) {
           console.error(err);
@@ -75,7 +75,7 @@ const Search = () => {
         },
         body: JSON.stringify(reqBody)
       };
-      const fetchedRecipes = await fetch("http://localhost:9001/api/recipes/searchRecipes", req).then((res) => res.json());
+      const fetchedRecipes = await fetch(backendBaseURL+"/api/recipes/searchRecipes", req).then((res) => res.json());
       setRecipes(fetchedRecipes);
     } catch (err) {
       console.error(err);
