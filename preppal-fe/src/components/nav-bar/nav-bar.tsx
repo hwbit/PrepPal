@@ -63,6 +63,7 @@ const NavBar = () => {
 
       <Nav className="links">
         {loggedIn && <Nav.Link as={Link} to="/collections" className="nav-item">Collections</Nav.Link> }
+        {loggedIn && <Nav.Link as={Link} to="/calendar" className="nav-item">Calendar</Nav.Link> }
         {loggedIn && <Nav.Link as={Link} to="/new-recipe" className="nav-item">New Recipe</Nav.Link> }
         {loggedIn
           ? (<Nav.Link as={Link} to="/profile" className="nav-item">Profile</Nav.Link>)
