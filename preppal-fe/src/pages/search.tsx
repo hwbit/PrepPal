@@ -23,7 +23,6 @@ const Search = () => {
   // Extract the parameters from the URL
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
-  const titleQuery = searchParams.get("title");
 
   React.useEffect(() => {
     const reqBody: RecipeQuery = {};
@@ -74,8 +73,8 @@ const Search = () => {
             Filter <FaFilter />
           </Button>
         </div>
-        <FilterMenu showFilterMenu={showFilterMenu} handleClose={toggleFilterMenu} titleQuery={titleQuery} />
-        <p className="search-query">Search query: <i>{titleQuery}</i></p>
+        <FilterMenu showFilterMenu={showFilterMenu} handleClose={toggleFilterMenu} />
+        <p className="search-query">Search query: <i>{searchParams.get("title")}</i></p>
         <RecipeCatalog catalog={recipes}></RecipeCatalog>
       </div>
     </>

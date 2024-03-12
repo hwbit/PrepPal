@@ -1,28 +1,29 @@
 import React from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import './filter-menu.css';
 
 interface FilterMenuProps {
   showFilterMenu: boolean;
   handleClose: () => void;
-  titleQuery?: string | null;
 }
 
 export interface FilterValues {
-  [key: string]: string | number;
-  title: string;
+  [key: string]: string | number | null;
+  title: string | null;
   author: string;
   description: string;
   ingredients: string;
   cookingTime: number;
 }
 
-const FilterMenu: React.FC<FilterMenuProps> = ({ showFilterMenu, handleClose, titleQuery }) => {
+const FilterMenu: React.FC<FilterMenuProps> = ({ showFilterMenu, handleClose }) => {
   const navigate = useNavigate();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [filterData, setFilterValues] = React.useState<FilterValues>({
-    title: titleQuery ? titleQuery : "",
+    title: searchParams.has("title") ? searchParams.get("title") : "",
     author: "",
     description: "",
     ingredients: "",
@@ -40,8 +41,11 @@ const FilterMenu: React.FC<FilterMenuProps> = ({ showFilterMenu, handleClose, ti
   const handleSubmit = () => {
     let filterQuery = "?";
     for (const filter in filterData) {
-      if (filterQuery !== "?") filterQuery += "&";
-      filterQuery += `${filter}=${filterData[filter]}`;
+      if (filterData[filter]) {
+        if (filterQuery !== "?") filterQuery += "&";
+        // @ts-expect-error
+        filterQuery += `${filter}=${encodeURIComponent(filterData[filter])}`;
+      }
     }
     handleClose();
     navigate(`/search${filterQuery}`);
@@ -59,7 +63,7 @@ const FilterMenu: React.FC<FilterMenuProps> = ({ showFilterMenu, handleClose, ti
             <Form.Control
               type="text"
               placeholder="Filter by title"
-              value={filterData.title}
+              value={filterData.title ? filterData.title : ""}
               onChange={handleInputChange}
             />
           </Form.Group>
