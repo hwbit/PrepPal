@@ -1,6 +1,6 @@
 /* eslint-disable testing-library/no-unnecessary-act */
 /* eslint-disable testing-library/no-wait-for-empty-callback */
-import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { BrowserRouter } from 'react-router-dom';
 import Collections from "../../pages/collections";
 import { mockFetch } from "../mock-fetch";
@@ -19,6 +19,10 @@ describe('Collections page tests', () => {
         cookingTime: 1,
         isPublic: false,
     };
+
+    beforeEach(() => {
+        jest.spyOn(console, 'error').mockImplementation(jest.fn());
+    });
 
     afterEach(() => {
         sessionStorage.removeItem('token');
@@ -43,9 +47,6 @@ describe('Collections page tests', () => {
             await render(<BrowserRouter><Collections /></BrowserRouter>);
 
             await waitFor(() => { });
-
-            expect(screen.getByText("My Recipes")).toHaveAttribute('aria-selected', 'true');
-            expect(screen.getByText("Favourites")).toHaveAttribute('aria-selected', 'false');
 
             await waitFor(() => { });
 

@@ -7,6 +7,10 @@ import { mockFetch } from "../mock-fetch";
 import NavBar from "../../components/nav-bar/nav-bar";
 
 describe('Login Component tests', () => {
+    beforeEach(() => {
+        jest.spyOn(console, 'error').mockImplementation(jest.fn());
+    });
+
     afterEach(() => {
         sessionStorage.removeItem('token');
     });

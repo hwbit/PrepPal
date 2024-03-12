@@ -20,6 +20,10 @@ describe('Home component tests', () => {
         isPublic: false,
     };
 
+    beforeEach(() => {
+        jest.spyOn(console, 'error').mockImplementation(jest.fn());
+    });
+
     afterEach(() => {
         sessionStorage.removeItem('token');
     });
@@ -48,35 +52,5 @@ describe('Home component tests', () => {
             expect(recipeAuthor).toBeTruthy();
             expect(recipeDesc).toBeTruthy();
         });
-
-        //TODO: move to recipe card tests
-        // test('Clicking on recipe card navigates to selected recipe', async () => {
-        //     window.fetch = mockFetch([testRecipe]);
-        //     await render(<BrowserRouter><Home /></BrowserRouter>);
-
-        //     await waitFor(() => { });
-
-        //     const link = screen.getByTitle("recipe-link");
-        //     await act(() => fireEvent.click(link));
-
-        //     await waitFor(() => { });
-
-        //     const recipeTitle = screen.getByText(testRecipe.title);
-        //     const recipeIngredients = screen.getByText(testRecipe.ingredients[0]);
-        //     const recipeInstructions = screen.getByText(testRecipe.instructions[0]);
-        //     const recipeAuthor = screen.getByText(testRecipe.author);
-        //     const recipeServingSize = screen.getByText(testRecipe.servingSize);
-        //     const recipeCookingTime = screen.getByText(testRecipe.cookingTime);
-        //     const recipePrepTime = screen.getByText(testRecipe.prepTime);
-
-        //     expect(recipeTitle).toBeTruthy();
-        //     expect(recipeInstructions).toBeTruthy();
-        //     expect(recipeIngredients).toBeTruthy();
-        //     expect(recipeCookingTime).toBeTruthy();
-        //     expect(recipePrepTime).toBeTruthy();
-        //     expect(recipeAuthor).toBeTruthy();
-        //     expect(recipeServingSize).toBeTruthy();
-        // });
     });
-})
-
+});
