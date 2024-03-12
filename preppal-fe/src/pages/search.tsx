@@ -68,36 +68,6 @@ const Search = () => {
     setShowFilterMenu(!showFilterMenu);
   };
 
-  const applyFilters = async (data: FilterValues) => {
-    console.log('Filter Data:', data);
-
-    const reqBody: RecipeQuery = { publicOnly: true };
-    if (data.title) reqBody.title = data.title;
-    if (data.author) reqBody.author = data.author;
-    if (data.description) reqBody.description = data.description;
-    if (data.ingredients) {
-      const ingredientArr = data.ingredients.split(/\s?,\s?/);
-      reqBody.ingredients = ingredientArr;
-    }
-    if (data.cookingTime) reqBody.cookingTime = data.cookingTime;
-
-    try {
-      const req = {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(reqBody)
-      };
-      const fetchedRecipes = await fetch(backendBaseURL+"/api/recipes/searchRecipes", req).then((res) => res.json());
-      setRecipes(fetchedRecipes);
-    } catch (err) {
-      console.error(err);
-    }
-
-    toggleFilterMenu();
-  };
-
   return (
     <><NavBar></NavBar>
       <div className="page">
