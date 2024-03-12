@@ -38,8 +38,8 @@ describe("recipeApi test", function() {
     it("incorrect test - lookup recipe that does not exist", async () => {
         const res = await request(app)
             .get("/api/reviews/111111111111111111111111");
-        expect(res.statusCode).toEqual(200);
-        expect(res.body).toBeNull();
+        expect(res.statusCode).toEqual(400);
+        expect(res.body).toEqual("Cannot create an entry for a review for a recipe that does not exist");
     });
 
 
@@ -93,12 +93,12 @@ describe("recipeApi test", function() {
 
         const res = await request(app)
             .post("/api/reviews/post/")
-            .send({   
+            .send({
                 recipeId: testPostRecipeId,
                 author: "testApiSandboxAccount",
                 rating: "5",
                 title: testTitle,
-                comment: testComment 
+                comment: testComment,
             });
         expect(res.statusCode).toEqual(201);
         expect(res.body.updatedRecipeReview.recipeId).toEqual(testPostRecipeId);
@@ -108,13 +108,13 @@ describe("recipeApi test", function() {
         expect(res.body.updatedRecipeReview.reviews[0].comment).toEqual(testComment);
 
         // clean up - delete comments by "emptying" array
-        await ReviewModel.findOneAndUpdate({ recipeId: testPostRecipeId }, { reviews: [] })
+        await ReviewModel.findOneAndUpdate({ recipeId: testPostRecipeId }, { reviews: [] });
     });
 
     it("correct test - post review with review already present", async () => {
         const firstRating = 1;
         const firstTitle = "This is the first post title";
-        const firstComment = "This is the first post comment";        
+        const firstComment = "This is the first post comment";
         const secondRating = 5;
         const secondTitle = "This is the second post title";
         const secondComment = "This is the second post comment";
@@ -122,23 +122,23 @@ describe("recipeApi test", function() {
         // first post
         await request(app)
             .post("/api/reviews/post/")
-            .send({   
+            .send({
                 recipeId: testPostRecipeId,
                 author: testAuthor,
                 rating: firstRating,
                 title: firstTitle,
-                comment: firstComment
+                comment: firstComment,
             });
 
         // second post
         const res = await request(app)
             .post("/api/reviews/post/")
-            .send({   
+            .send({
                 recipeId: testPostRecipeId,
                 author: testAuthor,
                 rating: secondRating,
                 title: secondTitle,
-                comment: secondComment
+                comment: secondComment,
             });
 
         expect(res.statusCode).toEqual(201);
@@ -154,7 +154,7 @@ describe("recipeApi test", function() {
         expect(res.body.updatedRecipeReview.reviews[1].comment).toEqual(firstComment);
 
         // clean up - delete comments by "emptying" array
-        await ReviewModel.findOneAndUpdate({ recipeId: testPostRecipeId }, { reviews: [] })
+        await ReviewModel.findOneAndUpdate({ recipeId: testPostRecipeId }, { reviews: [] });
     });
 
 
@@ -164,12 +164,12 @@ describe("recipeApi test", function() {
 
         const res = await request(app)
             .post("/api/reviews/post/")
-            .send({   
+            .send({
                 recipeId: testPostRecipeId,
                 author: "",
                 rating: "5",
                 title: testTitle,
-                comment: testComment 
+                comment: testComment,
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -178,12 +178,12 @@ describe("recipeApi test", function() {
 
         const res = await request(app)
             .post("/api/reviews/post/")
-            .send({   
+            .send({
                 recipeId: testPostRecipeId,
                 author: testAuthor,
                 rating: "5",
                 title: "",
-                comment: testComment 
+                comment: testComment,
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -193,12 +193,12 @@ describe("recipeApi test", function() {
 
         const res = await request(app)
             .post("/api/reviews/post/")
-            .send({   
+            .send({
                 recipeId: testPostRecipeId,
                 author: testAuthor,
                 rating: "",
                 title: testTitle,
-                comment: testComment 
+                comment: testComment,
             });
         expect(res.statusCode).toEqual(400);
     });

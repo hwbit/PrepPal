@@ -27,7 +27,18 @@ routerReviewApi.get("/", async (req, res) => {
  */
 routerReviewApi.get("/:recipeId", async (req, res) => {
     try {
-        const reviews = await Review.findOne({ recipeId: req.params.recipeId });
+        let reviews = await Review.findOne({ recipeId: req.params.recipeId });
+
+        if (!reviews) {
+            const recipe = await Recipe.findOne({_id: req.params.recipeId });
+            if (!recipe) {
+                return res.status(400).json("Cannot create an entry for a review for a recipe that does not exist");
+            }
+
+            reviews = await new Review({ recipeId: req.params.recipeId });
+            await reviews.save();
+        }
+
         res.status(200).json(reviews);
     }
     catch (error) {
