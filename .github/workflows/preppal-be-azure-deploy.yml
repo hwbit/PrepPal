@@ -5,7 +5,7 @@ name: Build and deploy Node.js app to Azure Web App - preppal-be
 
 on:
   push:
-    branches: [ main ] # disable backend deployment until fix
+    branches: [ deploy ]
   workflow_dispatch:
 
 env:

@@ -38,7 +38,7 @@ function Profile() {
                         "x-auth-token": token
                     }
                 };
-                res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
+                res = await fetch(backendBaseURL+"/api/auth/", req).then(res => res.json());
                 if (res) {
                     setUsername(res.username);
                     setBio(res.bio);
