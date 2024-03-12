@@ -15,7 +15,7 @@ calendarApi.post("/getCalendar", async (req, res) => {
 
         const thisCalendar = await Calendar.findOne({ username });
 
-        //(new user)If user does not have a calendar, create and return
+        // (new user)If user does not have a calendar, create and return
         if (!thisCalendar) {
             const newCalendar = await new Calendar({
                 username,
@@ -24,7 +24,7 @@ calendarApi.post("/getCalendar", async (req, res) => {
             const userCalendar = await newCalendar.save();
             res.status(201).json(userCalendar);
         }
-        //(returning user) return the matching user's calendar
+        // (returning user) return the matching user's calendar
         else {
             res.status(200).json(thisCalendar);
         }
@@ -63,8 +63,8 @@ calendarApi.post("/updateCalendar", async (req, res) => {
 
         const calendarDays = userCalendar?.calendarDates ?? [];
         const index = calendarDays.findIndex(calDate => calDate.dateIs === dateIs);
-        // recipe of the day, previously existed, replace
         if (index > -1) {
+            // recipe of the day, previously existed, replace
             const calendarDate = {
                 dateIs,
                 recipeOfTheDayID,
@@ -73,8 +73,8 @@ calendarApi.post("/updateCalendar", async (req, res) => {
             };
             userCalendar.calendarDates[index] = calendarDate;
         }
-        // did not exist previously, add new
         else {
+            // did not exist previously, add new
             const calendarDate = {
                 dateIs,
                 recipeOfTheDayID,

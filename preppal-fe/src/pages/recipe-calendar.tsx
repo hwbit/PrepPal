@@ -27,7 +27,7 @@ function RecipeCalendar() {
     const token = sessionStorage.getItem("token");
     try {
       if (token) {
-        //Get username
+        // Get username
         const req = {
           method: "GET",
           headers: {
@@ -37,7 +37,7 @@ function RecipeCalendar() {
         const res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
         setName(res.username);
 
-        //Get Calendar for user
+        // Get Calendar for user
         const reqCal = {
           method: "POST",
           headers: {
@@ -49,21 +49,26 @@ function RecipeCalendar() {
           })
         };
         const resCal = await fetch("http://localhost:9001/api/calendar/getCalendar", reqCal).then(res => res.json());
-        setCalendarObject(resCal);///Confirm response object is what you intend...
+        setCalendarObject(resCal);
+        // set global variables depending on what calendar was returned
         if (resCal && resCal.calendarDates && resCal.calendarDates.length > 0) {
+          // if calendar exists and some days exist in calendarDates, check if calendarDates exist for today
           const index = resCal.calendarDates.findIndex((calDate: any) => calDate.dateIs === currDate?.toLocaleString().split(",")[0]);
           if (index > -1) {
+            // if calendarDates has an object for today, load into globals
             setRecipeID(resCal.calendarDates[index].recipeOfTheDayID);
             setRecipeTitle(resCal.calendarDates[index].recipeOfTheDayTitle);
             setShoppingList(resCal.calendarDates[index].recipeOfTheDayIngredients);
           }
           else {
+            // if calendarDates does not have an object for today, default to empty
             setRecipeID("");
             setRecipeTitle("");
             setShoppingList("");
           }
         }
         else {
+          // default to empty
           setRecipeID("");
           setRecipeTitle("");
           setShoppingList("");
@@ -87,6 +92,7 @@ function RecipeCalendar() {
         };
         fetchedRecipes = await fetch("http://localhost:9001/api/users/ownRecipes/", req).then((res) => res.json());
       }
+      // return a this users' recipes
       return fetchedRecipes;
     }
     catch (err) {
@@ -95,45 +101,48 @@ function RecipeCalendar() {
     }
   }
 
-  //When a calendar date is selected, update currDay and recipeOfTheDay
+  // When a calendar date is selected, update currDay and recipeOfTheDay if exists
   async function updateDayAndRecipe(value: Value) {
     onChange(value);
-    if (calendarObject && calendarObject.calendarDates && calendarObject.calendarDates.length > 0) {
-      const index = calendarObject.calendarDates.findIndex((calDate: any) => calDate.dateIs === value?.toString());
-      //If the day exists in the calendar, set variables with calendar variables
+    if (calendarObject && calendarObject.calendarDates && calendarObject.calendarDates.length > 0 && value) {
+      const dateIs = value?.toLocaleString().split(",")[0];
+      const index = calendarObject.calendarDates.findIndex((calDate: any) => calDate.dateIs === dateIs);
       if (index > -1) {
+        // If the day exists in the calendar, set global variables with calendar variables
         setRecipeID(calendarObject.calendarDates[index].recipeOfTheDayID);
         setRecipeTitle(calendarObject.calendarDates[index].recipeOfTheDayTitle);
         setShoppingList(calendarObject.calendarDates[index].recipeOfTheDayIngredients);
       }
-      //else, clear variables out
       else {
+        // set to default
         setRecipeID("");
         setRecipeTitle("");
         setShoppingList("");
       }
     }
     else {
+      // set to default
       setRecipeID("");
       setRecipeTitle("");
       setShoppingList("");
     }
   }
 
-  //Need to rework recipe cards to be able to get ID, Title, and ingredients
+  // runs when a recipe is selected for a day in the calendar
   const updateRecipeAndShoppingList = (event: any) => {
     if (event && event?.target && ownRecipes) {
-
       const thisID = (event.target as HTMLInputElement).value
-      //onSelect of a recipe, get the ID, Title, and ingredients
+      // using thisID for a recipe, get the recipe index and set global variables
       const index = ownRecipes.findIndex((recipe: any) => recipe._id === thisID);
       if (index > -1) {
+        // if valid ID in ownRecipes, set global variables
         setRecipeID(ownRecipes[index]._id);
         setRecipeTitle(ownRecipes[index].title);
         const shoppingList = ownRecipes[index].ingredients.join(", ");
         setShoppingList(shoppingList);
       }
       else {
+        // set to default
         setRecipeID("");
         setRecipeTitle("");
         setShoppingList("");
@@ -141,6 +150,7 @@ function RecipeCalendar() {
     }
   }
 
+  // when update calendar day clicked, submit current recipe and date to api to update backend
   async function submitDay() {
     try {
       const currDateString = currDate?.toLocaleString().split(",")[0];
@@ -161,7 +171,7 @@ function RecipeCalendar() {
         };
         const res = await fetch("http://localhost:9001/api/calendar/updateCalendar/", req).then(res => res.json());
         setCalendarObject(res);
-        //may be newCalendar or calendar. debug to confirm...
+        // returns new calendar
       }
     } catch (err) {
       console.error(err);
@@ -187,7 +197,7 @@ function RecipeCalendar() {
                     <label className='py-4'>Recipe of the day: {recipeTitle}</label>
                     <div>
                       <Button className="mx-auto" variant="primary" onClick={submitDay} title="SubmitUpdate" size="sm" style={{ backgroundColor: "#401E01" }}>
-                        Update calendar Day
+                        Update calendar day
                       </Button>
                     </div>
                   </Stack>
@@ -203,13 +213,13 @@ function RecipeCalendar() {
               </Col>
             </Row>
           </Card>
-          <Card className={'d-flex p-4'} style={{ backgroundColor: "#F2E8DC" }}>
-            <Row>
+          <Card className={'d-flex p-4 flex'} style={{ backgroundColor: "#F2E8DC" }}>
+            <Row xs="auto" md="auto" lg="auto">
               {ownRecipes.map((entry) => (
                 <Col key={entry._id}>
                   <Stack>
                     {RecipeCard(entry)}
-                    <Button variant="primary" onClick={updateRecipeAndShoppingList} value={entry._id} title="SubmitUpdate" size="sm" style={{ maxWidth: '200px', backgroundColor: "#401E01" }}>
+                    <Button variant="primary" onClick={updateRecipeAndShoppingList} value={entry._id} title="SubmitUpdate" size="sm" style={{ maxWidth: '210px', margin: '10px -10px 10px 10px', backgroundColor: "#401E01" }}>
                       Select {entry.title} as recipe.
                     </Button>
                   </Stack>
