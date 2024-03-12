@@ -52,7 +52,7 @@ const Login = () => {
                             <Image src={logo} alt="Logo" width={300} height={250} style={{ maxWidth: '100%', height: 'auto' }} rounded />
                         </div>
                         <h2 className="text-center mb-4">Sign in</h2>
-                        <Form onSubmit={loginClick}>
+                        <Form className="loginForm" onSubmit={loginClick}>
                             <Form.Group title="username" controlId="formUser" style={{ paddingBottom: '16px' }}>
                                 <Form.Control type="text" placeholder="Username" onChange={(event) => setUsername(event.target.value)} />
                             </Form.Group>

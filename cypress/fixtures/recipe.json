@@ -1,0 +1,15 @@
+[
+    {
+        "author": "kenny123",
+        "title": "create recipe",
+        "description": "Testing createRecipe API call",
+        "ingredients": ["item1", "item2", "item3"],
+        "instructions": ["step1", "step2", "step3"],
+        "servingSize": 2,
+        "prepTime": 10,
+        "cookingTime": 10,
+        "isPublic": true,
+        "image": "logo.png"
+
+    }
+]

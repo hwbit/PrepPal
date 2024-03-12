@@ -59,7 +59,7 @@ const Signup = () => {
                             <Image src={logo} alt="Logo" width={300} height={250} style={{ maxWidth: '100%', height: 'auto' }} rounded />
                         </div>
                         <h2 className="text-center mb-4" style={{ paddingBottom: '32px' }}> Create your account</h2>
-                        <Form noValidate validated={validated} onSubmit={handleSubmit}>
+                        <Form noValidate validated={validated} onSubmit={handleSubmit} className="signupForm">
                             <Form.Group title="username" controlId="formUser" style={{ paddingBottom: '28px' }}>
                                 <Form.Control required type="text" placeholder="Username" onChange={(event) => setUsername(event.target.value)} />
                                 <Form.Control.Feedback type="invalid">Please enter a username.</Form.Control.Feedback>
