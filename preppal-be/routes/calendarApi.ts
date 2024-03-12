@@ -20,7 +20,7 @@ calendarApi.post("/getCalendar", async (req, res) => {
             const newCalendar = await new Calendar({
                 username,
                 calendarDates: []
-            })
+            });
             const userCalendar = await newCalendar.save();
             res.status(201).json({ userCalendar });
         }
@@ -56,48 +56,36 @@ calendarApi.post("/updateCalendar", async (req, res) => {
             return res.status(400).json({ msg: "Calendar update requires a date to update." });
         }
 
-        const thisCalendar = await Calendar.findOne({ username });
-        if (!thisCalendar) {
+        const userCalendar = await Calendar.findOne({ username });
+        if (!userCalendar) {
             return res.status(400).json({ msg: "No calendar found." });
         }
 
-        const calendarDays = thisCalendar.calendarDates;
-
-        if (calendarDays && calendarDays.length > 0) {
-            const index = calendarDays.findIndex(calDate => calDate.dateIs === dateIs);
-            //recipe of the day, previously existed, replace
-            if (index > -1) {
-                thisCalendar.calendarDates[index].recipeOfTheDayID = recipeOfTheDayID;
-                thisCalendar.calendarDates[index].recipeOfTheDayTitle = recipeOfTheDayTitle;
-                thisCalendar.calendarDates[index].recipeOfTheDayIngredients = recipeOfTheDayIngredients;
-            }
-            //did not exist previously, add new
-            else {
-                const calendarDate = {
-                    dateIs,
-                    recipeOfTheDayID,
-                    recipeOfTheDayTitle,
-                    recipeOfTheDayIngredients
-                }
-                await thisCalendar.calendarDates.push(calendarDate);
-            }
-            const updatedCalendar = await Calendar.findOneAndUpdate({ username }, thisCalendar, {new:true});
-            res.status(201).json({ updatedCalendar });
+        const calendarDays = userCalendar?.calendarDates ?? [];
+        console.log("Before checks");
+        const index = calendarDays.findIndex(calDate => calDate.dateIs === dateIs);
+        // recipe of the day, previously existed, replace
+        if (index > -1) {
+            const calendarDate = {
+                dateIs,
+                recipeOfTheDayID,
+                recipeOfTheDayTitle,
+                recipeOfTheDayIngredients
+            };
+            userCalendar.calendarDates[index] = calendarDate;
         }
+        // did not exist previously, add new
         else {
-            const newCalendar = new Calendar({
-                username,
-                calendarDates: [{
-                    dateIs,
-                    recipeOfTheDayID,
-                    recipeOfTheDayTitle,
-                    recipeOfTheDayIngredients
-                }]
-            })
-            console.log("before findOne");
-            const updatedCalendar = await Calendar.findOneAndUpdate({ username }, newCalendar, {new:true});
-            res.status(201).json({ updatedCalendar });
+            const calendarDate = {
+                dateIs,
+                recipeOfTheDayID,
+                recipeOfTheDayTitle,
+                recipeOfTheDayIngredients
+            };
+            await userCalendar.calendarDates.push(calendarDate);
         }
+        const updatedCalendar = await Calendar.findOneAndUpdate({ username }, userCalendar, { new: true });
+        res.status(201).json({ updatedCalendar });
     }
     catch (error) {
         console.error(error);
