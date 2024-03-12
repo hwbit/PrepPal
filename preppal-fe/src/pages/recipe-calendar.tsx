@@ -11,7 +11,7 @@ type Value = ValuePiece | [ValuePiece, ValuePiece];
 function RecipeCalendar() {
   const [currDate, onChange] = React.useState<Value>(new Date());
   const [username, setName] = React.useState("");
-  const [ownRecipes, setOwnRecipes] = React.useState<any[]>([]);
+  const [recipes, setRecipes] = React.useState<any[]>([]);
   const [calendarObject, setCalendarObject] = React.useState<any>();
   const [recipeID, setRecipeID] = React.useState("");
   const [recipeTitle, setRecipeTitle] = React.useState("");
@@ -19,7 +19,7 @@ function RecipeCalendar() {
 
   React.useEffect(() => {
     getUser();
-    getOwnRecipes().then(result => setOwnRecipes(result));
+    getRecipes().then(result => setRecipes(result));
     // eslint-disable-next-line
   }, []);
 
@@ -79,7 +79,7 @@ function RecipeCalendar() {
     }
   }
 
-  async function getOwnRecipes() {
+  async function getRecipes() {
     const token = sessionStorage.getItem("token");
     let fetchedRecipes: any[] = [];
     try {
@@ -90,7 +90,7 @@ function RecipeCalendar() {
             'x-auth-token': token
           }
         };
-        fetchedRecipes = await fetch("http://localhost:9001/api/users/ownRecipes/", req).then((res) => res.json());
+        fetchedRecipes = await fetch("http://localhost:9001/api/recipes/", req).then((res) => res.json());
       }
       // return a this users' recipes
       return fetchedRecipes;
@@ -130,15 +130,15 @@ function RecipeCalendar() {
 
   // runs when a recipe is selected for a day in the calendar
   const updateRecipeAndShoppingList = (event: any) => {
-    if (event && event?.target && ownRecipes) {
+    if (event && event?.target && recipes) {
       const thisID = (event.target as HTMLInputElement).value
       // using thisID for a recipe, get the recipe index and set global variables
-      const index = ownRecipes.findIndex((recipe: any) => recipe._id === thisID);
+      const index = recipes.findIndex((recipe: any) => recipe._id === thisID);
       if (index > -1) {
         // if valid ID in ownRecipes, set global variables
-        setRecipeID(ownRecipes[index]._id);
-        setRecipeTitle(ownRecipes[index].title);
-        const shoppingList = ownRecipes[index].ingredients.join(", ");
+        setRecipeID(recipes[index]._id);
+        setRecipeTitle(recipes[index].title);
+        const shoppingList = recipes[index].ingredients.join(", ");
         setShoppingList(shoppingList);
       }
       else {
@@ -171,10 +171,12 @@ function RecipeCalendar() {
         };
         const res = await fetch("http://localhost:9001/api/calendar/updateCalendar/", req).then(res => res.json());
         setCalendarObject(res);
+        alert("Recipe saved successfully.");
         // returns new calendar
       }
     } catch (err) {
       console.error(err);
+      alert("Recipe failed to save.");
     }
   }
 
@@ -196,8 +198,8 @@ function RecipeCalendar() {
                     <label>{currDate?.toLocaleString().split(",")[0]}</label>
                     <label className='py-4'>Recipe of the day: {recipeTitle}</label>
                     <div>
-                      <Button className="mx-auto" variant="primary" onClick={submitDay} title="SubmitUpdate" size="sm" style={{ backgroundColor: "#401E01" }}>
-                        Update calendar day
+                      <Button className="mx-auto" variant="primary" onClick={submitDay} title="SubmitCalendarUpdate" size="sm" style={{ backgroundColor: "#401E01" }}>
+                        Save recipe of the day
                       </Button>
                     </div>
                   </Stack>
@@ -215,11 +217,11 @@ function RecipeCalendar() {
           </Card>
           <Card className={'d-flex p-4 flex'} style={{ backgroundColor: "#F2E8DC" }}>
             <Row xs="auto" md="auto" lg="auto">
-              {ownRecipes.map((entry) => (
+              {recipes.map((entry) => (
                 <Col key={entry._id}>
                   <Stack>
                     {RecipeCard(entry)}
-                    <Button variant="primary" onClick={updateRecipeAndShoppingList} value={entry._id} title="SubmitUpdate" size="sm" style={{ maxWidth: '210px', margin: '10px -10px 10px 10px', backgroundColor: "#401E01" }}>
+                    <Button variant="primary" onClick={updateRecipeAndShoppingList} value={entry._id} title="SubmitRecipeUpdate" size="sm" style={{ maxWidth: '210px', margin: '10px -10px 10px 10px', backgroundColor: "#401E01" }}>
                       Select {entry.title} as recipe.
                     </Button>
                   </Stack>
