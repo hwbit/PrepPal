@@ -1,11 +1,10 @@
 // Import necessary React and TypeScript modules
 import React from 'react';
-import { Col, Row } from 'react-bootstrap';
-import RecipeCard from '../components/recipe-card/recipe-card';
 import '../styles/global.css';
 import NavBar from '../components/nav-bar/nav-bar';
+import RecipeCatalog from '../components/recipe-catalog/recipe-catalog';
 
-const ExplorePage: React.FC = () => {
+const Home: React.FC = () => {
   const [recipes, setRecipes] = React.useState<any[]>([]);
   React.useEffect(() => {
     const fillRecipes = async () => {
@@ -28,17 +27,11 @@ const ExplorePage: React.FC = () => {
 
   return (
     <><NavBar></NavBar>
-    <div className="explore-page">
-      <h1>Explore</h1>
-      <Row xs="auto" md="auto" lg="auto">
-        {recipes.filter(recipe => recipe.isPublic).map((recipe) => (
-          <Col key={recipe._id}>
-            {RecipeCard(recipe)}
-          </Col>
-        ))}
-      </Row>
-    </div></>
+      <div className="page">
+        <h1>Explore</h1>
+        <RecipeCatalog catalog={recipes}></RecipeCatalog>
+      </div></>
   );
 };
 
-export default ExplorePage;
+export default Home;

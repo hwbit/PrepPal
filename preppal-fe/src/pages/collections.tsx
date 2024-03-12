@@ -1,94 +1,76 @@
-import { Tabs, Tab, Row, Col } from 'react-bootstrap';
-import React, { useState } from 'react';
-import RecipeCard from '../components/recipe-card/recipe-card';
+import { Tabs, Tab } from 'react-bootstrap';
+import React from 'react';
 import NavBar from '../components/nav-bar/nav-bar';
+import RecipeCatalog from '../components/recipe-catalog/recipe-catalog';
 
 const Collections = () => {
-    const [username, setUsername] = useState("");
-    const [recipes, setRecipes] = useState<any[]>([]);
-    const [myRecipes, setMyRecipes] = useState(true);
+    const [ownRecipes, setOwnRecipes] = React.useState<any[]>([]);
+    const [savedRecipes, setSavedRecipes] = React.useState<any[]>([]);
+    const [key, setKey] = React.useState("MyRecipes");
 
     React.useEffect(() => {
-        getUser();
-        fillRecipes(myRecipes);
-        // eslint-disable-next-line
-    }, [username, myRecipes]);
+        getOwnRecipes().then(result => setOwnRecipes(result));
+        getSavedRecipes().then(result => setSavedRecipes(result));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
-    const getUser = async () => {
-        const token = localStorage.getItem("token");
+    async function getOwnRecipes() {
+        const token = sessionStorage.getItem("token");
+        let fetchedRecipes: any[] = [];
         try {
-            if (token) {
+            if (token && token !== "undefined") {
                 const req = {
                     method: "GET",
                     headers: {
-                        "x-auth-token": token
+                        'x-auth-token': token
                     }
                 };
-
-                const res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
-                setUsername(res.username);
+                fetchedRecipes = await fetch("http://localhost:9001/api/users/ownRecipes/", req).then((res) => res.json());
             }
-
-        } catch (err) {
-
+            return fetchedRecipes;
         }
-    };
+        catch (err) {
+            console.log(err);
+            return fetchedRecipes;
+        }
+    }
 
-    const fillRecipes = async (myRecipes: boolean) => {
+    async function getSavedRecipes() {
+        const token = sessionStorage.getItem("token");
+        let fetchedRecipes: any[] = [];
         try {
-            if (myRecipes && username !== "") {
+            if (token && token !== "undefined") {
                 const req = {
                     method: "GET",
                     headers: {
-                        'Content-Type': 'application/json'
+                        'x-auth-token': token
                     }
                 };
-                const fetchedRecipes = await fetch("http://localhost:9001/api/recipes/lookupAuthor/" + username, req).then((res) => res.json());
-                setRecipes(fetchedRecipes);
-            } else {
-                setRecipes([]);
+                fetchedRecipes = await fetch("http://localhost:9001/api/users/savedRecipes/", req).then((res) => res.json());
             }
-
-        } catch (err) {
-            console.error(err);
+            return fetchedRecipes;
         }
-    };
-
-    function handleSelect(key: string | null): void {
-        if (key === "MyRecipes") {
-            setMyRecipes(true);
-        } else {
-            setMyRecipes(false);
+        catch (err) {
+            console.log(err);
+            return fetchedRecipes;
         }
     }
 
     return (
         <><NavBar></NavBar>
-        <div className='collections-page'>
-            <Tabs
-                defaultActiveKey="MyRecipes"
-                id="collections"
-                onSelect={key => handleSelect(key)}>
-                <Tab eventKey="MyRecipes" title="My Recipes">
-                    <Row xs="auto" md="auto" lg="auto">
-                        {recipes.map((recipe) => (
-                            <Col key={recipe._id}>
-                                {RecipeCard(recipe)}
-                            </Col>
-                        ))}
-                    </Row>
-                </Tab>
-                <Tab eventKey="Favourites" title="Favourites">
-                    <Row xs="auto" md="auto" lg="auto">
-                        {recipes.filter(recipe => recipe.isPublic).map((recipe) => (
-                            <Col key={recipe._id}>
-                                {RecipeCard(recipe)}
-                            </Col>
-                        ))}
-                    </Row>
-                </Tab>
-            </Tabs>
-        </div></>
+            <div className='page'>
+                <Tabs
+                    activeKey={key}
+                    id="collections"
+                    onSelect={k => setKey(k ?? "MyRecipes")}>
+                    <Tab eventKey="MyRecipes" title="My Recipes">
+                        <RecipeCatalog catalog={ownRecipes}></RecipeCatalog>
+                    </Tab>
+                    <Tab eventKey="Favourites" title="Favourites">
+                        <RecipeCatalog catalog={savedRecipes}></RecipeCatalog>
+                    </Tab>
+                </Tabs>
+            </div></>
     )
 }
 

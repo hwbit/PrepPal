@@ -1,28 +1,24 @@
 /* Global Variables */
 :root {
     --dark-brown: #6d5f58;
+    --darker-brown: #4a382f;
     --normal-text: #efeade;
     --light-orange: #f9d6b2;
     --light-red: #ff907f;
 }
 
-.collections-page {
-    margin: 40px;
+.container {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
 }
 
-.explore-page {
-    margin-left: 50px;
-    margin-right: 10px;
+.page {
+    margin: 35px;
 }
 
-.search-page {
-    margin-left: 50px;
-    margin-right: 10px;
-}
-
-.search-query,
 h1 {
-    color: var(--dark-brown);
+    color: var(--darker-brown);
     font-weight: bolder;
     margin: 20px;
 }
@@ -32,13 +28,18 @@ link {
     color: var(--light-red);
 }
 
+a {
+    color: var(--dark-brown);
+}
+
 .nav-item {
     margin-left: 20px;
 }
 
 .nav-link {
-    color: black !important;
+    color: var(--darker-brown) !important;
     border-color: #F2F2F2 !important;
+    font-weight: bold;
 }
 
 .nav-link.active {
@@ -50,6 +51,6 @@ link {
 }
 
 .tab-content {
-    margin-left: 50px;
-    margin-right: 50px;
+    margin-left: 20px;
+    margin-right: 20px;
 }

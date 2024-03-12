@@ -1,0 +1,39 @@
+/* Global Variables */
+:root {
+  --dark-brown: #6d5f58;
+  --normal-text: #efeade;
+  --light-orange: #f9d6b2;
+  --light-red: #ff907f;
+}
+
+.review-card {
+  width: 600px;
+  /* top | right | bottom | left */
+  margin: 10px -10px 10px 10px;
+  /* background-color: var(--light-red); */
+}
+
+.review-title {
+  color: var(--dark-brown);
+  text-size-adjust: 20px;
+}
+
+.review-author {
+  color: var(--dark-brown);
+  text-size-adjust: 8px;
+}
+
+.review-date {
+  color: var(--dark-brown);
+  font-style: italic;
+}
+
+
+.review-comment {
+  color: var(--dark-brown);
+  /* overflow: hidden; */
+  width: 100%;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}

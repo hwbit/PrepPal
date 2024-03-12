@@ -7,6 +7,6 @@ sequenceDiagram
     Backend (REST API)->>Database: Query for a list of planned recipes for the current month
     Database-->>Backend (REST API): Returns a response from the database with a list of recipes for current month
     Frontend (Browser)->Frontend (Browser): Generate a calendar
-    Backend (REST API)-->>Frontend (Browser): Populate the calender with recipe names on planned days
+    Backend (REST API)-->>Frontend (Browser): Populate the calendar with recipe names on planned days
     Frontend (Browser)-->>User: Displays calendar on the web page
 ```

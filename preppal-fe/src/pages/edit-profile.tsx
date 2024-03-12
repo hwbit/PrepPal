@@ -26,9 +26,9 @@ function EditProfile() {
 
     //fill page content with user details
     const fillUserContent = async () => {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
         try {
-            if (token) {
+            if (token && token !== "undefined") {
                 const req = {
                     method: "GET",
                     headers: {
@@ -53,10 +53,10 @@ function EditProfile() {
     //else update given bio as requested if possible
     const updateUser = async (event: { preventDefault: () => void; }) => {
         event.preventDefault();
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
         try {
             //Using inputted userPassword, confirm user ID
-            if (token) {
+            if (token && token !== "undefined") {
                 const req = {
                     method: "POST",
 
@@ -111,7 +111,7 @@ function EditProfile() {
                     'following': userFollowing
                 })
             };
-            const res = await fetch("http://localhost:9001/api/users/updateUsers", req).then(res => res.json());
+            const res = await fetch("http://localhost:9001/api/users/updateUser", req).then(res => res.json());
             if (res.errors) {
                 alert(res.errors[0].msg);
             }
@@ -142,7 +142,7 @@ function EditProfile() {
                     'following': userFollowing
                 })
             };
-            const res = await fetch("http://localhost:9001/api/users/updateUsers", req).then(res => res.json());
+            const res = await fetch("http://localhost:9001/api/users/updateUser", req).then(res => res.json());
             if (res.errors) {
                 alert(res.errors[0].msg);
             }

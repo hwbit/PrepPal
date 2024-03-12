@@ -1,20 +1,20 @@
-const request = require('supertest');
-const db = require('../configs/db.ts');
-const app = require('../app.ts');
-const UserModel = require('../models/user.ts');
+const request = require("supertest");
+const db = require("../configs/db.ts");
+const app = require("../app.ts");
+const UserModel = require("../models/user.ts");
 
 // this is related to userId
-describe('authApi test', function () {
+describe("authApi test", function() {
     const testAccount = "testApiSandboxAccount";
     const testPassword = "lp12asr35Sa45";
 
-    beforeEach(function () {
-        const authApiTestRouter = require('../routes/authApi.ts');
+    beforeEach(function() {
+        const authApiTestRouter = require("../routes/authApi.ts");
     });
-    beforeAll(function () {
+    beforeAll(function() {
         db.connectDB();
     });
-    afterAll(function () {
+    afterAll(function() {
         db.closeDatabase();
     });
 
@@ -24,7 +24,7 @@ describe('authApi test', function () {
             .post("/api/auth")
             .send({
                 username: testAccount,
-                password: testPassword
+                password: testPassword,
             });
         expect(res.statusCode).toEqual(200);
         expect(res.body.token).toBeTruthy();
@@ -35,7 +35,7 @@ describe('authApi test', function () {
             .post("/api/auth")
             .send({
                 username: testAccount + Date.now().toString(),
-                password: testPassword
+                password: testPassword,
             });
         expect(res.statusCode).toEqual(400);
     });
@@ -45,9 +45,8 @@ describe('authApi test', function () {
             .post("/api/auth")
             .send({
                 username: testAccount,
-                password: testPassword + Date.now().toString()
+                password: testPassword + Date.now().toString(),
             });
         expect(res.statusCode).toEqual(400);
     });
-
 });

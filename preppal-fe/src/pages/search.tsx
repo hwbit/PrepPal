@@ -1,50 +1,83 @@
 import React from 'react';
-import { Row, Col } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
-import RecipeCard from '../components/recipe-card/recipe-card';
-import '../styles/global.css';
+import '../styles/search.css';
 import NavBar from '../components/nav-bar/nav-bar';
+import { useSearchParams } from 'react-router-dom';
+import RecipeCatalog from '../components/recipe-catalog/recipe-catalog';
+import { Button } from 'react-bootstrap';
+import { FaFilter } from 'react-icons/fa';
+import FilterMenu from '../components/filter-menu/filter-menu';
 
-const Search: React.FC = () => {
+interface RecipeQuery {
+  title?: string | null;
+  author?: string | null;
+  description?: string | null;
+  ingredients?: string[] | null;
+  cookingTime?: number | null;
+  publicOnly: boolean | null;
+}
+
+const Search = () => {
   const [recipes, setRecipes] = React.useState<any[]>([]);
-  // Extract the 'q' parameter from the URL
-  const { q } = useParams();
+  const [showFilterMenu, setShowFilterMenu] = React.useState(false);
+
+  // Extract the parameters from the URL
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [searchParams, setSearchParams] = useSearchParams();
 
   React.useEffect(() => {
+    const reqBody: RecipeQuery = { publicOnly: true };
+    if (searchParams.has("title")) reqBody.title = searchParams.get("title");
+    if (searchParams.has("author")) reqBody.author = searchParams.get("author");
+    if (searchParams.has("description")) reqBody.description = searchParams.get("description");
+    if (searchParams.has("ingredients")) {
+      const ingredientArr = searchParams.get("ingredients")?.split(/\s?,\s?/);
+      reqBody.ingredients = ingredientArr;
+    }
+    if (searchParams.has("cookingTime")) {
+      const cookingTimeStr = searchParams.get("cookingTime");
+      const cookingTime = parseInt(cookingTimeStr ? cookingTimeStr : "");
+      if (cookingTime > 0) reqBody.cookingTime = cookingTime;
+    }
+
     const fillRecipes = async () => {
-      try {
-        const req = {
-          method: "POST",
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            title: q
-          })
-        };
-        const fetchedRecipes = await fetch("http://localhost:9001/api/recipes/searchName/", req).then((res) => res.json());
-        setRecipes(fetchedRecipes);
-      } catch (err) {
-        console.error(err);
+      if (Object.entries(reqBody).length > 0) {
+        try {
+          const req = {
+            method: "POST",
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(reqBody)
+          };
+          const fetchedRecipes = await fetch("http://localhost:9001/api/recipes/searchRecipes", req).then((res) => res.json());
+          setRecipes(fetchedRecipes);
+        } catch (err) {
+          console.error(err);
+        }
       }
     };
 
     fillRecipes();
-  }, [q]);
+  }, [searchParams]);
+
+  const toggleFilterMenu = () => {
+    setShowFilterMenu(!showFilterMenu);
+  };
 
   return (
     <><NavBar></NavBar>
-    <div className="search-page">
-      <h1>Search Results</h1>
-      <p className="search-query">Search query: {q}</p>
-      <Row xs="auto" md="auto" lg="auto">
-        {recipes.filter(recipe => recipe.isPublic).map((recipe) => (
-          <Col key={recipe._id}>
-            {RecipeCard(recipe)}
-          </Col>
-        ))}
-      </Row>
-    </div></>
+      <div className="page">
+        <div style={{ display: "inline-flex", alignItems: "center", marginBottom: "-15px"}}>
+          <h1>Search Results</h1>
+          <Button variant="outline-dark" className="filter-button" onClick={toggleFilterMenu}>
+            Filter <FaFilter />
+          </Button>
+        </div>
+        <FilterMenu showFilterMenu={showFilterMenu} handleClose={toggleFilterMenu} />
+        <p className="search-query">Search query: <i>{searchParams.get("title")}</i></p>
+        <RecipeCatalog catalog={recipes}></RecipeCatalog>
+      </div>
+    </>
   );
 };
 
