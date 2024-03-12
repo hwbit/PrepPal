@@ -13,13 +13,17 @@ calendarApi.post("/getCalendar", async (req, res) => {
     try {
         const { username } = req.body;
 
+        if (!username) {
+            return res.status(400).json("Username required");
+        }
+
         const thisCalendar = await Calendar.findOne({ username });
 
         // (new user)If user does not have a calendar, create and return
         if (!thisCalendar) {
             const newCalendar = await new Calendar({
                 username,
-                calendarDates: []
+                calendarDates: [],
             });
             const userCalendar = await newCalendar.save();
             res.status(200).json(userCalendar);
@@ -45,7 +49,7 @@ calendarApi.post("/updateCalendar", async (req, res) => {
             dateIs,
             recipeOfTheDayID,
             recipeOfTheDayTitle,
-            recipeOfTheDayIngredients
+            recipeOfTheDayIngredients,
         }
             = req.body;
 
@@ -62,14 +66,14 @@ calendarApi.post("/updateCalendar", async (req, res) => {
         }
 
         const calendarDays = userCalendar?.calendarDates ?? [];
-        const index = calendarDays.findIndex(calDate => calDate.dateIs === dateIs);
+        const index = calendarDays.findIndex((calDate) => calDate.dateIs === dateIs);
         if (index > -1) {
             // recipe of the day, previously existed, replace
             const calendarDate = {
                 dateIs,
                 recipeOfTheDayID,
                 recipeOfTheDayTitle,
-                recipeOfTheDayIngredients
+                recipeOfTheDayIngredients,
             };
             userCalendar.calendarDates[index] = calendarDate;
         }
@@ -79,7 +83,7 @@ calendarApi.post("/updateCalendar", async (req, res) => {
                 dateIs,
                 recipeOfTheDayID,
                 recipeOfTheDayTitle,
-                recipeOfTheDayIngredients
+                recipeOfTheDayIngredients,
             };
             await userCalendar.calendarDates.push(calendarDate);
         }

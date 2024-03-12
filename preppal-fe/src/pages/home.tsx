@@ -4,7 +4,7 @@ import '../styles/global.css';
 import NavBar from '../components/nav-bar/nav-bar';
 import RecipeCatalog from '../components/recipe-catalog/recipe-catalog';
 
-const ExplorePage: React.FC = () => {
+const Home: React.FC = () => {
   const [recipes, setRecipes] = React.useState<any[]>([]);
   React.useEffect(() => {
     const fillRecipes = async () => {
@@ -34,4 +34,4 @@ const ExplorePage: React.FC = () => {
   );
 };
 
-export default ExplorePage;
+export default Home;
