@@ -6,7 +6,6 @@ import RecipeCatalog from '../components/recipe-catalog/recipe-catalog';
 import { Button } from 'react-bootstrap';
 import { FaFilter } from 'react-icons/fa';
 import FilterMenu from '../components/filter-menu/filter-menu';
-import { FilterValues} from '../components/filter-menu/filter-menu';
 
 interface RecipeQuery {
   title?: string | null;
