@@ -18,6 +18,7 @@ describe('Home component tests', () => {
         prepTime: 1,
         cookingTime: 1,
         isPublic: false,
+        image: "logo.png"
     };
 
     beforeEach(() => {
