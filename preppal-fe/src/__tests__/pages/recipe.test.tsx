@@ -19,7 +19,7 @@ describe('Recipe tests', () => {
         render(<BrowserRouter><Recipe /></BrowserRouter>);
 
         const leaveReview = screen.queryByText("Leave a review");
-        expect(leaveReview ).toBeTruthy();
+        expect(leaveReview).toBeTruthy();
         const reviews = screen.queryByText("Reviews");
         expect(reviews).toBeTruthy();
     });
