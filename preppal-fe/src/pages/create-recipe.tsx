@@ -93,9 +93,9 @@ const CreateRecipe = () => {
                     
                     const recipeId = newRecipe.newRecipe._id;
                     const reviewReq = {
-                        method: "POST"
+                        method: "GET"
                     }
-                    await fetch("http://localhost:9001/api/reviews/"+recipeId, reviewReq)
+                    await fetch("http://localhost:9001/api/reviews/new/"+recipeId, reviewReq)
                     
                     navigate("/collections");
                 }
