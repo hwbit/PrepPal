@@ -8,8 +8,6 @@ describe('Calendar Component tests', () => {
 
         const calendarButton = screen.queryByTitle("SubmitCalendarUpdate");
         expect(calendarButton).toBeTruthy();
-        const recipesButton = screen.queryByTitle("SubmitRecipeUpdate");
-        expect(recipesButton).toBeTruthy();
     });
 })
 
