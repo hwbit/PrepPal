@@ -8,7 +8,7 @@ const CalendarSchema = new Schema({
         type: String,
         required: true,
     },
-    calenderDate: [
+    calenderDates: [
         {
             dateIs: {
                 type: Number,

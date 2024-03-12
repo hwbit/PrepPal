@@ -61,15 +61,15 @@ calendarApi.post("/updateCalendar", async (req, res) => {
             return res.status(400).json({ msg: "No calendar found." });
         }
 
-        const calendarDays = thisCalendar.calendarDate;
+        const calendarDays = thisCalendar.calendarDates;
 
         if (calendarDays && calendarDays.length > 0) {
             const index = calendarDays.findIndex(calDate => calDate.dateIs === dateIs);
             //recipe of the day, previously existed, replace
             if (index > -1) {
-                thisCalendar.calendarDate[index].recipeOfTheDayID = recipeOfTheDayID;
-                thisCalendar.calendarDate[index].recipeOfTheDayTitle = recipeOfTheDayTitle;
-                thisCalendar.calendarDate[index].recipeOfTheDayIngredients = recipeOfTheDayIngredients;
+                thisCalendar.calendarDates[index].recipeOfTheDayID = recipeOfTheDayID;
+                thisCalendar.calendarDates[index].recipeOfTheDayTitle = recipeOfTheDayTitle;
+                thisCalendar.calendarDates[index].recipeOfTheDayIngredients = recipeOfTheDayIngredients;
             }
             //did not exist previously, add new
             else {
@@ -79,23 +79,24 @@ calendarApi.post("/updateCalendar", async (req, res) => {
                     recipeOfTheDayTitle,
                     recipeOfTheDayIngredients
                 }
-                await thisCalendar.calendarDate.push(calendarDate);
+                await thisCalendar.calendarDates.push(calendarDate);
             }
-            await Calendar.findOneAndUpdate({ username }, thisCalendar);
-            res.status(201).json({ thisCalendar });
+            const updatedCalendar = await Calendar.findOneAndUpdate({ username }, thisCalendar, {new:true});
+            res.status(201).json({ updatedCalendar });
         }
         else {
-            const updateCalendar = new Calendar({
+            const newCalendar = new Calendar({
                 username,
-                calendarDate: [{
+                calendarDates: [{
                     dateIs,
                     recipeOfTheDayID,
                     recipeOfTheDayTitle,
                     recipeOfTheDayIngredients
                 }]
             })
-            await Calendar.findOneAndUpdate({ username }, updateCalendar);
-            res.status(201).json({ updateCalendar });
+            console.log("before findOne");
+            const updatedCalendar = await Calendar.findOneAndUpdate({ username }, newCalendar, {new:true});
+            res.status(201).json({ updatedCalendar });
         }
     }
     catch (error) {

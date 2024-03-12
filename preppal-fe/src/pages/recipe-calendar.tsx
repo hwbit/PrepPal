@@ -50,12 +50,12 @@ function RecipeCalendar() {
         };
         const resCal = await fetch("http://localhost:9001/api/calendar/getCalendar", reqCal).then(res => res.json());
         setCalendarObject(resCal);///Confirm response object is what you intend...
-        if (resCal && resCal.calendarDate && resCal.calendarDate.length > 0) {
-          const index = resCal.calendarDate.findIndex((calDate: any) => calDate.dateIs === currDate?.toLocaleString().split(",")[0]);
+        if (resCal && resCal.calendarDates && resCal.calendarDates.length > 0) {
+          const index = resCal.calendarDates.findIndex((calDate: any) => calDate.dateIs === currDate?.toLocaleString().split(",")[0]);
           if (index > -1) {
-            setRecipeID(resCal.calendarDate[index].recipeOfTheDayID);
-            setRecipeTitle(resCal.calendarDate[index].recipeOfTheDayTitle);
-            setShoppingList(resCal.calendarDate[index].recipeOfTheDayIngredients);
+            setRecipeID(resCal.calendarDates[index].recipeOfTheDayID);
+            setRecipeTitle(resCal.calendarDates[index].recipeOfTheDayTitle);
+            setShoppingList(resCal.calendarDates[index].recipeOfTheDayIngredients);
           }
           else {
             setRecipeID("");
@@ -98,13 +98,13 @@ function RecipeCalendar() {
   //When a calendar date is selected, update currDay and recipeOfTheDay
   async function updateDayAndRecipe(value: Value) {
     onChange(value);
-    if (calendarObject && calendarObject.calendarDate && calendarObject.calendarDate.length > 0) {
-      const index = calendarObject.calendarDate.findIndex((calDate: any) => calDate.dateIs === value?.toString());
+    if (calendarObject && calendarObject.calendarDates && calendarObject.calendarDates.length > 0) {
+      const index = calendarObject.calendarDates.findIndex((calDate: any) => calDate.dateIs === value?.toString());
       //If the day exists in the calendar, set variables with calendar variables
       if (index > -1) {
-        setRecipeID(calendarObject.calendarDate[index].recipeOfTheDayID);
-        setRecipeTitle(calendarObject.calendarDate[index].recipeOfTheDayTitle);
-        setShoppingList(calendarObject.calendarDate[index].recipeOfTheDayIngredients);
+        setRecipeID(calendarObject.calendarDates[index].recipeOfTheDayID);
+        setRecipeTitle(calendarObject.calendarDates[index].recipeOfTheDayTitle);
+        setShoppingList(calendarObject.calendarDates[index].recipeOfTheDayIngredients);
       }
       //else, clear variables out
       else {
