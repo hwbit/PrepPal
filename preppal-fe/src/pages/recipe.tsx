@@ -50,7 +50,7 @@ const Recipe = () => {
     const getUser = async () => {
         const token = sessionStorage.getItem("token");
         try {
-            if (token) {
+            if (token && token !== "undefined") {
                 const req = {
                     method: "GET",
                     headers: {
@@ -187,7 +187,7 @@ const Recipe = () => {
                             <div className='recipe-header-row' style={{ paddingLeft: '20px' }}>{recipeDescription}</div>
                         </div>
                         <div className="recipe-icons">
-                            <FavouriteButton id={recipeId}></FavouriteButton>
+                            {loggedIn && (<FavouriteButton id={recipeId}></FavouriteButton>)}
                         </div>
                     </div>
                     <div className='recipe-info'>

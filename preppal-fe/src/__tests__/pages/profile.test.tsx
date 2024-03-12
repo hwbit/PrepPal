@@ -1,13 +1,17 @@
 import { render, screen } from "@testing-library/react";
-import LoginPage from "../../pages/profile";
+import ProfilePage from "../../pages/profile";
 import { BrowserRouter } from 'react-router-dom';
 
-describe('Signup Component tests', () => {
-    test('Render standard component --> Buttons', () => {
-        render(<BrowserRouter><LoginPage /></BrowserRouter>);
+describe('Profile Component tests', () => {
+    test('Render standard component --> Input fields', () => {
+        render(<BrowserRouter><ProfilePage /></BrowserRouter>);
 
-        const loginbtn = screen.queryByTitle("Edit");
-        expect(loginbtn).toBeTruthy();
+        const bio = screen.queryByText("Bio");
+        expect(bio).toBeTruthy();
+        const recipes = screen.queryByText("Recipes");
+        expect(recipes).toBeTruthy();
+        const following = screen.queryByText("Following: 0");
+        expect(following).toBeTruthy();
     });
 })
 
