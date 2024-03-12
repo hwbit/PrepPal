@@ -22,6 +22,7 @@ const Search = () => {
   const [showFilterMenu, setShowFilterMenu] = React.useState(false);
 
   // Extract the parameters from the URL
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
   const titleQuery = searchParams.get("title");
 

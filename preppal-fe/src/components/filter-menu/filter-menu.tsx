@@ -11,6 +11,7 @@ interface FilterMenuProps {
 }
 
 export interface FilterValues {
+  [key: string]: string | number;
   title: string;
   author: string;
   description: string;
@@ -42,8 +43,9 @@ const FilterMenu: React.FC<FilterMenuProps> = ({ showFilterMenu, handleClose, ha
     let filterQuery = "?";
     for (const filter in filterData) {
       if (filterQuery !== "?") filterQuery += "&";
-      filterQuery += filter;
+      filterQuery += `${filter}=${filterData[filter]}`;
     }
+    handleClose();
     navigate(`/search${filterQuery}`);
   };
 
