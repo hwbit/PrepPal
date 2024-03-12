@@ -1,9 +1,21 @@
 # Instructions
 
+## Access Hosted Application
+Requirements: Docker Desktop
+
+1. Clone the repository
+    1. `git clone https://github.com/hwbit/PrepPal.git`
+2. Sign into Docker with your GitHub account
+3. Start the Docker containers
+    1. Navigate to the cloned repository directory `cd PrepPal`
+    2. Start the Docker containers in detached mode `docker-compose up -d`
+4. Access the web application at http://localhost:3000
+
+## Run Locally
 Requirements: Node.js
 
 1. Clone the repository
-   1. `git clone https://github.com/algorizan/PrepPal.git`
+   1. `git clone https://github.com/hwbit/PrepPal.git`
 2. Install dependencies from the root directory
    1. `npm install`
 3. Start the backend server
