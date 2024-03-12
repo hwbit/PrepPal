@@ -25,4 +25,4 @@ const CalendarSchema = new Schema({
         }
     ]});
 
-module.exports = mongoose.model("RecipeCalender", CalendarSchema);
+module.exports = mongoose.model("RecipeCalendar", CalendarSchema);
