@@ -37,20 +37,19 @@ const Search = () => {
     }
     if (searchParams.has("cookingTime")) {
       const cookingTimeStr = searchParams.get("cookingTime");
-      reqBody.cookingTime = parseInt(cookingTimeStr ? cookingTimeStr : "");
+      const cookingTime = parseInt(cookingTimeStr ? cookingTimeStr : "");
+      if (cookingTime > 0) reqBody.cookingTime = cookingTime;
     }
 
     const fillRecipes = async () => {
-      if (reqBody.title) {
+      if (Object.entries(reqBody).length > 0) {
         try {
           const req = {
             method: "POST",
             headers: {
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-              title: reqBody.title
-            })
+            body: JSON.stringify(reqBody)
           };
           const fetchedRecipes = await fetch("http://localhost:9001/api/recipes/searchRecipes", req).then((res) => res.json());
           setRecipes(fetchedRecipes);
