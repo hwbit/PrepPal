@@ -24,6 +24,7 @@ describe('Profile component tests', () => {
         username: "test user",
         bio: "test user profile",
         following: ["following-1"]
+
     }
 
     const otherProfile = {
@@ -42,11 +43,15 @@ describe('Profile component tests', () => {
     });
 
     describe("Unit tests", () => {
-        test('Render standard component --> Buttons', () => {
+        test('Render standard component --> Input fields', () => {
             render(<BrowserRouter><Profile /></BrowserRouter>);
 
-            const loginbtn = screen.queryByTitle("Edit");
-            expect(loginbtn).toBeTruthy();
+            const bio = screen.queryByText("Bio");
+            expect(bio).toBeTruthy();
+            const recipes = screen.queryByText("Recipes");
+            expect(recipes).toBeTruthy();
+            const following = screen.queryByText("Following: 0");
+            expect(following).toBeTruthy();
         });
     });
 
@@ -55,6 +60,8 @@ describe('Profile component tests', () => {
             sessionStorage.setItem("token", "test-token");
             window.fetch = mockFetch(ownProfile);
             await render(<BrowserRouter><Profile /></BrowserRouter>);
+
+            await waitFor(() => { });
 
             await waitFor(() => { });
 
@@ -97,4 +104,3 @@ describe('Profile component tests', () => {
         });
     });
 });
-

@@ -24,4 +24,3 @@ describe('EditProfile component tests', () => {
         });
     });
 });
-
