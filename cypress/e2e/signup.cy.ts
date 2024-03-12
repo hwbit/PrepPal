@@ -27,6 +27,7 @@ describe("Signup", () => {
         cy.get("*[class^='links navbar-nav']").within(() => {
             cy.contains("Profile").should("exist");
             cy.contains("Collections").should("exist");
+            cy.contains("Calendar").should("exist");
             cy.contains("New Recipe").should("exist");
             cy.contains("Login").should("not.exist");
         });
@@ -51,6 +52,7 @@ describe("Signup", () => {
             cy.contains("Login").should("exist");
             cy.contains("Profile").should("not.exist");
             cy.contains("Collections").should("not.exist");
+            cy.contains("Calendar").should("not.exist");
             cy.contains("New Recipe").should("not.exist");
         });
     });
