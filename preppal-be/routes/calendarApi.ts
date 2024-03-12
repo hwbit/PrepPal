@@ -22,7 +22,7 @@ calendarApi.post("/getCalendar", async (req, res) => {
                 calendarDates: []
             });
             const userCalendar = await newCalendar.save();
-            res.status(201).json(userCalendar);
+            res.status(200).json(userCalendar);
         }
         // (returning user) return the matching user's calendar
         else {
@@ -31,7 +31,7 @@ calendarApi.post("/getCalendar", async (req, res) => {
     }
     catch (error) {
         console.error(error.message);
-        res.status(500).send("Server error was: " + error.message);
+        res.status(500).send("Server error was: ");
     }
 });
 
