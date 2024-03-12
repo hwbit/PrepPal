@@ -165,7 +165,7 @@ routerRecipeApi.post("/createRecipe", async (req, res) => {
         const user = await Author.findOne({ username: author });
         const ownRecipes = user.ownRecipes;
         ownRecipes.push(recipe.id);
-        // const updatedUser = await Author.findByIdAndUpdate(user.id, { ownRecipes });
+        await Author.findByIdAndUpdate(user.id, { ownRecipes });
 
         const newRecipe = await recipe.save();
         const recipeId = newRecipe._id;
