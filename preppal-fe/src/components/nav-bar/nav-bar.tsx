@@ -30,11 +30,11 @@ const NavBar = () => {
     if (!searchQuery.trim()) {
       return;
     }
-    navigate(`/search/${encodeURIComponent(searchQuery)}`);
+    navigate(`/search?title=${encodeURIComponent(searchQuery)}`);
   };
 
   const searchButtonClick = () => {
-    navigate(`/search/${searchQuery.trim() ? searchQuery.trim() : ""}`);
+    navigate(`/search?title=${searchQuery.trim() ? searchQuery.trim() : ""}`);
   }
 
   const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
