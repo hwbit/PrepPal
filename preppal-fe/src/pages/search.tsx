@@ -18,8 +18,6 @@ interface RecipeQuery {
   publicOnly: boolean | null;
 }
 
-const backendBaseURL = process.env.REACT_APP_BACKEND_BASE_URL;
-
 const Search = () => {
   const [recipes, setRecipes] = React.useState<any[]>([]);
   const [showFilterMenu, setShowFilterMenu] = React.useState(false);
