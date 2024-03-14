@@ -4,18 +4,24 @@ import { Button, Col, Row, Stack } from 'react-bootstrap';
 import React from 'react';
 import NavBar from '../components/nav-bar/nav-bar';
 import RecipeCatalog from '../components/recipe-catalog/recipe-catalog';
+import FollowButton from '../components/follow-button/follow-button';
+
+const logo = require('../assets/logo.png')
+const backendBaseURL = process.env.REACT_APP_BACKEND_BASE_URL;
+
 
 function Profile() {
     const [username, setUsername] = React.useState("");
     const [userBio, setBio] = React.useState("");
     const [userFollowing, setFollowing] = React.useState<any[]>([]);
-    const [userFollowingCount, setFollowingCount] = React.useState(0);
+    const [userFollowingCount, setFollowingCount] = React.useState<number>(0);
     const [recipes, setRecipes] = React.useState<any[]>([]);
     const [userImage, setImage] = React.useState(process.env.DEFAULT_LOGO_URL);
+    const [loggedIn, setLoggedIn] = React.useState(false);
+    const [myProfile, setMyProfile] = React.useState(false);
 
     const matches = window.location.href.match(/\/profile\/(.+)/);
     const query = matches ? decodeURI(matches[1]) : "";
-    const myProfile = (query === "");
 
     React.useEffect(() => {
         fillUserContent();
@@ -26,32 +32,31 @@ function Profile() {
         const token = sessionStorage.getItem("token");
         try {
             let res;
-            if (myProfile) {
-                if (token) {
-                    const req = {
-                        method: "GET",
-                        headers: {
-                            "x-auth-token": token
-                        }
-                    };
-                    res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
-                    if (res) {
-                        setUsername(res.username);
-                        setBio(res.bio);
-                        setFollowing(res.following);
-                        setFollowingCount(userFollowing.length)
-                        setImage(res.image);
+            if (token && token !== "undefined") {
+                const req = {
+                    method: "GET",
+                    headers: {
+                        "x-auth-token": token
                     }
+                };
+                res = await fetch(backendBaseURL+"/api/auth/", req).then(res => res.json());
+                setUsername(res.username);
+                setBio(res.bio);
+                setFollowing(res.following);
+                setFollowingCount(res.following.length);
+                setLoggedIn(true);
+                if (query === "" || query === res.username) {
+                    setMyProfile(true);
                 }
             }
-            else {
+            if (!myProfile) {
                 const req = {
                     method: "GET",
                     headers: {
                         "Content-type": "application/json"
                     }
                 };
-                res = await fetch("http://localhost:9001/api/users/lookup/" + query, req).then(res => res.json());
+                res = await fetch(backendBaseURL+"/api/users/lookup/" + query, req).then(res => res.json());
                 if (res) {
                     setUsername(res.username);
                     setBio(res.bio);
@@ -80,7 +85,8 @@ function Profile() {
                                 <Col>
                                     <Stack gap={3}>
                                         <div className='d-flex justify-content-end'>
-                                            {myProfile && (<Button className='d-flex' variant="primary" href="edit-profile" title="Edit" size="sm" style={{ maxWidth: '40px', backgroundColor: "#401E01" }}>Edit</Button>)}
+                                            {myProfile ? (<Button className='d-flex' variant="primary" href="edit-profile" title="Edit" size="sm" style={{ maxWidth: '40px', backgroundColor: "#401E01" }}>Edit</Button>)
+                                                : (loggedIn && <FollowButton title="Follow" username={username}></FollowButton>)}
                                         </div>
                                         <Card.Subtitle className='d-flex justify-content-end'>Following: {userFollowingCount}</Card.Subtitle>
                                     </Stack>
@@ -100,7 +106,10 @@ function Profile() {
                                 <Card.Title>{myProfile ? "Following" : "Recipes"}</Card.Title>
                             </Card.Header>
                             <Card.Body>
-                                {myProfile ? userFollowing : <RecipeCatalog catalog={recipes}></RecipeCatalog>}
+                                {myProfile ? userFollowing.map(user => (
+                                    <p>{user}</p>
+                                ))
+                                    : <RecipeCatalog catalog={recipes}></RecipeCatalog>}
                             </Card.Body>
                         </Card>
                     </div>

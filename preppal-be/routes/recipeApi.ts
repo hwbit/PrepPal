@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-magic-numbers */
 const expressRecipeApi = require("express");
-const configRecipeApi = require("../configs/secrets.ts");
 const Recipe = require("../models/recipe.ts");
 const Author = require("../models/user.ts");
+const Review = require("../models/review.ts");
 
 const routerRecipeApi = expressRecipeApi.Router();
 
@@ -29,7 +30,7 @@ routerRecipeApi.get("/lookupId/:id", async (req, res) => {
         const recipe = await Recipe.findOne({ _id: req.params.id });
 
         if (!recipe) {
-            return res.status(400).json({ errors: [{ msg: "Invalid id for recipe." }] });
+            return res.status(400).json({ errors: [ { msg: "Invalid id for recipe." } ] });
         }
 
         res.status(200).json(recipe);
@@ -68,6 +69,40 @@ routerRecipeApi.post("/searchName/", async (req, res) => {
             .collation({ locale: "en", strength: 2 });
         const publicRecipes = recipes.filter((recipe) => recipe.isPublic);
         res.status(200).json(publicRecipes);
+    }
+    catch (error) {
+        console.error(error.message);
+        res.status(500).send("Could not look up name.");
+    }
+});
+
+/**
+ * POST - Get all recipes with all the received filter values
+ * Useful for ADVANCED SEARCH
+ */
+routerRecipeApi.post("/searchRecipes", async (req, res) => {
+    try {
+        const { title, author, description, ingredients, cookingTime, publicOnly } = req.body;
+
+        const query = {};
+        // @ts-expect-error any
+        if (author) query.author = author;
+        // @ts-expect-error any
+        if (title) query.title = { $regex: new RegExp(title, "i") }; // Case-insensitive title search
+        // @ts-expect-error any
+        if (description) query.description = { $regex: new RegExp(description, "i") }; // Case-insensitive description search
+        if (ingredients) {
+            const ingredientRegexPatterns = ingredients.map((ingredient) => new RegExp(ingredient, "i"));
+            // @ts-expect-error any
+            query.ingredients = { $all: ingredientRegexPatterns };
+        }
+        // @ts-expect-error any
+        if (cookingTime) query.cookingTime = { $lte: cookingTime }; // cooking time less than or equal to the specified value
+        // @ts-expect-error any
+        if (publicOnly) query.isPublic = publicOnly; // if publicOnly, filter for public recipes, if not publicOnly, don't filter by visibility
+
+        const recipes = await Recipe.find(query);
+        res.status(200).json(recipes);
     }
     catch (error) {
         console.error(error.message);
@@ -129,9 +164,14 @@ routerRecipeApi.post("/createRecipe", async (req, res) => {
         const user = await Author.findOne({ username: author });
         const ownRecipes = user.ownRecipes;
         ownRecipes.push(recipe.id);
-        const updatedUser = await Author.findByIdAndUpdate(user.id, { ownRecipes });
+        await Author.findByIdAndUpdate(user.id, { ownRecipes });
 
         const newRecipe = await recipe.save();
+        const recipeId = newRecipe._id;
+        await new Review({
+            recipeId: recipeId,
+            reviews: [],
+        });
         res.status(201).json({ newRecipe });
     }
     catch (error) {
@@ -165,7 +205,7 @@ routerRecipeApi.post("/updateRecipe", async (req, res) => {
         const verifyRecipe = await Recipe.findOne({ _id });
 
         if (!verifyRecipe) {
-            return res.status(400).json({ errors: [{ msg: "Invalid id for recipe." }] });
+            return res.status(400).json({ errors: [ { msg: "Invalid id for recipe." } ] });
         }
         else if (!author) {
             return res.status(400).json({ msg: "Recipe requires an author." });
@@ -237,7 +277,7 @@ routerRecipeApi["delete"]("/deleteRecipe/:id", async (req, res) => {
         }
 
         // update the author's json
-        const updatedUser = await Author.findByIdAndUpdate(_id, { ownRecipes });
+        await Author.findByIdAndUpdate(_id, { ownRecipes });
 
         // delete the recipe
         await Recipe.deleteOne({ _id: req.params.id });

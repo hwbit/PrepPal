@@ -9,6 +9,8 @@ import NavBar from '../components/nav-bar/nav-bar';
 
 const logo = require('../assets/logo.png')
 
+const backendBaseURL = process.env.REACT_APP_BACKEND_BASE_URL;
+
 const Signup = () => {
 
     const navigate = useNavigate();
@@ -32,7 +34,7 @@ const Signup = () => {
                     'password': password
                 }),
             };
-            const res = await fetch("http://localhost:9001/api/users/createUser", req).then(res => res.json());
+            const res = await fetch(backendBaseURL+"/api/users/createUser", req).then(res => res.json());
             sessionStorage.setItem("token", res.token);
         } catch (err) {
             alert("something went wrong");
@@ -59,17 +61,17 @@ const Signup = () => {
                             <Image src={logo} alt="Logo" width={300} height={250} style={{ maxWidth: '100%', height: 'auto' }} rounded />
                         </div>
                         <h2 className="text-center mb-4" style={{ paddingBottom: '32px' }}> Create your account</h2>
-                        <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                            <Form.Group title="inputUsername" controlId="formUser" style={{ paddingBottom: '28px' }}>
+                        <Form noValidate validated={validated} onSubmit={handleSubmit} className="signupForm">
+                            <Form.Group title="username" controlId="formUser" style={{ paddingBottom: '28px' }}>
                                 <Form.Control required type="text" placeholder="Username" onChange={(event) => setUsername(event.target.value)} />
                                 <Form.Control.Feedback type="invalid">Please enter a username.</Form.Control.Feedback>
                             </Form.Group>
-                            <Form.Group title="inputPassword" controlId="formBasicPassword" style={{ paddingBottom: '28px' }}>
+                            <Form.Group title="password" controlId="formBasicPassword" style={{ paddingBottom: '28px' }}>
                                 <Form.Control required type="password" placeholder="Password" onChange={(event) => setPassword(event.target.value)} />
                                 <Form.Control.Feedback type="invalid">Please enter a password.</Form.Control.Feedback>
                             </Form.Group>
                             <div className="d-grid gap-2">
-                                <Button className="mx-auto" variant="primary" type="submit" title="SignUp" size="lg">
+                                <Button className="mx-auto" variant="primary" type="submit" title="signup-button" size="lg">
                                     Sign up
                                 </Button>
                             </div>

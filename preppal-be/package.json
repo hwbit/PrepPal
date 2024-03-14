@@ -1,4 +1,8 @@
 {
+  "name": "preppal-be",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.ts",
   "dependencies": {
     "@azure/storage-blob": "^12.17.0",
     "cors": "^2.8.5",

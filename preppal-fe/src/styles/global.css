@@ -1,6 +1,7 @@
 /* Global Variables */
 :root {
     --dark-brown: #6d5f58;
+    --darker-brown: #4a382f;
     --normal-text: #efeade;
     --light-orange: #f9d6b2;
     --light-red: #ff907f;
@@ -16,9 +17,8 @@
     margin: 35px;
 }
 
-.search-query,
 h1 {
-    color: var(--dark-brown);
+    color: var(--darker-brown);
     font-weight: bolder;
     margin: 20px;
 }
@@ -29,7 +29,7 @@ link {
 }
 
 a {
-    color: var(--dark-brown)
+    color: var(--dark-brown);
 }
 
 .nav-item {
@@ -37,8 +37,9 @@ a {
 }
 
 .nav-link {
-    color: black !important;
+    color: var(--darker-brown) !important;
     border-color: #F2F2F2 !important;
+    font-weight: bold;
 }
 
 .nav-link.active {

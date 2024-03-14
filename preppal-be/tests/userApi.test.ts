@@ -3,7 +3,7 @@ const db = require("../configs/db.ts");
 const app = require("../app.ts");
 const UserModel = require("../models/user.ts");
 
-describe("userApi test", function() {
+describe("userApi test", function () {
     let token;
     const testId = "65e8ec6b354704617272c231";
     const testAccount = "testApiSandboxAccount";
@@ -28,6 +28,10 @@ describe("userApi test", function() {
         await request(app)
             .post("/api/users/unsaveRecipe")
             .send({ recipeId: "65d03151c3c181f694ab9b8f" })
+            .set("x-auth-token", token);
+        await request(app)
+            .post("/api/users/unfollowUser")
+            .send({ username: "test11" })
             .set("x-auth-token", token);
         db.closeDatabase();
     });
@@ -65,6 +69,7 @@ describe("userApi test", function() {
         // clean up
         await UserModel.deleteOne({ username: tempUserName });
     });
+
     it("incorrect createUser test - empty string for username", async () => {
         const res = await request(app)
             .post("/api/users/createUser")
@@ -74,6 +79,7 @@ describe("userApi test", function() {
             });
         expect(res.statusCode).toEqual(400);
     });
+
     it("incorrect createUser test - empty string for password", async () => {
         const res = await request(app)
             .post("/api/users/createUser")
@@ -83,6 +89,7 @@ describe("userApi test", function() {
             });
         expect(res.statusCode).toEqual(400);
     });
+
     it("incorrect createUser test - not enough characters for password", async () => {
         const res = await request(app)
             .post("/api/users/createUser")
@@ -112,6 +119,7 @@ describe("userApi test", function() {
         expect(res.body.username).toEqual(testAccount);
         expect(res.body.bio).toEqual(newBio);
     });
+
     it("incorrect updateUser test - invalid userid", async () => {
         const res = await request(app)
             .post("/api/users/updateUser")
@@ -126,6 +134,7 @@ describe("userApi test", function() {
             });
         expect(res.statusCode).toEqual(400);
     });
+
     it("incorrect updateUser test - no username", async () => {
         const res = await request(app)
             .post("/api/users/updateUser")
@@ -140,6 +149,7 @@ describe("userApi test", function() {
             });
         expect(res.statusCode).toEqual(400);
     });
+
     it("incorrect updateUser test - user does not exist", async () => {
         const res = await request(app)
             .post("/api/users/updateUser")
@@ -154,6 +164,7 @@ describe("userApi test", function() {
             });
         expect(res.statusCode).toEqual(400);
     });
+
     it("incorrect updateUser test - no password", async () => {
         const res = await request(app)
             .post("/api/users/updateUser")
@@ -168,6 +179,7 @@ describe("userApi test", function() {
             });
         expect(res.statusCode).toEqual(400);
     });
+
     it("incorrect updateUser test - not enough characters for password", async () => {
         const res = await request(app)
             .post("/api/users/updateUser")
@@ -183,6 +195,7 @@ describe("userApi test", function() {
         expect(res.statusCode).toEqual(400);
     });
 
+    //test saving recipes
     it("correct savedRecipes test - get saved recipes", async () => {
         const res = await request(app)
             .get("/api/users/savedRecipes")
@@ -280,4 +293,94 @@ describe("userApi test", function() {
         expect(res.statusCode).toEqual(200);
         expect(res._body.status).toBe(false);
     });
+
+    //follow users
+    it("correct followUser test - follow user", async () => {
+        const res = await request(app)
+            .post("/api/users/followUser")
+            .send({ username: "test11" })
+            .set("x-auth-token", token);
+
+        expect(res.statusCode).toEqual(200);
+        expect(res._body.following).toBeTruthy();
+        expect(res._body.following).toContain("test11");
+    });
+
+    it("correct followUser test - user should not be followed twice", async () => {
+        let res = await request(app)
+            .post("/api/users/followUser")
+            .send({ username: "test11" })
+            .set("x-auth-token", token);
+        const numFollowing = res._body.following.length;
+
+        res = await request(app)
+            .post("/api/users/followUser")
+            .send({ username: "test11" })
+            .set("x-auth-token", token);
+
+        expect(res.statusCode).toEqual(200);
+        expect(res._body.following).toBeTruthy();
+        expect(res._body.following).toContain("test11");
+        expect(res._body.following.length).toBe(numFollowing);
+    });
+
+    it("correct followUser test - handle username that doesn't exist", async () => {
+        const res = await request(app)
+            .post("/api/users/unfollowUser")
+            .send({ username: "random-username" })
+            .set("x-auth-token", token);
+
+        expect(res.statusCode).toEqual(200);
+        expect(res._body.following).toBeTruthy();
+        expect(res._body.following).not.toContain("random-username");
+    });
+
+    it("correct followStatus test - should return true when user is followed", async () => {
+        let res = await request(app)
+            .post("/api/users/followingStatus")
+            .send({ username: "test11" })
+            .set("x-auth-token", token);
+
+        expect(res.statusCode).toEqual(200);
+        expect(res._body.status).toBe(true);
+    });
+
+    it("correct followStatus test - should return false when user is not followed", async () => {
+        const res = await request(app)
+            .post("/api/users/followingStatus")
+            .send({ username: "random-username" })
+            .set("x-auth-token", token);
+
+        expect(res.statusCode).toEqual(200);
+        expect(res._body.status).toBe(false);
+    });
+
+    it("correct unfollowUser test - unfollow user", async () => {
+        let res = await request(app)
+            .post("/api/users/followUser")
+            .send({ username: "test11" })
+            .set("x-auth-token", token);
+        expect(res._body.following).toContain("test11");
+
+        res = await request(app)
+            .post("/api/users/unfollowUser")
+            .send({ username: "test11" })
+            .set("x-auth-token", token);
+
+        expect(res.statusCode).toEqual(200);
+        expect(res._body.following).toBeTruthy();
+        expect(res._body.following).not.toContain("test11");
+    });
+
+    it("correct unfollowUser test - handle username that doesn't exist", async () => {
+        const res = await request(app)
+            .post("/api/users/unfollowUser")
+            .send({ username: "random-username" })
+            .set("x-auth-token", token);
+
+        expect(res.statusCode).toEqual(200);
+        expect(res._body.following).toBeTruthy();
+        expect(res._body.following).not.toContain("random-username");
+    });
+
 });

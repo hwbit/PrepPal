@@ -1,5 +1,7 @@
 import React from "react";
 
+const backendBaseURL = process.env.REACT_APP_BACKEND_BASE_URL;
+
 const FavouriteButton = (recipe: any) => {
     const [favourite, setFavourite] = React.useState<boolean>();
 
@@ -10,7 +12,7 @@ const FavouriteButton = (recipe: any) => {
     async function saveStatus(id: string) {
         const token = sessionStorage.getItem("token");
         let saved = false;
-        if (token) {
+        if (token && token !== "undefined") {
             const req = {
                 method: "POST",
 
@@ -21,7 +23,7 @@ const FavouriteButton = (recipe: any) => {
 
                 body: JSON.stringify({ recipeId: id }),
             };
-            const res = await fetch("http://localhost:9001/api/users/saveRecipeStatus", req).then((res) => res.json());
+            const res = await fetch(backendBaseURL+"/api/users/saveRecipeStatus", req).then((res) => res.json());
             saved = res?.status ?? false;
         }
         return saved;
@@ -30,7 +32,7 @@ const FavouriteButton = (recipe: any) => {
     async function updateSavedRecipes(saveRecipeId: string, save: boolean) {
         const token = sessionStorage.getItem("token");
         try {
-            if (token) {
+            if (token && token !== "undefined") {
                 if (save) {
                     const req = {
                         method: "POST",
@@ -42,7 +44,7 @@ const FavouriteButton = (recipe: any) => {
 
                         body: JSON.stringify({ recipeId: saveRecipeId }),
                     };
-                    await fetch("http://localhost:9001/api/users/saveRecipe", req).then((res) => res.json());
+                    await fetch(backendBaseURL+"/api/users/saveRecipe", req).then((res) => res.json());
                 }
                 else {
                     const req = {
@@ -55,7 +57,7 @@ const FavouriteButton = (recipe: any) => {
 
                         body: JSON.stringify({ recipeId: saveRecipeId }),
                     };
-                    await fetch("http://localhost:9001/api/users/unsaveRecipe", req).then((res) => res.json());
+                    await fetch(backendBaseURL+"/api/users/unsaveRecipe", req).then((res) => res.json());
                 }
             }
         }
@@ -73,6 +75,7 @@ const FavouriteButton = (recipe: any) => {
         favourite
             ? (<img
                 onClick={handleClick}
+                className="saved"
                 src={require("../../assets/filled-heart.png")}
                 width={40}
                 height={40}
@@ -80,6 +83,7 @@ const FavouriteButton = (recipe: any) => {
             </img>)
             : (<img
                 onClick={handleClick}
+                className="unsaved"
                 src={require("../../assets/unfilled-heart.png")}
                 width={40}
                 height={40}

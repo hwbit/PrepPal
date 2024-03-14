@@ -5,20 +5,20 @@ const app = require("../app.ts");
 const RecipeModel = require("../models/recipe.ts");
 const AuthorModel = require("../models/user.ts");
 
-describe("recipeApi test", function () {
+describe("recipeApi test", function() {
     const testRecipeId = "65d03133c3c181f694ab9b8b"; // test recipe 1000 - do not delete
     const testAuthor = "testApiSandboxAccount";
 
     const testUpdateRecipeId = "65d03151c3c181f694ab9b8f";
     const testUpdateRecipeTitle = "Test Recipe 2000";
 
-    beforeEach(function () {
+    beforeEach(function() {
         const recipeApiTestRouter = require("../routes/recipeApi.ts");
     });
-    beforeAll(function () {
+    beforeAll(function() {
         db.connectDB();
     });
-    afterAll(function () {
+    afterAll(function() {
         db.closeDatabase();
     });
 
@@ -80,6 +80,102 @@ describe("recipeApi test", function () {
         const res = await request(app)
             .post("/api/recipes/searchName")
             .send({ title: `tesT rEcIpE${Date.now().toString()}` });
+        expect(res.statusCode).toEqual(200);
+        expect(res.body).toEqual([]);
+    });
+
+    // advanced search recipe
+    it("correct test - lookup a valid recipe", async () => {
+        const res = await request(app)
+            .post("/api/recipes/searchRecipes")
+            .send({
+                title: "tesT rEcIpE 2000",
+                author: testAuthor,
+                description: "DO NOT DELETE",
+                ingredients: ["item", "item2", "3"],
+                cookingTime: 15,
+            });
+        expect(res.statusCode).toEqual(200);
+        expect(res.body[0].isPublic).toEqual(true);
+        expect(res.body[0].author).toEqual(testAuthor);
+        expect(res.body[0].description).toContain("Test Recipe To Update - DO NOT DELETE");
+        expect(res.body[0].ingredients[0]).toEqual("item1");
+        expect(res.body[0].ingredients[1]).toEqual("item2");
+        expect(res.body[0].ingredients[2]).toEqual("item3");
+        expect(res.body[0].instructions[0]).toEqual("step1");
+        expect(res.body[0].instructions[1]).toEqual("step2");
+        expect(res.body[0].instructions[2]).toEqual("step3");
+        expect(res.body[0].servingSize).toEqual(2);
+        expect(res.body[0].prepTime).toEqual(10);
+        expect(res.body[0].cookingTime).toEqual(10);
+    });
+
+    it("incorrect test - search for a recipe where everything exists except the title", async () => {
+        const res = await request(app)
+            .post("/api/recipes/searchRecipes")
+            .send({
+                title: `tesT rEcIpE${Date.now().toString()}`,
+                author: testAuthor,
+                description: "DO NOT DELETE",
+                ingredients: ["item", "item2", "3"],
+                cookingTime: 15,
+            });
+        expect(res.statusCode).toEqual(200);
+        expect(res.body).toEqual([]);
+    });
+
+    it("incorrect test - search for a recipe where everything exists except the author", async () => {
+        const res = await request(app)
+            .post("/api/recipes/searchRecipes")
+            .send({
+                title: "tesT rEcIpE 2000",
+                author: `${testAuthor}${Date.now().toString()}`,
+                description: "DO NOT DELETE",
+                ingredients: ["item", "item2", "3"],
+                cookingTime: 15,
+            });
+        expect(res.statusCode).toEqual(200);
+        expect(res.body).toEqual([]);
+    });
+
+    it("incorrect test - search for a recipe where everything exists except the description", async () => {
+        const res = await request(app)
+            .post("/api/recipes/searchRecipes")
+            .send({
+                title: `tesT rEcIpE${Date.now().toString()}`,
+                author: testAuthor,
+                description: `today's date is ${Date.now().toString()}`,
+                ingredients: ["item", "item2", "3"],
+                cookingTime: 15,
+            });
+        expect(res.statusCode).toEqual(200);
+        expect(res.body).toEqual([]);
+    });
+
+    it("incorrect test - search for a recipe where everything exists except the ingredients", async () => {
+        const res = await request(app)
+            .post("/api/recipes/searchRecipes")
+            .send({
+                title: `tesT rEcIpE${Date.now().toString()}`,
+                author: testAuthor,
+                description: "DO NOT DELETE",
+                ingredients: [`${Date.now().toString()}`],
+                cookingTime: 15,
+            });
+        expect(res.statusCode).toEqual(200);
+        expect(res.body).toEqual([]);
+    });
+
+    it("incorrect test - search for a recipe where everything exists except a lower cookingTime", async () => {
+        const res = await request(app)
+            .post("/api/recipes/searchRecipes")
+            .send({
+                title: `tesT rEcIpE${Date.now().toString()}`,
+                author: testAuthor,
+                description: "DO NOT DELETE",
+                ingredients: ["item", "item2", "3"],
+                cookingTime: 0.0001,
+            });
         expect(res.statusCode).toEqual(200);
         expect(res.body).toEqual([]);
     });
@@ -320,7 +416,6 @@ describe("recipeApi test", function () {
         expect(res.body.recipe.cookingTime).toEqual(10);
     });
     it("incorrect test - update recipe with no author", async () => {
-        const testRecipeTitle = `Test Recipe ${Date.now().toString()}`;
         const res = await request(app)
             .post("/api/recipes/updateRecipe")
             .send({

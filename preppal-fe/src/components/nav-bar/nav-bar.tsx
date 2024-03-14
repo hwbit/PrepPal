@@ -1,9 +1,10 @@
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { Form } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import './nav-bar.css';
 import React from 'react';
+import { FaSearch, FaTimes } from "react-icons/fa";
 
 const NavBar = () => {
   const [loggedIn, setLoggedIn] = React.useState(false);
@@ -16,7 +17,7 @@ const NavBar = () => {
   const fillUserContent = async () => {
     const token = sessionStorage.getItem("token");
     try {
-      if (token) {
+      if (token && token !== "undefined") {
         setLoggedIn(true);
       }
     } catch (err) {
@@ -29,8 +30,12 @@ const NavBar = () => {
     if (!searchQuery.trim()) {
       return;
     }
-    navigate(`/search/${encodeURIComponent(searchQuery)}`);
+    navigate(`/search?title=${encodeURIComponent(searchQuery)}`);
   };
+
+  const searchButtonClick = () => {
+    navigate(`/search?title=${searchQuery.trim() ? searchQuery.trim() : ""}`);
+  }
 
   const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
@@ -44,17 +49,25 @@ const NavBar = () => {
       <Form className="search-bar" onSubmit={handleSearchSubmit}>
         <Form.Control
           type="text"
-          placeholder="Search"
+          placeholder="Quick Search"
           value={searchQuery}
           onChange={handleSearchInputChange}
         />
+        {searchQuery && (
+          <Button variant="link" className="clear-btn" onClick={() => setSearchQuery("")}>
+            <FaTimes />
+          </Button>
+        )}
+        <Button variant="outline-light" className="search-btn" onClick={searchButtonClick}><FaSearch /></Button>
       </Form>
+
       <Nav className="links">
-        {loggedIn ? <Nav.Link as={Link} to="/collections" className="nav-item">Collections</Nav.Link> : <br></br>}
-        {loggedIn ? <Nav.Link as={Link} to="/new-recipe" className="nav-item">New Recipe</Nav.Link> : <br></br>}
+        {loggedIn && <Nav.Link as={Link} to="/collections" className="nav-item" title="collections-link">Collections</Nav.Link>}
+        {loggedIn && <Nav.Link as={Link} to="/calendar" className="nav-item">Calendar</Nav.Link> }
+        {loggedIn && <Nav.Link as={Link} to="/new-recipe" className="nav-item">New Recipe</Nav.Link>}
         {loggedIn
-          ? (<Nav.Link as={Link} to="/profile" className="nav-item">Profile</Nav.Link>)
-          : (<Nav.Link as={Link} to="/login" className="nav-item">Login</Nav.Link>)
+          ? (<Nav.Link as={Link} to="/profile" className="nav-item" title="profile-link">Profile</Nav.Link>)
+          : (<Nav.Link as={Link} to="/login" className="nav-item" title="login-link">Login</Nav.Link>)
         }
       </Nav>
     </Navbar>

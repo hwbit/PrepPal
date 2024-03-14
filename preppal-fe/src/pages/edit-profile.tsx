@@ -5,6 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import React from 'react';
 import NavBar from '../components/nav-bar/nav-bar';
 
+const logo = require('../assets/logo.png')
+const backendBaseURL = process.env.REACT_APP_BACKEND_BASE_URL;
+
 function EditProfile() {
     const [userID, setID] = React.useState('');
     const [userName, setName] = React.useState("");
@@ -28,14 +31,14 @@ function EditProfile() {
     const fillUserContent = async () => {
         const token = sessionStorage.getItem("token");
         try {
-            if (token) {
+            if (token && token !== "undefined") {
                 const req = {
                     method: "GET",
                     headers: {
                         "x-auth-token": token
                     }
                 };
-                const res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
+                const res = await fetch(backendBaseURL+"/api/auth/", req).then(res => res.json());
                 setID(res._id);
                 setName(res.username);
                 setBio(res.bio);
@@ -57,7 +60,7 @@ function EditProfile() {
         const token = sessionStorage.getItem("token");
         try {
             //Using inputted userPassword, confirm user ID
-            if (token) {
+            if (token && token !== "undefined") {
                 const req = {
                     method: "POST",
 
@@ -70,7 +73,7 @@ function EditProfile() {
                         'password': userPassword
                     })
                 };
-                const res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
+                const res = await fetch(backendBaseURL+"/api/auth/", req).then(res => res.json());
                 if (res.token) {
                     if (token !== "undefined") {
                         try {
@@ -110,7 +113,8 @@ function EditProfile() {
                 body: formBody
             };
 
-            const res = await fetch("http://localhost:9001/api/users/updateUser", req).then(res => res.json());
+            const res = await fetch(backendBaseURL+"/api/users/updateUser", req).then(res => res.json());
+          
             if (res.errors) {
                 alert(res.errors[0].msg);
             }
@@ -138,7 +142,7 @@ function EditProfile() {
                 method: "POST",
                 body: formBody
             };
-            const res = await fetch("http://localhost:9001/api/users/updateUser", req).then(res => res.json());
+            const res = await fetch(backendBaseURL+"/api/users/updateUser", req).then(res => res.json());
             if (res.errors) {
                 alert(res.errors[0].msg);
             }

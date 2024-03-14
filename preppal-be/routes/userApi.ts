@@ -35,27 +35,33 @@ routerUserApi.get("/", async (req, res) => {
  * GET - Get an account with corresponding username
  */
 routerUserApi.get("/lookup/:username", async (req, res) => {
-    const username = req.params.username;
-    const user = await User.findOne({ username }).select("-password");
+    try {
+        const username = req.params.username;
+        const user = await User.findOne({ username }).select("-password");
 
-    if (!user) {
-        return res.status(400).json({ errors: [ { msg: "Invalid id for user." } ] });
-    }
-    const recipeIds = user.ownRecipes ?? [];
-    const publicRecipes = [];
-    for (const recipeId of recipeIds) {
-        const recipe = await Recipe.findOne({ _id: recipeId });
-        if (recipe && recipe.isPublic) {
-            publicRecipes.push(recipe);
+        if (!user) {
+            return res.status(400).json({ errors: [{ msg: "Invalid id for user." }] });
         }
-    }
+        const recipeIds = user.ownRecipes ?? [];
+        const publicRecipes = [];
+        for (const recipeId of recipeIds) {
+            const recipe = await Recipe.findOne({ _id: recipeId });
+            if (recipe && recipe.isPublic) {
+                publicRecipes.push(recipe);
+            }
+        }
 
-    res.status(200).json({
-        username: user.username,
-        bio: user.bio,
-        following: user.following,
-        recipes: publicRecipes,
-    });
+        res.status(200).json({
+            username: user.username,
+            bio: user.bio,
+            following: user.following,
+            recipes: publicRecipes,
+        });
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).send("Server error.");
+    }
 });
 
 
@@ -232,7 +238,7 @@ routerUserApi.get("/savedRecipes", auth, async (req, res) => {
         for (const recipeId of recipeIds) {
             const recipe = await Recipe.findOne({ _id: recipeId });
             if (recipe && recipe.isPublic) {
-                publicRecipes.push(recipe);
+                recipes.push(recipe);
             }
         }
         res.status(200).json(recipes);
@@ -263,6 +269,89 @@ routerUserApi.get("/ownRecipes", auth, async (req, res) => {
             }
         }
         res.status(200).json(recipes);
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).send("Server error.");
+    }
+});
+
+/**
+ * POST - Add a user to the logged in user's following list
+ */
+routerUserApi.post("/followUser", auth, async (req, res) => {
+    try {
+        const { username } = req.body;
+
+        const user = await User.findById(req.user.id).select("-password");
+
+        if (!user) {
+            return res.status(400).json({ errors: [{ msg: "Invalid token." }] });
+        }
+
+        let following = user.following;
+        if (following.includes(username)) {
+            return res.status(200).json({ following });
+        }
+
+        const result = await User.findOneAndUpdate({ _id: req.user.id }, { $push: { following: username } }, { new: true });
+        following = result?.following;
+        res.status(200).json({ following });
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).send("Server error.");
+    }
+});
+
+/**
+ * POST - Remove a user from the logged in user's following list
+ */
+routerUserApi.post("/unfollowUser", auth, async (req, res) => {
+    try {
+        const { username } = req.body;
+
+        const user = await User.findById(req.user.id).select("-password");
+
+        if (!user) {
+            return res.status(400).json({ errors: [{ msg: "Invalid token." }] });
+        }
+
+        let following = user.following;
+        if (!following.includes(username)) {
+            return res.status(200).json({ following });
+        }
+
+        const result = await User.findOneAndUpdate({ _id: req.user.id }, { $pull: { following: username } }, { new: true });
+        following = result?.following ?? [];
+        res.status(200).json({ following });
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).send("Server error.");
+    }
+});
+
+/**
+ * GET - Check if a user is followed by the logged in user or not
+ */
+routerUserApi.post("/followingStatus", auth, async (req, res) => {
+    try {
+        const { username } = req.body;
+
+        const user = await User.findById(req.user.id).select("-password");
+
+        if (!user) {
+            return res.status(400).json({ errors: [{ msg: "Invalid token." }] });
+        }
+        const result = await User.find({ _id: req.user.id, following: username });
+
+        if (result.length > 0) {
+            res.status(200).json({ status: true });
+        }
+        else {
+            res.status(200).json({ status: false });
+        }
     }
     catch (error) {
         console.error(error);
