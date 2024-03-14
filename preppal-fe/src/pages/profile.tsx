@@ -8,6 +8,8 @@ import FollowButton from '../components/follow-button/follow-button';
 
 const logo = require('../assets/logo.png')
 
+const backendBaseURL = process.env.REACT_APP_BACKEND_BASE_URL;
+
 function Profile() {
     const [username, setUsername] = React.useState("");
     const [userBio, setBio] = React.useState("");
@@ -36,7 +38,7 @@ function Profile() {
                         "x-auth-token": token
                     }
                 };
-                res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
+                res = await fetch(backendBaseURL+"/api/auth/", req).then(res => res.json());
                 setUsername(res.username);
                 setBio(res.bio);
                 setFollowing(res.following);
@@ -53,7 +55,7 @@ function Profile() {
                         "Content-type": "application/json"
                     }
                 };
-                res = await fetch("http://localhost:9001/api/users/lookup/" + query, req).then(res => res.json());
+                res = await fetch(backendBaseURL+"/api/users/lookup/" + query, req).then(res => res.json());
                 if (res) {
                     setUsername(res.username);
                     setBio(res.bio);

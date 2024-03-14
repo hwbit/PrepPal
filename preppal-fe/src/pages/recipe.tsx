@@ -7,6 +7,8 @@ import Review from '../components/review/review';
 import '../styles/recipe.css';
 import FavouriteButton from '../components/fav-button/fav-button';
 
+const backendBaseURL = process.env.REACT_APP_BACKEND_BASE_URL;
+
 const Recipe = () => {
     const { recipeId } = useParams();
 
@@ -57,7 +59,7 @@ const Recipe = () => {
                         "x-auth-token": token
                     }
                 };
-                const res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
+                const res = await fetch(backendBaseURL+"/api/auth/", req).then(res => res.json());
                 setUsername(res.username);
                 setLoggedIn(true);
             }
@@ -74,7 +76,7 @@ const Recipe = () => {
                     'Content-Type': 'application/json'
                 }
             };
-            const res = await fetch(`http://localhost:9001/api/recipes/lookupId/${recipeId}`, req).then(res => res.json());
+            const res = await fetch(backendBaseURL+`/api/recipes/lookupId/${recipeId}`, req).then(res => res.json());
             setAuthor(res.author);
             setDate(dateToString(new Date(res.creationDate)));
             setTitle(res.title);
@@ -98,7 +100,7 @@ const Recipe = () => {
                     'Content-Type': 'application/json'
                 }
             };
-            const res = await fetch(`http://localhost:9001/api/reviews/${recipeId}`, req).then((res) => res.json());
+            const res = await fetch(backendBaseURL+`/api/reviews/${recipeId}`, req).then((res) => res.json());
             if (res) {
                 setReviews(res.reviews);
                 calculateRecipeRating(res.reviews);
@@ -169,7 +171,7 @@ const Recipe = () => {
                     'comment': review.comment,
                 })
             };
-            await fetch("http://localhost:9001/api/reviews/post", req).then(res => res.json());
+            await fetch(backendBaseURL+"/api/reviews/post", req).then(res => res.json());
         } catch (err) {
             console.error(err);
         }

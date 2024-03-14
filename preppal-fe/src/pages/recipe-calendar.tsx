@@ -4,6 +4,8 @@ import { Button, Card, Col, Row, Stack } from 'react-bootstrap';
 import React from 'react';
 import RecipeCard from '../components/recipe-card/recipe-card';
 
+const backendBaseURL = process.env.REACT_APP_BACKEND_BASE_URL;
+
 type ValuePiece = Date | null;
 
 type Value = ValuePiece | [ValuePiece, ValuePiece];
@@ -34,7 +36,7 @@ function RecipeCalendar() {
             "x-auth-token": token
           }
         };
-        const res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
+        const res = await fetch(backendBaseURL+"/api/auth/", req).then(res => res.json());
         setName(res.username);
 
         // Get Calendar for user
@@ -48,7 +50,7 @@ function RecipeCalendar() {
             'username': res.username
           })
         };
-        const resCal = await fetch("http://localhost:9001/api/calendar/getCalendar", reqCal).then(res => res.json());
+        const resCal = await fetch(backendBaseURL+"/api/calendar/getCalendar", reqCal).then(res => res.json());
         setCalendarObject(resCal);
         // set global variables depending on what calendar was returned
         if (resCal && resCal.calendarDates && resCal.calendarDates.length > 0) {
@@ -90,7 +92,7 @@ function RecipeCalendar() {
             'x-auth-token': token
           }
         };
-        fetchedRecipes = await fetch("http://localhost:9001/api/recipes/", req).then((res) => res.json());
+        fetchedRecipes = await fetch(backendBaseURL+"/api/recipes/", req).then((res) => res.json());
       }
       // return a this users' recipes
       return fetchedRecipes;
@@ -169,7 +171,7 @@ function RecipeCalendar() {
             "recipeOfTheDayIngredients": shoppingList
           })
         };
-        const res = await fetch("http://localhost:9001/api/calendar/updateCalendar/", req).then(res => res.json());
+        const res = await fetch(backendBaseURL+"/api/calendar/updateCalendar/", req).then(res => res.json());
         setCalendarObject(res);
         alert("Recipe saved successfully.");
         // returns new calendar

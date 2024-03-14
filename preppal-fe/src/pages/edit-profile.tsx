@@ -7,6 +7,8 @@ import NavBar from '../components/nav-bar/nav-bar';
 
 const logo = require('../assets/logo.png')
 
+const backendBaseURL = process.env.REACT_APP_BACKEND_BASE_URL;
+
 function EditProfile() {
     const [userID, setID] = React.useState(0);
     const [userName, setName] = React.useState("");
@@ -35,7 +37,7 @@ function EditProfile() {
                         "x-auth-token": token
                     }
                 };
-                const res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
+                const res = await fetch(backendBaseURL+"/api/auth/", req).then(res => res.json());
                 setID(res._id);
                 setName(res.username);
                 setBio(res.bio);
@@ -69,7 +71,7 @@ function EditProfile() {
                         'password': userPassword
                     })
                 };
-                const res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
+                const res = await fetch(backendBaseURL+"/api/auth/", req).then(res => res.json());
                 if (res.token) {
                     if (token !== "undefined") {
                         try {
@@ -111,7 +113,7 @@ function EditProfile() {
                     'following': userFollowing
                 })
             };
-            const res = await fetch("http://localhost:9001/api/users/updateUser", req).then(res => res.json());
+            const res = await fetch(backendBaseURL+"/api/users/updateUser", req).then(res => res.json());
             if (res.errors) {
                 alert(res.errors[0].msg);
             }
@@ -142,7 +144,7 @@ function EditProfile() {
                     'following': userFollowing
                 })
             };
-            const res = await fetch("http://localhost:9001/api/users/updateUser", req).then(res => res.json());
+            const res = await fetch(backendBaseURL+"/api/users/updateUser", req).then(res => res.json());
             if (res.errors) {
                 alert(res.errors[0].msg);
             }
