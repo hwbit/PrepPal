@@ -14,7 +14,7 @@ function Profile() {
     const [username, setUsername] = React.useState("");
     const [userBio, setBio] = React.useState("");
     const [userFollowing, setFollowing] = React.useState<any[]>([]);
-    const [userFollowingCount, setFollowingCount] = React.useState(0);
+    const [userFollowingCount, setFollowingCount] = React.useState<number>(0);
     const [recipes, setRecipes] = React.useState<any[]>([]);
     const [loggedIn, setLoggedIn] = React.useState(false);
     const [myProfile, setMyProfile] = React.useState(false);
@@ -39,15 +39,13 @@ function Profile() {
                     }
                 };
                 res = await fetch(backendBaseURL+"/api/auth/", req).then(res => res.json());
-                if (res) {
-                    setUsername(res.username);
-                    setBio(res.bio);
-                    setFollowing(res.following);
-                    setFollowingCount(res.following.length);
-                    setLoggedIn(true);
-                    if (query === "" || query === res.username) {
-                        setMyProfile(true);
-                    }
+                setUsername(res.username);
+                setBio(res.bio);
+                setFollowing(res.following);
+                setFollowingCount(res.following.length);
+                setLoggedIn(true);
+                if (query === "" || query === res.username) {
+                    setMyProfile(true);
                 }
             }
             if (!myProfile) {
@@ -86,7 +84,7 @@ function Profile() {
                                     <Stack gap={3}>
                                         <div className='d-flex justify-content-end'>
                                             {myProfile ? (<Button className='d-flex' variant="primary" href="edit-profile" title="Edit" size="sm" style={{ maxWidth: '40px', backgroundColor: "#401E01" }}>Edit</Button>)
-                                                : (loggedIn && <FollowButton username={username}></FollowButton>)}
+                                                : (loggedIn && <FollowButton title="Follow" username={username}></FollowButton>)}
                                         </div>
                                         <Card.Subtitle className='d-flex justify-content-end'>Following: {userFollowingCount}</Card.Subtitle>
                                     </Stack>

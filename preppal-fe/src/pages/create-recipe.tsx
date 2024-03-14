@@ -91,8 +91,8 @@ const CreateRecipe = () => {
                         })
                     };
 
-
                     await fetch(backendBaseURL+"/api/recipes/createRecipe", req).then(res => res.json());
+
                     navigate("/collections");
                 }
             } catch (err) {

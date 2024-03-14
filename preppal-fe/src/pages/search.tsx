@@ -7,6 +7,8 @@ import { Button } from 'react-bootstrap';
 import { FaFilter } from 'react-icons/fa';
 import FilterMenu from '../components/filter-menu/filter-menu';
 
+const backendBaseURL = process.env.REACT_APP_BACKEND_BASE_URL;
+
 interface RecipeQuery {
   title?: string | null;
   author?: string | null;
@@ -53,7 +55,6 @@ const Search = () => {
           };
 
           const fetchedRecipes = await fetch(backendBaseURL+"/api/recipes/searchRecipes/", req).then((res) => res.json());
-
           setRecipes(fetchedRecipes);
         } catch (err) {
           console.error(err);

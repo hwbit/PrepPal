@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-// const secrets = require("./secrets.ts");
-
 require("dotenv").config();
 
 const uri = process.env.MONGO_URI;

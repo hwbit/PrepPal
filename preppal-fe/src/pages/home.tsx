@@ -6,7 +6,7 @@ import RecipeCatalog from '../components/recipe-catalog/recipe-catalog';
 
 const backendBaseURL = process.env.REACT_APP_BACKEND_BASE_URL;
 
-const ExplorePage: React.FC = () => {
+const Home: React.FC = () => {
   const [recipes, setRecipes] = React.useState<any[]>([]);
   React.useEffect(() => {
     const fillRecipes = async () => {
@@ -36,4 +36,4 @@ const ExplorePage: React.FC = () => {
   );
 };
 
-export default ExplorePage;
+export default Home;

@@ -61,17 +61,17 @@ const Signup = () => {
                             <Image src={logo} alt="Logo" width={300} height={250} style={{ maxWidth: '100%', height: 'auto' }} rounded />
                         </div>
                         <h2 className="text-center mb-4" style={{ paddingBottom: '32px' }}> Create your account</h2>
-                        <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                            <Form.Group title="inputUsername" controlId="formUser" style={{ paddingBottom: '28px' }}>
+                        <Form noValidate validated={validated} onSubmit={handleSubmit} className="signupForm">
+                            <Form.Group title="username" controlId="formUser" style={{ paddingBottom: '28px' }}>
                                 <Form.Control required type="text" placeholder="Username" onChange={(event) => setUsername(event.target.value)} />
                                 <Form.Control.Feedback type="invalid">Please enter a username.</Form.Control.Feedback>
                             </Form.Group>
-                            <Form.Group title="inputPassword" controlId="formBasicPassword" style={{ paddingBottom: '28px' }}>
+                            <Form.Group title="password" controlId="formBasicPassword" style={{ paddingBottom: '28px' }}>
                                 <Form.Control required type="password" placeholder="Password" onChange={(event) => setPassword(event.target.value)} />
                                 <Form.Control.Feedback type="invalid">Please enter a password.</Form.Control.Feedback>
                             </Form.Group>
                             <div className="d-grid gap-2">
-                                <Button className="mx-auto" variant="primary" type="submit" title="SignUp" size="lg">
+                                <Button className="mx-auto" variant="primary" type="submit" title="signup-button" size="lg">
                                     Sign up
                                 </Button>
                             </div>

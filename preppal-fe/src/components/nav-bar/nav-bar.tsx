@@ -63,12 +63,12 @@ const NavBar = () => {
       </Form>
 
       <Nav className="links">
-        {loggedIn ? <Nav.Link as={Link} to="/collections" className="nav-item">Collections</Nav.Link> : <br></br>}
-        {loggedIn ? <Nav.Link as={Link} to="/calendar" className="nav-item">Calendar</Nav.Link> : <br></br>}
-        {loggedIn ? <Nav.Link as={Link} to="/new-recipe" className="nav-item">New Recipe</Nav.Link> : <br></br>}
+        {loggedIn && <Nav.Link as={Link} to="/collections" className="nav-item" title="collections-link">Collections</Nav.Link>}
+        {loggedIn && <Nav.Link as={Link} to="/calendar" className="nav-item">Calendar</Nav.Link> }
+        {loggedIn && <Nav.Link as={Link} to="/new-recipe" className="nav-item">New Recipe</Nav.Link>}
         {loggedIn
-          ? (<Nav.Link as={Link} to="/profile" className="nav-item">Profile</Nav.Link>)
-          : (<Nav.Link as={Link} to="/login" className="nav-item">Login</Nav.Link>)
+          ? (<Nav.Link as={Link} to="/profile" className="nav-item" title="profile-link">Profile</Nav.Link>)
+          : (<Nav.Link as={Link} to="/login" className="nav-item" title="login-link">Login</Nav.Link>)
         }
       </Nav>
     </Navbar>

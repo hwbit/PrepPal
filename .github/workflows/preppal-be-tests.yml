@@ -10,7 +10,7 @@ env:
   AZURE_KEY: ${{ secrets.AZURE_KEY }}
   AZURE_CONNECTION_KEY: ${{ secrets.AZURE_CONNECTION_KEY }}
   MONGO_URI: ${{ secrets.MONGO_URI }}
-  
+
 jobs:
   build:
     runs-on: ubuntu-latest
