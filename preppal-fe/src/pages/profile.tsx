@@ -6,9 +6,7 @@ import NavBar from '../components/nav-bar/nav-bar';
 import RecipeCatalog from '../components/recipe-catalog/recipe-catalog';
 import FollowButton from '../components/follow-button/follow-button';
 
-const logo = require('../assets/logo.png')
 const backendBaseURL = process.env.REACT_APP_BACKEND_BASE_URL;
-
 
 function Profile() {
     const [username, setUsername] = React.useState("");

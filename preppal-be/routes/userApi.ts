@@ -5,12 +5,10 @@ const configUserApi = require("../configs/secrets.ts");
 const auth = require("../auth/authorization.ts");
 const User = require("../models/user.ts");
 const Recipe = require("../models/recipe.ts");
-
 const Uploader = require("../utils/uploader.ts");
-
 const multer = require("multer");
-const storage = multer.memoryStorage();
 
+const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 const SESSION_EXPIRY = 86400;
@@ -40,7 +38,7 @@ routerUserApi.get("/lookup/:username", async (req, res) => {
         const user = await User.findOne({ username }).select("-password");
 
         if (!user) {
-            return res.status(400).json({ errors: [{ msg: "Invalid id for user." }] });
+            return res.status(400).json({ errors: [ { msg: "Invalid id for user." } ] });
         }
         const recipeIds = user.ownRecipes ?? [];
         const publicRecipes = [];
@@ -286,7 +284,7 @@ routerUserApi.post("/followUser", auth, async (req, res) => {
         const user = await User.findById(req.user.id).select("-password");
 
         if (!user) {
-            return res.status(400).json({ errors: [{ msg: "Invalid token." }] });
+            return res.status(400).json({ errors: [ { msg: "Invalid token." } ] });
         }
 
         let following = user.following;
@@ -314,7 +312,7 @@ routerUserApi.post("/unfollowUser", auth, async (req, res) => {
         const user = await User.findById(req.user.id).select("-password");
 
         if (!user) {
-            return res.status(400).json({ errors: [{ msg: "Invalid token." }] });
+            return res.status(400).json({ errors: [ { msg: "Invalid token." } ] });
         }
 
         let following = user.following;
@@ -342,7 +340,7 @@ routerUserApi.post("/followingStatus", auth, async (req, res) => {
         const user = await User.findById(req.user.id).select("-password");
 
         if (!user) {
-            return res.status(400).json({ errors: [{ msg: "Invalid token." }] });
+            return res.status(400).json({ errors: [ { msg: "Invalid token." } ] });
         }
         const result = await User.find({ _id: req.user.id, following: username });
 
