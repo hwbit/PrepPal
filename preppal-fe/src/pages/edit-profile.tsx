@@ -102,9 +102,6 @@ function EditProfile() {
             formBody.append('username', userName);
             formBody.append('password', userPassword);
             formBody.append('bio', userBio);
-            formBody.append('ownRecipes', userOwn.toString());
-            formBody.append('savedRecipe', userSaved.toString());
-            formBody.append('following', userFollowing.toString());
             formBody.append('imageRaw', uploadedImage);
 
             const req = {
@@ -132,9 +129,6 @@ function EditProfile() {
             formBody.append('username', userName);
             formBody.append('password', userPassword);
             formBody.append('bio', userBio);
-            formBody.append('ownRecipes', userOwn.toString());
-            formBody.append('savedRecipe', userSaved.toString());
-            formBody.append('following', userFollowing.toString());
             formBody.append('imageRaw', uploadedImage);
 
             const req = {

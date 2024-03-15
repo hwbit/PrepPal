@@ -98,7 +98,7 @@ routerUserApi.post("/createUser", async (req, res) => {
  */
 routerUserApi.post("/updateUser", upload.single("imageRaw"), async (req, res) => {
     try {
-        const { _id, username, password, bio, ownRecipes, savedRecipes, following } = req.body;
+        const { _id, username, password, bio } = req.body;
 
         let image = process.env.DEFAULT_LOGO_URL;
 
@@ -116,15 +116,13 @@ routerUserApi.post("/updateUser", upload.single("imageRaw"), async (req, res) =>
 
         if (req.file) {
             image = await Uploader.uploadImage(req.file, username);
-            user = await new User({ _id, username, password, bio, ownRecipes, savedRecipes, following, image });
+            user = await User.findOneAndUpdate({ _id }, { bio, password, image }, { new: true });
         }
         else {
-            user = await new User({ _id, username, password, bio, ownRecipes, savedRecipes, following });
+            user = await User.findOneAndUpdate({ _id }, { bio, password }, { new: true });
         }
 
-        const newUser = await User.findOneAndUpdate({ username }, user);
-
-        if (!newUser) {
+        if (!user) {
             return res.status(400).json({ msg: "User was not found" });
         }
 
