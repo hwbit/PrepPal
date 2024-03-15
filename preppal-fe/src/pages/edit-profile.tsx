@@ -13,9 +13,6 @@ function EditProfile() {
     const [userPassword, setPassword] = React.useState("");
     const [userNewPassword, setNewPassword] = React.useState("");
     const [userBio, setBio] = React.useState("");
-    const [userOwn, setOwn] = React.useState<any[]>([]);
-    const [userSaved, setSaved] = React.useState<any[]>([]);
-    const [userFollowing, setFollowing] = React.useState<any[]>([]);
     const [userImage, setImage] = React.useState();
     const [uploadedImage, setUploadedImage] = React.useState('');
 
@@ -41,9 +38,6 @@ function EditProfile() {
                 setID(res._id);
                 setName(res.username);
                 setBio(res.bio);
-                setOwn(res.ownRecipes);
-                setSaved(res.savedRecipes);
-                setFollowing(res.following);
                 setImage(res.image);
             }
         } catch (err) {
