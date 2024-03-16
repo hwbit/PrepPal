@@ -1,6 +1,7 @@
 import Card from 'react-bootstrap/Card';
 import Image from 'react-bootstrap/Image';
 import { Button, Col, Row, Stack } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
 import React from 'react';
 import NavBar from '../components/nav-bar/nav-bar';
 import RecipeCatalog from '../components/recipe-catalog/recipe-catalog';
@@ -18,16 +19,16 @@ function Profile() {
     const [loggedIn, setLoggedIn] = React.useState(false);
     const [myProfile, setMyProfile] = React.useState(false);
 
-    const matches = window.location.href.match(/\/profile\/(.+)/);
-    const query = matches ? decodeURI(matches[1]) : "";
+    const userparam = useParams();
 
     React.useEffect(() => {
         fillUserContent();
         // eslint-disable-next-line
-    }, [query]);
+    }, [userparam]);
 
     const fillUserContent = async () => {
         const token = sessionStorage.getItem("token");
+        const uname = userparam.username;
         try {
             let res;
             if (token && token !== "undefined") {
@@ -37,25 +38,26 @@ function Profile() {
                         "x-auth-token": token
                     }
                 };
-                res = await fetch(backendBaseURL+"/api/auth/", req).then(res => res.json());
-                setUsername(res.username);
-                setBio(res.bio);
-                setFollowing(res.following);
-                setFollowingCount(res.following.length);
-                setLoggedIn(true);
-                setImage(res.image);
-                if (query === "" || query === res.username) {
+                res = await fetch(backendBaseURL + "/api/auth/", req).then(res => res.json());
+                if (!uname || uname ==='' || uname === res.username) {
+                    setUsername(res.username);
+                    setBio(res.bio);
+                    setFollowing(res.following);
+                    setFollowingCount(res.following.length);
+                    setImage(res.image);
                     setMyProfile(true);
+                    setLoggedIn(true);
                 }
             }
-            if (!myProfile) {
+
+            if (!username) {
                 const req = {
                     method: "GET",
                     headers: {
                         "Content-type": "application/json"
                     }
                 };
-                res = await fetch(backendBaseURL+"/api/users/lookup/" + query, req).then(res => res.json());
+                res = await fetch(backendBaseURL + "/api/users/lookup/" + uname, req).then(res => res.json());
                 if (res) {
                     setUsername(res.username);
                     setBio(res.bio);

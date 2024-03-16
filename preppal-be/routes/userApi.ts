@@ -54,6 +54,7 @@ routerUserApi.get("/lookup/:username", async (req, res) => {
             bio: user.bio,
             following: user.following,
             recipes: publicRecipes,
+            image: user.image,
         });
     }
     catch (error) {
