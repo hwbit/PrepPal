@@ -8,7 +8,11 @@ const uploadImage = async (file, fileName) => {
         // Create the BlobServiceClient object with connection string
         const blobServiceClient = BlobServiceClient.fromConnectionString(process.env.AZURE_CONNECTION_KEY);
         const containerClient = blobServiceClient.getContainerClient(process.env.AZURE_CONTAINER);
-        const blobClient = containerClient.getBlockBlobClient(fileName);
+
+        const extArray = file.originalname.split(".");
+        const extension = extArray[extArray.length - 1];
+
+        const blobClient = containerClient.getBlockBlobClient(`${fileName}.${extension}`);
 
         const options = { blobHTTPHeaders: { blobContentType: file.mimetype } };
 

@@ -43,6 +43,7 @@ function Profile() {
                 setFollowing(res.following);
                 setFollowingCount(res.following.length);
                 setLoggedIn(true);
+                setImage(res.image);
                 if (query === "" || query === res.username) {
                     setMyProfile(true);
                 }
