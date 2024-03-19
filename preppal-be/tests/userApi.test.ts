@@ -125,7 +125,7 @@ describe("userApi test", function() {
     });
 
     it("correct - update user with image", async () => {
-        jest.mock("../utils/uploader.ts", () => ({uploadImage: jest.fn().mockResolvedValue(testImage)}));
+        jest.mock("../utils/uploader.ts", () => ({uploadImage: jest.fn().mockResolvedValue("https://preppal.blob.core.windows.net/uploads/logo.png")}));
         const newBio = `This is my new bio! ${Date.now().toString()}`;
 
         const requestBody = {
