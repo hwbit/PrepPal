@@ -1,0 +1,1 @@
+This folder is where the static analysis scan points to, to upload reports.
