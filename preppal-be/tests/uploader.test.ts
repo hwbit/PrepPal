@@ -1,5 +1,5 @@
 const { BlobServiceClient, ContainerClient, BlockBlobClient } = require("@azure/storage-blob");
-const uploadImage = require("../utils/uploader"); // assuming your function is exported from a separate file
+const uploadImage = require("../utils/uploader");
 
 jest.mock("@azure/storage-blob", () => ({
     BlobServiceClient: {fromConnectionString: jest.fn()},
