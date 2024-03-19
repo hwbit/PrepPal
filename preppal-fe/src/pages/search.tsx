@@ -51,7 +51,7 @@ const Search = () => {
             },
             body: JSON.stringify(reqBody)
           };
-          const fetchedRecipes = await fetch(backendBaseURL+"/api/recipes/searchRecipes", req).then((res) => res.json());
+          const fetchedRecipes = await fetch(backendBaseURL+"/api/recipes/searchRecipes/", req).then((res) => res.json());
           setRecipes(fetchedRecipes);
         } catch (err) {
           console.error(err);

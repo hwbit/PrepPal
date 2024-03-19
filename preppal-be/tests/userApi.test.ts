@@ -2,14 +2,18 @@ const request = require("supertest");
 const db = require("../configs/db.ts");
 const app = require("../app.ts");
 const UserModel = require("../models/user.ts");
+const Uploader = require("../utils/uploader.ts");
 
-describe("userApi test", function () {
+
+describe("userApi test", function() {
     let token;
     const testId = "65e8ec6b354704617272c231";
     const testAccount = "testApiSandboxAccount";
     const testPassword = "lp12asr35Sa45";
+    const testImage = "https://preppal.blob.core.windows.net/uploads/logo.png";
 
     beforeEach(async () => {
+        jest.clearAllMocks();
         const userApiTestRouter = require("../routes/userApi.ts");
 
         const response = await request(app)
@@ -120,6 +124,41 @@ describe("userApi test", function () {
         expect(res.body.bio).toEqual(newBio);
     });
 
+    it("correct - update user with image", async () => {
+        jest.mock("../utils/uploader.ts", () => ({uploadImage: jest.fn().mockResolvedValue("https://preppal.blob.core.windows.net/uploads/logo.png")}));
+        const newBio = `This is my new bio! ${Date.now().toString()}`;
+
+        const requestBody = {
+            _id: testId,
+            username: testAccount,
+            password: testPassword,
+            bio: newBio,
+            image: testImage,
+        };
+
+        await UserModel.findOneAndUpdate({_id: testId}, {
+            password: testPassword,
+            bio: newBio,
+            image: testImage,
+        }, { new: true });
+
+        const res = await request(app)
+            .post("/api/users/updateUser")
+            .field("_id", requestBody._id)
+            .field("username", requestBody.username)
+            .field("password", requestBody.password)
+            .field("bio", requestBody.bio)
+            .field("imageRaw", requestBody.image);
+
+        expect(res.status).toBe(200);
+        expect(res.body._id).toEqual(testId);
+        expect(res.body._id).toEqual(testId);
+        expect(res.body.username).toEqual(testAccount);
+        expect(res.body.bio).toEqual(newBio);
+        expect(res.body.image).toEqual(testImage);
+    });
+
+
     it("incorrect updateUser test - invalid userid", async () => {
         const res = await request(app)
             .post("/api/users/updateUser")
@@ -195,7 +234,7 @@ describe("userApi test", function () {
         expect(res.statusCode).toEqual(400);
     });
 
-    //test saving recipes
+    // test saving recipes
     it("correct savedRecipes test - get saved recipes", async () => {
         const res = await request(app)
             .get("/api/users/savedRecipes")
@@ -294,7 +333,7 @@ describe("userApi test", function () {
         expect(res._body.status).toBe(false);
     });
 
-    //follow users
+    // follow users
     it("correct followUser test - follow user", async () => {
         const res = await request(app)
             .post("/api/users/followUser")
@@ -336,7 +375,7 @@ describe("userApi test", function () {
     });
 
     it("correct followStatus test - should return true when user is followed", async () => {
-        let res = await request(app)
+        const res = await request(app)
             .post("/api/users/followingStatus")
             .send({ username: "test11" })
             .set("x-auth-token", token);
@@ -382,5 +421,4 @@ describe("userApi test", function () {
         expect(res._body.following).toBeTruthy();
         expect(res._body.following).not.toContain("random-username");
     });
-
 });

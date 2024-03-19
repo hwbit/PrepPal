@@ -9,7 +9,7 @@ on:
 env:
   AZURE_KEY: ${{ secrets.AZURE_KEY }}
   AZURE_CONNECTION_KEY: ${{ secrets.AZURE_CONNECTION_KEY }}
-  MONGO_URI: ${{ secrets.MONGO_URI }}  
+  MONGO_URI: ${{ secrets.MONGO_URI }}
 
 jobs:
   build:
@@ -17,6 +17,9 @@ jobs:
     defaults: 
       run:
         working-directory: ./preppal-be
+
+    env:
+      MONGO_URI: ${{secrets.MONGO_URI}}
 
     steps:
     - uses: actions/checkout@v4

@@ -7,7 +7,6 @@ const logo = require('../assets/logo.png')
 const backendBaseURL = process.env.REACT_APP_BACKEND_BASE_URL;
 
 const Login = () => {
-
     // For Forms
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
