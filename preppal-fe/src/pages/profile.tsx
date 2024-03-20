@@ -19,54 +19,50 @@ function Profile() {
     const [loggedIn, setLoggedIn] = React.useState(false);
     const [myProfile, setMyProfile] = React.useState(false);
 
-    const userparam = useParams();
+    const params = useParams();
 
     React.useEffect(() => {
         fillUserContent();
         // eslint-disable-next-line
-    }, [userparam]);
+    }, [params]);
 
     const fillUserContent = async () => {
         const token = sessionStorage.getItem("token");
-        const uname = userparam.username;
+        const myUsername = sessionStorage.getItem("username") ?? "";
         try {
-            let res;
-            if (token && token !== "undefined") {
+            if (params.username && params.username !== "" && myUsername !== params.username) {
+                    const req = {
+                        method: "GET",
+                        headers: {
+                            "Content-type": "application/json"
+                        }
+                    };
+                    const res = await fetch(backendBaseURL + "/api/users/lookup/" + params.username, req).then(res => res.json());
+                    setUsername(res.username);
+                    setBio(res.bio);
+                    setFollowingCount(res.following.length);
+                    setRecipes(res.recipes);
+                    setImage(res.image);
+                    
+            }
+            else if (token && token !== "undefined") {
                 const req = {
                     method: "GET",
                     headers: {
                         "x-auth-token": token
                     }
                 };
-                res = await fetch(backendBaseURL + "/api/auth/", req).then(res => res.json());
-                if (!uname || uname ==='' || uname === res.username) {
-                    setUsername(res.username);
-                    setBio(res.bio);
-                    setFollowing(res.following);
-                    setFollowingCount(res.following.length);
-                    setImage(res.image);
-                    setMyProfile(true);
-                    setLoggedIn(true);
-                }
-            }
+                const res = await fetch(backendBaseURL + "/api/auth/", req).then(res => res.json());
+                setUsername(res.username);
+                setBio(res.bio);
+                setFollowing(res.following);
+                setFollowingCount(res.following.length);
+                setImage(res.image);
+                setMyProfile(true);
+                setLoggedIn(true);
 
-            if (!username) {
-                const req = {
-                    method: "GET",
-                    headers: {
-                        "Content-type": "application/json"
-                    }
-                };
-                res = await fetch(backendBaseURL + "/api/users/lookup/" + uname, req).then(res => res.json());
-                if (res) {
-                    setUsername(res.username);
-                    setBio(res.bio);
-                    setFollowingCount(res.following.length);
-                    setRecipes(res.recipes);
-                    setImage(res.image);
-                }
+                sessionStorage.setItem("username", res.username);
             }
-
         } catch (err) {
             console.error(err);
         }

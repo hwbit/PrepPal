@@ -39,6 +39,7 @@ const Login = () => {
             if (token === "undefined") {
                 alert("Wrong username or password");
             } else {
+                sessionStorage.setItem("username", username)
                 navigate("/");
             }
         }

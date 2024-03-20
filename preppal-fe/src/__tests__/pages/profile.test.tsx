@@ -1,8 +1,9 @@
+/* eslint-disable testing-library/no-wait-for-multiple-assertions */
 /* eslint-disable testing-library/no-wait-for-empty-callback */
 /* eslint-disable testing-library/no-unnecessary-act */
 import { render, screen, waitFor } from "@testing-library/react";
 import Profile from "../../pages/profile";
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, MemoryRouter, Routes, Route } from 'react-router-dom';
 import { mockFetch } from "../../test-utils/mock-fetch";
 
 describe('Profile component tests', () => {
@@ -40,7 +41,7 @@ describe('Profile component tests', () => {
     });
 
     afterEach(() => {
-        sessionStorage.removeItem('token');
+        sessionStorage.clear();
     });
 
     describe("Unit tests", () => {
@@ -78,30 +79,28 @@ describe('Profile component tests', () => {
         });
 
         test("Clicking on other's profile should display following", async () => {
-            const url = "http://localhost/profile/" + otherProfile.username;
-            Object.defineProperty(window, 'location', {
-                get() {
-                    return { href: url };
-                },
-            });
             window.fetch = mockFetch(otherProfile);
-            await render(<BrowserRouter><Profile /></BrowserRouter>);
+            await render(<MemoryRouter initialEntries={["/profile/"+otherProfile.username]}>
+                <Routes>
+                    <Route path="/profile/:username" element={<Profile />} />
+                </Routes>
+            </MemoryRouter>);
 
-            await waitFor(() => { });
-
-            const username = screen.getByText(otherProfile.username);
-            const bio = screen.getByText(otherProfile.bio);
-            const followingCount = screen.getByText("Following: " + otherProfile.following.length.toString());
-            const recipeTitle = screen.getByText(testRecipe.title);
-            const recipeAuthor = screen.getByText(testRecipe.author);
-            const recipeDesc = screen.getByText(testRecipe.description);
-
-            expect(username).toBeTruthy();
-            expect(bio).toBeTruthy();
-            expect(followingCount).toBeTruthy();
-            expect(recipeTitle).toBeTruthy();
-            expect(recipeAuthor).toBeTruthy();
-            expect(recipeDesc).toBeTruthy();
+            await waitFor(() => {
+                const username = screen.getByText(otherProfile.username);
+                const bio = screen.getByText(otherProfile.bio);
+                const followingCount = screen.getByText("Following: " + otherProfile.following.length.toString());
+                const recipeTitle = screen.getByText(testRecipe.title);
+                const recipeAuthor = screen.getByText(testRecipe.author);
+                const recipeDesc = screen.getByText(testRecipe.description);
+    
+                expect(username).toBeTruthy();
+                expect(bio).toBeTruthy();
+                expect(followingCount).toBeTruthy();
+                expect(recipeTitle).toBeTruthy();
+                expect(recipeAuthor).toBeTruthy();
+                expect(recipeDesc).toBeTruthy();
+             });
         });
     });
 });
