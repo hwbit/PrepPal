@@ -14,11 +14,11 @@ describe('Search component tests', () => {
 
             render(<BrowserRouter><Search /></BrowserRouter>);
 
-            const searchResult = screen.queryByText("Search");
-            const searchQuery = screen.queryByText("Search query:");
+            const searchTitle = screen.queryByText("Search");
+            const searchFilter = screen.queryByText("Filter");
 
-            expect(searchResult).toBeTruthy();
-            expect(searchQuery).toBeTruthy();
+            expect(searchTitle).toBeTruthy();
+            expect(searchFilter).toBeTruthy();
         });
     });
 });
