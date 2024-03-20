@@ -59,37 +59,35 @@ const Search = () => {
       }
     };
 
-    const displayFilters = () => {
-      const queryDisplay = document.getElementById("query-display");
-      if (queryDisplay && searchParams.size > 0) {
-        queryDisplay.innerText = "Search query:";
-        for (const key of searchParams.keys()) {
-          const value = searchParams.get(key);
-
-          const displayItem = document.createElement("button");
-          displayItem.innerHTML = `<strong>${convertCamelCase(key)}</strong>:&nbsp;<i>${value}</i>&nbsp;&nbsp;X`;
-          displayItem.className = "display-item";
-          displayItem.addEventListener("click", (ev) => {
-            if (searchParams.has(key)) {
-              searchParams.delete(key);
-              setSearchParams(searchParams);
-            }
-            queryDisplay.removeChild(displayItem);
-            if (searchParams.size === 0) {
-              queryDisplay.innerText = "";
-            }
-          });
-          queryDisplay.appendChild(displayItem);
-        }
-      }
-    };
-
     fillRecipes();
-    displayFilters();
   }, [searchParams, setSearchParams]);
 
   const toggleFilterMenu = () => {
     setShowFilterMenu(!showFilterMenu);
+  };
+
+  const displayFilters = () => {
+    return (
+      <div id="query-display" className="search-query">
+        {searchParams.size > 0 ? "Search query:" : ""}
+        {Array.from(searchParams.keys()).map((key, index) => {
+          const value = searchParams.get(key);
+
+          const handleRemoveFilter = () => {
+            if (searchParams.has(key)) {
+              searchParams.delete(key);
+              setSearchParams(searchParams);
+            }
+          };
+
+          return (
+            <button key={index} className="filter-clear-button" onClick={handleRemoveFilter}>
+              <strong>{convertCamelCase(key)}:</strong> <i>{value}</i>  <FaTimes />
+            </button>
+          );
+        })}
+      </div>
+    );
   };
 
   const convertCamelCase = (camelCaseString: string) => {
@@ -102,13 +100,13 @@ const Search = () => {
     <><NavBar></NavBar>
       <div className="page">
         <div style={{ display: "inline-flex", alignItems: "center", marginBottom: "-15px"}}>
-          <h1>Search Results</h1>
+          <h1>Search</h1>
           <Button variant="outline-dark" className="filter-button" onClick={toggleFilterMenu}>
             Filter <FaFilter />
           </Button>
         </div>
         <FilterMenu showFilterMenu={showFilterMenu} handleClose={toggleFilterMenu} />
-        <p id="query-display" className="search-query"></p>
+        {displayFilters()}
         <RecipeCatalog catalog={recipes}></RecipeCatalog>
       </div>
     </>
