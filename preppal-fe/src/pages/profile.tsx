@@ -1,32 +1,34 @@
 import Card from 'react-bootstrap/Card';
 import Image from 'react-bootstrap/Image';
 import { Button, Col, Row, Stack } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
 import React from 'react';
 import NavBar from '../components/nav-bar/nav-bar';
 import RecipeCatalog from '../components/recipe-catalog/recipe-catalog';
 import FollowButton from '../components/follow-button/follow-button';
 
-const logo = require('../assets/logo.png')
+const backendBaseURL = process.env.REACT_APP_BACKEND_BASE_URL;
 
 function Profile() {
     const [username, setUsername] = React.useState("");
     const [userBio, setBio] = React.useState("");
     const [userFollowing, setFollowing] = React.useState<any[]>([]);
-    const [userFollowingCount, setFollowingCount] = React.useState(0);
+    const [userFollowingCount, setFollowingCount] = React.useState<number>(0);
     const [recipes, setRecipes] = React.useState<any[]>([]);
+    const [userImage, setImage] = React.useState(process.env.DEFAULT_LOGO_URL);
     const [loggedIn, setLoggedIn] = React.useState(false);
     const [myProfile, setMyProfile] = React.useState(false);
 
-    const matches = window.location.href.match(/\/profile\/(.+)/);
-    const query = matches ? decodeURI(matches[1]) : "";
+    const userparam = useParams();
 
     React.useEffect(() => {
         fillUserContent();
         // eslint-disable-next-line
-    }, [query]);
+    }, [userparam]);
 
     const fillUserContent = async () => {
         const token = sessionStorage.getItem("token");
+        const uname = userparam.username;
         try {
             let res;
             if (token && token !== "undefined") {
@@ -36,31 +38,32 @@ function Profile() {
                         "x-auth-token": token
                     }
                 };
-                res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
-                if (res) {
+                res = await fetch(backendBaseURL + "/api/auth/", req).then(res => res.json());
+                if (!uname || uname ==='' || uname === res.username) {
                     setUsername(res.username);
                     setBio(res.bio);
                     setFollowing(res.following);
                     setFollowingCount(res.following.length);
+                    setImage(res.image);
+                    setMyProfile(true);
                     setLoggedIn(true);
-                    if (query === "" || query === res.username) {
-                        setMyProfile(true);
-                    }
                 }
             }
-            if (!myProfile) {
+
+            if (!username) {
                 const req = {
                     method: "GET",
                     headers: {
                         "Content-type": "application/json"
                     }
                 };
-                res = await fetch("http://localhost:9001/api/users/lookup/" + query, req).then(res => res.json());
+                res = await fetch(backendBaseURL + "/api/users/lookup/" + uname, req).then(res => res.json());
                 if (res) {
                     setUsername(res.username);
                     setBio(res.bio);
                     setFollowingCount(res.following.length);
                     setRecipes(res.recipes);
+                    setImage(res.image);
                 }
             }
 
@@ -77,14 +80,14 @@ function Profile() {
                         <Card className="p-4 d-flex" style={{ backgroundColor: "#F2E8DC" }}>
                             <Card.Header className='d-flex align-items-center'>
                                 <Col className='d-flex justify-content-start align-items-center'>
-                                    <Image src={logo} alt="Logo" rounded style={{ maxWidth: '200px' }} />
+                                    <Image src={userImage} alt="userImage" rounded style={{ maxWidth: '200px' }} />
                                     <Card.Title className='p-2'>{username}</Card.Title>
                                 </Col>
                                 <Col>
                                     <Stack gap={3}>
                                         <div className='d-flex justify-content-end'>
                                             {myProfile ? (<Button className='d-flex' variant="primary" href="edit-profile" title="Edit" size="sm" style={{ maxWidth: '40px', backgroundColor: "#401E01" }}>Edit</Button>)
-                                                : (loggedIn && <FollowButton username={username}></FollowButton>)}
+                                                : (loggedIn && <FollowButton title="Follow" username={username}></FollowButton>)}
                                         </div>
                                         <Card.Subtitle className='d-flex justify-content-end'>Following: {userFollowingCount}</Card.Subtitle>
                                     </Stack>

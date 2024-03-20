@@ -4,7 +4,9 @@ import '../styles/global.css';
 import NavBar from '../components/nav-bar/nav-bar';
 import RecipeCatalog from '../components/recipe-catalog/recipe-catalog';
 
-const ExplorePage: React.FC = () => {
+const backendBaseURL = process.env.REACT_APP_BACKEND_BASE_URL;
+
+const Home: React.FC = () => {
   const [recipes, setRecipes] = React.useState<any[]>([]);
   React.useEffect(() => {
     const fillRecipes = async () => {
@@ -15,7 +17,7 @@ const ExplorePage: React.FC = () => {
             'Content-Type': 'application/json'
           }
         };
-        const fetchedRecipes = await fetch("http://localhost:9001/api/recipes/", req).then((res) => res.json());
+        const fetchedRecipes = await fetch(backendBaseURL+"/api/recipes/", req).then((res) => res.json());
         setRecipes(fetchedRecipes);
       } catch (err) {
         console.error(err);
@@ -34,4 +36,4 @@ const ExplorePage: React.FC = () => {
   );
 };
 
-export default ExplorePage;
+export default Home;

@@ -2,7 +2,7 @@ const request = require("supertest");
 const db = require("../configs/db.ts");
 const app = require("../app.ts");
 
-describe("userApi test", function () {
+describe("userApi test", function() {
     const testAccount = "testApiSandboxAccount";
     const testDNEUsername = "testDNEUsername";
 
@@ -25,9 +25,7 @@ describe("userApi test", function () {
     it("correct test - getting a users' calendar", async () => {
         const res = await request(app)
             .post("/api/calendar/getCalendar")
-            .send({
-                username: testAccount,
-            });
+            .send({username: testAccount});
         expect(res.statusCode).toEqual(200);
     });
 
@@ -35,10 +33,9 @@ describe("userApi test", function () {
     it("fail test - getting a users' calendar", async () => {
         const res = await request(app)
             .post("/api/calendar/getCalendar")
-            .send({
-                anythingButUsername: testAccount,
-            });
-        expect(res.statusCode).toEqual(500);
+            .send({anythingButUsername: testAccount});
+        expect(res.statusCode).toEqual(400);
+        expect(res.body).toEqual("Username required");
     });
 
     // update calendar
@@ -111,16 +108,14 @@ describe("userApi test", function () {
     it("success test - getting a users' calendar that has updated", async () => {
         const res = await request(app)
             .post("/api/calendar/getCalendar")
-            .send({
-                username: testAccount,
-            });
+            .send({username: testAccount});
         expect(res.statusCode).toEqual(200);
-        const index = res.body.calendarDates.findIndex(calDate => calDate.dateIs === dateIs)
+        const index = res.body.calendarDates.findIndex((calDate) => calDate.dateIs === dateIs);
         expect(index > -1);
         expect(res.body.calendarDates[index].recipeOfTheDayID === recipeOfTheDayID);
         expect(res.body.calendarDates[index].recipeOfTheDayTitle === recipeOfTheDayTitle);
         expect(res.body.calendarDates[index].recipeOfTheDayIngredients === recipeOfTheDayIngredients);
-        const indexInvalid = res.body.calendarDates.findIndex(calDate => calDate.dateIs === "1900-12-12");
+        const indexInvalid = res.body.calendarDates.findIndex((calDate) => calDate.dateIs === "1900-12-12");
         expect(indexInvalid === 1);
     });
 });

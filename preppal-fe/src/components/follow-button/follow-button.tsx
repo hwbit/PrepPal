@@ -1,6 +1,8 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 
+const backendBaseURL = process.env.REACT_APP_BACKEND_BASE_URL;
+
 const FollowButton = (user: any) => {
     const [isFollowing, setFollowing] = React.useState<boolean>();
 
@@ -22,7 +24,7 @@ const FollowButton = (user: any) => {
 
                 body: JSON.stringify({ username: username }),
             };
-            const res = await fetch("http://localhost:9001/api/users/followingStatus", req).then((res) => res.json());
+            const res = await fetch(backendBaseURL+"/api/users/followingStatus", req).then((res) => res.json());
             following = res?.status ?? false;
         }
         return following;
@@ -43,7 +45,7 @@ const FollowButton = (user: any) => {
 
                         body: JSON.stringify({ username: username }),
                     };
-                    await fetch("http://localhost:9001/api/users/followUser", req).then((res) => res.json());
+                    await fetch(backendBaseURL+"/api/users/followUser", req).then((res) => res.json());
                 }
                 else {
                     const req = {
@@ -56,7 +58,7 @@ const FollowButton = (user: any) => {
 
                         body: JSON.stringify({ username: username }),
                     };
-                    await fetch("http://localhost:9001/api/users/unfollowUser", req).then((res) => res.json());
+                    await fetch(backendBaseURL+"/api/users/unfollowUser", req).then((res) => res.json());
                 }
             }
         }

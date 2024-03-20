@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [ dev, main ]
 
+env:
+  REACT_APP_BACKEND_BASE_URL: ${{ secrets.REACT_APP_BACKEND_BASE_URL }}
+  
 jobs:
   build:
     runs-on: ubuntu-latest
