@@ -42,12 +42,16 @@ h1 {
     display: inline-flex;
     align-items: center;
     margin-left: 10px;
-    color: var(--normal-text);
-    background-color: var(--dark-brown);
+    padding: 5px 10px;
+    color: var(--darker-brown);
+    background-color: var(--light-orange);
+    border: 1px solid var(--dark-brown);
+    border-radius: 20px;
+    transition: all 0.3s;
 
     &:hover,
     &:focus {
-        background-color: var(--light-orange);
-        color: var(--darker-brown);
+        color: var(--normal-text);
+        background-color: var(--dark-brown);
     }
 }

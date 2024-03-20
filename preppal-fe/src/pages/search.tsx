@@ -61,20 +61,22 @@ const Search = () => {
 
     const displayFilters = () => {
       const queryDisplay = document.getElementById("query-display");
-      if (queryDisplay) {
+      if (queryDisplay && searchParams.size > 0) {
         queryDisplay.innerText = "Search query:";
         for (const key of searchParams.keys()) {
           const value = searchParams.get(key);
 
           const displayItem = document.createElement("button");
-          displayItem.innerHTML = (<div>
-            <strong>{convertCamelCase(key)}</strong>: <i>{value}</i>  <FaTimes />
-          </div>);//`<strong>${convertCamelCase(key)}</strong>:&nbsp;<i>${value}</i>&nbsp;&nbsp;X`;
+          displayItem.innerHTML = `<strong>${convertCamelCase(key)}</strong>:&nbsp;<i>${value}</i>&nbsp;&nbsp;X`;
           displayItem.className = "display-item";
           displayItem.addEventListener("click", (ev) => {
             if (searchParams.has(key)) {
               searchParams.delete(key);
               setSearchParams(searchParams);
+            }
+            queryDisplay.removeChild(displayItem);
+            if (searchParams.size === 0) {
+              queryDisplay.innerText = "";
             }
           });
           queryDisplay.appendChild(displayItem);
