@@ -87,7 +87,7 @@ const Recipe = () => {
             setServingSize(res.servingSize);
             setPrepTime(res.prepTime);
             setCookTime(res.cookingTime);
-            setMyRecipe(res.author === username)
+            setMyRecipe(res.author === username);
         } catch (err) {
             console.error(err);
         }
