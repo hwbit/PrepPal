@@ -19,9 +19,9 @@ name: Snyk Security
 
 on:
   push:
-    branches: ["dev", "main", "deploy"]
+    branches: [dev, main, deploy]
   pull_request:
-    branches: ["dev", "main", "deploy"]
+    branches: [dev, main, deploy]
 
 permissions:
   contents: read
