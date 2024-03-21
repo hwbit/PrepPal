@@ -39,7 +39,7 @@ const Recipe = () => {
     const [recipeRatings, setRecipeRatings] = React.useState(0);
     const [recipeRatingTally, setRecipeRatingTally] = React.useState(0);
 
-
+    const [myRecipe, setMyRecipe] = React.useState(false);
 
     React.useEffect(() => {
         getUser();
@@ -59,7 +59,7 @@ const Recipe = () => {
                         "x-auth-token": token
                     }
                 };
-                const res = await fetch(backendBaseURL+"/api/auth/", req).then(res => res.json());
+                const res = await fetch(backendBaseURL + "/api/auth/", req).then(res => res.json());
                 setUsername(res.username);
                 setLoggedIn(true);
             }
@@ -76,7 +76,7 @@ const Recipe = () => {
                     'Content-Type': 'application/json'
                 }
             };
-            const res = await fetch(backendBaseURL+`/api/recipes/lookupId/${recipeId}`, req).then(res => res.json());
+            const res = await fetch(backendBaseURL + `/api/recipes/lookupId/${recipeId}`, req).then(res => res.json());
             setAuthor(res.author);
             setDate(dateToString(new Date(res.creationDate)));
             setTitle(res.title);
@@ -87,6 +87,7 @@ const Recipe = () => {
             setServingSize(res.servingSize);
             setPrepTime(res.prepTime);
             setCookTime(res.cookingTime);
+            setMyRecipe(res.author === username);
         } catch (err) {
             console.error(err);
         }
@@ -100,7 +101,7 @@ const Recipe = () => {
                     'Content-Type': 'application/json'
                 }
             };
-            const res = await fetch(backendBaseURL+`/api/reviews/${recipeId}`, req).then((res) => res.json());
+            const res = await fetch(backendBaseURL + `/api/reviews/${recipeId}`, req).then((res) => res.json());
             if (res) {
                 setReviews(res.reviews);
                 calculateRecipeRating(res.reviews);
@@ -171,7 +172,7 @@ const Recipe = () => {
                     'comment': review.comment,
                 })
             };
-            await fetch(backendBaseURL+"/api/reviews/post", req).then(res => res.json());
+            await fetch(backendBaseURL + "/api/reviews/post", req).then(res => res.json());
         } catch (err) {
             console.error(err);
         }
@@ -189,7 +190,7 @@ const Recipe = () => {
                             <div className='recipe-header-row' style={{ paddingLeft: '20px' }}>{recipeDescription}</div>
                         </div>
                         <div className="recipe-icons">
-                            {loggedIn && (<FavouriteButton id={recipeId}></FavouriteButton>)}
+                            {loggedIn && !myRecipe && (<FavouriteButton id={recipeId}></FavouriteButton>)}
                         </div>
                     </div>
                     <div className='recipe-info'>
