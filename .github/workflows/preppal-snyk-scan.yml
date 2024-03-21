@@ -3,8 +3,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-# A sample workflow which sets up Snyk to analyze the full Snyk platform (Snyk Open Source, Snyk Code,
-# Snyk Container and Snyk Infrastructure as Code)
+# A sample workflow which sets up Snyk to analyze the full Snyk platform (Snyk Code and Snyk Infrastructure as Code)
 # The setup installs the Snyk CLI - for more details on the possible commands
 # check https://docs.snyk.io/snyk-cli/cli-reference
 # The results of Snyk Code are then uploaded to GitHub Security Code Scanning
@@ -41,12 +40,6 @@ jobs:
         # In this case we want to upload the SAST issues to GitHub Code Scanning
         uses: snyk/actions/setup@806182742461562b67788a64410098c9d9b96adb
 
-        # For Snyk Open Source you must first set up the development environment for your application's dependencies
-        # For example for Node
-        #- uses: actions/setup-node@v3
-        #  with:
-        #    node-version: 16
-
         env:
           # This is where you will need to introduce the Snyk API token created with your Snyk account
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
@@ -58,13 +51,6 @@ jobs:
         env:
           # This is where you will need to introduce the Snyk API token created with your Snyk account
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-
-        # Runs Snyk Open Source (SCA) analysis and uploads result to Snyk.
-      # - name: Snyk Open Source monitor
-        # run: snyk monitor -d --all-projects
-        # env:
-          # This is where you will need to introduce the Snyk API token created with your Snyk account
-          # SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
         # Runs Snyk Infrastructure as Code (IaC) analysis and uploads result to Snyk.
         # Use || true to not fail the pipeline.
