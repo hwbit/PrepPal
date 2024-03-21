@@ -32,7 +32,7 @@ const Search = () => {
     if (searchParams.has("author")) reqBody.author = searchParams.get("author");
     if (searchParams.has("description")) reqBody.description = searchParams.get("description");
     if (searchParams.has("ingredients")) {
-      const ingredientArr = searchParams.get("ingredients")?.split(/\s?,\s?/);
+      const ingredientArr = searchParams.get("ingredients")?.split(/\s*,\s*/);
       reqBody.ingredients = ingredientArr;
     }
     if (searchParams.has("cookingTime")) {
