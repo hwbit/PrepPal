@@ -60,11 +60,11 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
         # Runs Snyk Open Source (SCA) analysis and uploads result to Snyk.
-      - name: Snyk Open Source monitor
-        run: snyk monitor -d --all-projects
-        env:
+      # - name: Snyk Open Source monitor
+        # run: snyk monitor -d --all-projects
+        # env:
           # This is where you will need to introduce the Snyk API token created with your Snyk account
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          # SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
         # Runs Snyk Infrastructure as Code (IaC) analysis and uploads result to Snyk.
         # Use || true to not fail the pipeline.
