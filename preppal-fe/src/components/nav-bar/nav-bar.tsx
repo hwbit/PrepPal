@@ -34,7 +34,7 @@ const NavBar = () => {
   };
 
   const searchButtonClick = () => {
-    navigate(`/search?title=${searchQuery.trim() ? searchQuery.trim() : ""}`);
+    navigate(`/search${searchQuery.trim() ? `?title=${searchQuery.trim()}` : ""}`);
   }
 
   const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
