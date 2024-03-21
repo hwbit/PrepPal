@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import './filter-menu.css';
 
 interface FilterMenuProps {
@@ -18,8 +18,6 @@ export interface FilterValues {
 }
 
 const FilterMenu: React.FC<FilterMenuProps> = ({ showFilterMenu, handleClose }) => {
-  const navigate = useNavigate();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [filterData, setFilterValues] = React.useState<FilterValues>({
@@ -39,16 +37,13 @@ const FilterMenu: React.FC<FilterMenuProps> = ({ showFilterMenu, handleClose }) 
     };
 
   const handleSubmit = () => {
-    let filterQuery = "?";
     for (const filter in filterData) {
       if (filterData[filter]) {
-        if (filterQuery !== "?") filterQuery += "&";
-        // @ts-expect-error
-        filterQuery += `${filter}=${encodeURIComponent(filterData[filter])}`;
+        searchParams.set(filter, `${filterData[filter]}`);
       }
     }
     handleClose();
-    navigate(`/search${filterQuery}`);
+    setSearchParams(searchParams);
   };
 
   return (

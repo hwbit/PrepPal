@@ -6,7 +6,7 @@ describe('Search component tests', () => {
 
     describe("Unit tests", () => {
         test('Render standard component --> headers', async () => {
-            const mock = { query: "random search" };
+            const mock = { title: "random search", cookingTime: "50" };
             jest.mock("react-router-dom", () => ({
                 ...jest.requireActual("react-router-dom"),
                 useParams: () => mock,
@@ -14,11 +14,11 @@ describe('Search component tests', () => {
 
             render(<BrowserRouter><Search /></BrowserRouter>);
 
-            const searchResult = screen.queryByText("Search Results");
-            const searchQuery = screen.queryByText("Search query:");
+            const searchTitle = screen.queryByText("Search");
+            const searchFilter = screen.queryByText("Filter");
 
-            expect(searchResult).toBeTruthy();
-            expect(searchQuery).toBeTruthy();
+            expect(searchTitle).toBeTruthy();
+            expect(searchFilter).toBeTruthy();
         });
     });
 });
