@@ -18,8 +18,6 @@ on:
   pull_request:
     # The branches below must be a subset of the branches above
     branches: [ "dev", "main", "deploy" ]
-  schedule:
-    - cron: '18 18 * * 6'
 
 permissions:
   contents: read
@@ -43,11 +41,11 @@ jobs:
           # More details in https://github.com/snyk/actions#getting-your-snyk-token
           # or you can signup for free at https://snyk.io/login
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
+        # with:
           # Add the path to the configuration file that you would like to test.
           # For example `deployment.yaml` for a Kubernetes deployment manifest
           # or `main.tf` for a Terraform configuration file
-          file: your-file-to-test.yaml
+          # file: your-file-to-test.yaml
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v2
         with:
