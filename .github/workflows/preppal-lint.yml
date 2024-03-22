@@ -7,7 +7,7 @@ name: PrepPal Linting and Formatting
 
 on:
   push:
-    branches: [ "dev", "main" ]
+    branches: [ "dev", "main", "algorizan/fix-eslint-actions" ]
   pull_request:
     # The branches below must be a subset of the branches above
     branches: [ "dev", "main" ]
@@ -21,18 +21,20 @@ jobs:
       security-events: write
       actions: read
     steps:
-      - name: Checkout code
+      - name: Check out Git repository
         uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
 
       - name: Install dependencies (including ESLint)
         run: npm ci
 
-      - name: Run ESLint on backend
-        working-directory: ./preppal-be
-        run: npm run lint
-        continue-on-error: true
-
-      - name: Run ESLint on frontend
-        working-directory: ./preppal-fe
-        run: npm run lint
-        continue-on-error: true
+      - name: Run linters
+        uses: wearerequired/lint-action@v2
+        with:
+          github_token: ${{ secrets.github_token }}
+          auto_fix: ${{ github.event_name == 'pull_request' }}
+          eslint: true
