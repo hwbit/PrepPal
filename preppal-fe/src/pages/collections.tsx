@@ -1,7 +1,7 @@
-import { Tabs, Tab } from 'react-bootstrap';
-import React from 'react';
-import NavBar from '../components/nav-bar/nav-bar';
-import RecipeCatalog from '../components/recipe-catalog/recipe-catalog';
+import { Tabs, Tab } from "react-bootstrap";
+import React from "react";
+import NavBar from "../components/nav-bar/nav-bar";
+import RecipeCatalog from "../components/recipe-catalog/recipe-catalog";
 
 const backendBaseURL = process.env.REACT_APP_BACKEND_BASE_URL;
 
@@ -11,8 +11,8 @@ const Collections = () => {
     const [key, setKey] = React.useState("MyRecipes");
 
     React.useEffect(() => {
-        getOwnRecipes().then(result => setOwnRecipes(result));
-        getSavedRecipes().then(result => setSavedRecipes(result));
+        getOwnRecipes().then((result) => setOwnRecipes(result));
+        getSavedRecipes().then((result) => setSavedRecipes(result));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -23,11 +23,9 @@ const Collections = () => {
             if (token && token !== "undefined") {
                 const req = {
                     method: "GET",
-                    headers: {
-                        'x-auth-token': token
-                    }
+                    headers: {"x-auth-token": token},
                 };
-                fetchedRecipes = await fetch(backendBaseURL+"/api/users/ownRecipes/", req).then((res) => res.json());
+                fetchedRecipes = await fetch(`${backendBaseURL}/api/users/ownRecipes/`, req).then((response) => response.json());
             }
             return fetchedRecipes;
         }
@@ -44,11 +42,9 @@ const Collections = () => {
             if (token && token !== "undefined") {
                 const req = {
                     method: "GET",
-                    headers: {
-                        'x-auth-token': token
-                    }
+                    headers: {"x-auth-token": token},
                 };
-                fetchedRecipes = await fetch(backendBaseURL+"/api/users/savedRecipes/", req).then((res) => res.json());
+                fetchedRecipes = await fetch(`${backendBaseURL}/api/users/savedRecipes/`, req).then((response) => response.json());
             }
             return fetchedRecipes;
         }
@@ -59,21 +55,30 @@ const Collections = () => {
     }
 
     return (
-        <><NavBar></NavBar>
-            <div className='page'>
-                <Tabs
-                    activeKey={key}
-                    id="collections"
-                    onSelect={k => setKey(k ?? "MyRecipes")}>
-                    <Tab eventKey="MyRecipes" title="My Recipes">
-                        <RecipeCatalog catalog={ownRecipes}></RecipeCatalog>
-                    </Tab>
-                    <Tab eventKey="Favourites" title="Favourites">
-                        <RecipeCatalog catalog={savedRecipes}></RecipeCatalog>
-                    </Tab>
-                </Tabs>
-            </div></>
-    )
-}
+      <>
+        <NavBar></NavBar>
+        <div className={"page"}>
+          <Tabs
+            activeKey={key}
+            id={"collections"}
+            onSelect={(k) => setKey(k ?? "MyRecipes")}
+          >
+            <Tab
+              eventKey={"MyRecipes"}
+              title={"My Recipes"}
+            >
+              <RecipeCatalog catalog={ownRecipes}></RecipeCatalog>
+            </Tab>
+            <Tab
+              eventKey={"Favourites"}
+              title={"Favourites"}
+            >
+              <RecipeCatalog catalog={savedRecipes}></RecipeCatalog>
+            </Tab>
+          </Tabs>
+        </div>
+      </>
+    );
+};
 
 export default Collections;

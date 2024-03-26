@@ -30,7 +30,7 @@ describe("recipeApi test", function() {
     });
 
     // lookup
-    it("correct test - lookup a recipe", async () => {
+    it("correct test - lookup a recipe by id", async () => {
         const res = await request(app)
             .get(`/api/recipes/lookupId/${testRecipeId}`);
         expect(res.statusCode).toEqual(200);
@@ -44,12 +44,12 @@ describe("recipeApi test", function() {
     });
 
     // lookup author
-    it("correct test - lookup a recipe", async () => {
+    it("correct test - lookup a recipe by author", async () => {
         const res = await request(app)
             .get(`/api/recipes/lookupAuthor/${testAuthor}`);
         expect(res.statusCode).toEqual(200);
     });
-    it("incorrect test - lookup recipe that does not exist", async () => {
+    it("incorrect test - lookup recipe by author that does not exist", async () => {
         const res = await request(app)
             .get(`/api/recipes/lookupAuthor/${testAuthor}${Date.now().toString()}`);
         expect(res.statusCode).toEqual(200);
@@ -57,7 +57,7 @@ describe("recipeApi test", function() {
     });
 
     // search recipe name
-    it("correct test - lookup a valid recipe", async () => {
+    it("correct test - lookup a valid recipe by name", async () => {
         const res = await request(app)
             .post("/api/recipes/searchName")
             .send({ title: "tesT rEcIpE 2000" });

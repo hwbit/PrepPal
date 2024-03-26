@@ -1,11 +1,11 @@
-/* eslint-disable testing-library/no-wait-for-empty-callback */
-/* eslint-disable testing-library/no-unnecessary-act */
+/* eslint-disable no-shadow */
+import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from "react-router-dom";
 import Home from "../../pages/home";
 import { mockFetch } from "../../test-utils/mock-fetch";
 
-describe('Home component tests', () => {
+describe("Home component tests", () => {
     const testRecipe = {
         _id: "recipe-id",
         author: "random author",
@@ -18,19 +18,19 @@ describe('Home component tests', () => {
         prepTime: 1,
         cookingTime: 1,
         isPublic: false,
-        image: "logo.png"
+        image: "logo.png",
     };
 
     beforeEach(() => {
-        jest.spyOn(console, 'error').mockImplementation(jest.fn());
+        jest.spyOn(console, "error").mockImplementation(jest.fn());
     });
 
     afterEach(() => {
-        sessionStorage.removeItem('token');
+        sessionStorage.removeItem("token");
     });
 
     describe("Unit tests", () => {
-        test('Render standard component --> Title', () => {
+        test("Render standard component --> Title", () => {
             render(<BrowserRouter><Home /></BrowserRouter>);
 
             const title = screen.getByText("Explore");
@@ -39,7 +39,7 @@ describe('Home component tests', () => {
     });
 
     describe("Integration tests", () => {
-        test('Recipe catalog populates home page with recipes', async () => {
+        test("Recipe catalog populates home page with recipes", async () => {
             window.fetch = mockFetch([testRecipe]);
             await render(<BrowserRouter><Home /></BrowserRouter>);
 

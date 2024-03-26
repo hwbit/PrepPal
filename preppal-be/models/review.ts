@@ -16,20 +16,19 @@ const ReviewSchema = new Schema({
             },
             rating: {
                 type: Number,
-                required: true
+                required: true,
             },
             title: {
                 type: String,
-                required: true
+                required: true,
             },
-            comment: {
-                type: String,
-            },
+            comment: {type: String},
             date: {
                 type: Date,
                 default: date,
-            }
-        }
-    ]});
+            },
+        },
+    ],
+});
 
 module.exports = mongoose.model("Reviews", ReviewSchema);
