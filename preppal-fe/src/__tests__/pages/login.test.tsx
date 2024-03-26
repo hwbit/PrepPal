@@ -1,3 +1,4 @@
+/* eslint-disable testing-library/no-unnecessary-act */
 /* eslint-disable no-shadow */
 import React from "react";
 import { act, fireEvent, render, screen } from "@testing-library/react";

@@ -1,3 +1,5 @@
+/* eslint-disable testing-library/no-wait-for-empty-callback */
+/* eslint-disable testing-library/no-wait-for-multiple-assertions */
 /* eslint-disable no-shadow */
 import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
