@@ -238,7 +238,7 @@ routerUserApi.get("/savedRecipes", auth, async (req, res) => {
         if (title) query.title = { $regex: new RegExp(title, "i") }; // Case-insensitive title search
         // @ts-expect-error any
         if (description) query.description = { $regex: new RegExp(description, "i") }; // Case-insensitive description search
-        if (ingredients) {
+        if (typeof ingredients === "object") {
             const ingredientRegexPatterns = ingredients.map((ingredient) => new RegExp(ingredient, "i"));
             // @ts-expect-error any
             query.ingredients = { $all: ingredientRegexPatterns };
@@ -284,7 +284,7 @@ routerUserApi.get("/ownRecipes", auth, async (req, res) => {
         if (title) query.title = { $regex: new RegExp(title, "i") }; // Case-insensitive title search
         // @ts-expect-error any
         if (description) query.description = { $regex: new RegExp(description, "i") }; // Case-insensitive description search
-        if (ingredients) {
+        if (typeof ingredients === "object") {
             const ingredientRegexPatterns = ingredients.map((ingredient) => new RegExp(ingredient, "i"));
             // @ts-expect-error any
             query.ingredients = { $all: ingredientRegexPatterns };
