@@ -46,6 +46,7 @@ jobs:
         with:
           github_token: ${{ secrets.github_token }}
           neutral_check_on_warning: true
+          continue_on_error: false
           auto_fix: true
           eslint: true
           eslint_extensions: js,ts,tsx
