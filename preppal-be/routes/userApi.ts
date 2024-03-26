@@ -225,15 +225,34 @@ routerUserApi.post("/saveRecipeStatus", auth, async (req, res) => {
 routerUserApi.get("/savedRecipes", auth, async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select("-password");
+        const { title, author, description, ingredients, cookingTime } = req.body;
 
         if (!user) {
             return res.status(400).json({ errors: [ { msg: "Invalid token." } ] });
         }
+
+        const query = {};
+        // @ts-expect-error any
+        if (author) query.author = author;
+        // @ts-expect-error any
+        if (title) query.title = { $regex: new RegExp(title, "i") }; // Case-insensitive title search
+        // @ts-expect-error any
+        if (description) query.description = { $regex: new RegExp(description, "i") }; // Case-insensitive description search
+        if (ingredients) {
+            const ingredientRegexPatterns = ingredients.map((ingredient) => new RegExp(ingredient, "i"));
+            // @ts-expect-error any
+            query.ingredients = { $all: ingredientRegexPatterns };
+        }
+        // @ts-expect-error any
+        if (cookingTime) query.cookingTime = { $lte: cookingTime }; // cooking time less than or equal to the specified value
+
+
         const result = await User.findOne({ _id: req.user.id });
         const recipeIds = result?.savedRecipes ?? [];
         const recipes = [];
         for (const recipeId of recipeIds) {
-            const recipe = await Recipe.findOne({ _id: recipeId });
+            query._id = recipeId;
+            const recipe = await Recipe.find(query);
             if (recipe && recipe.isPublic) {
                 recipes.push(recipe);
             }
@@ -252,15 +271,34 @@ routerUserApi.get("/savedRecipes", auth, async (req, res) => {
 routerUserApi.get("/ownRecipes", auth, async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select("-password");
+        const { title, author, description, ingredients, cookingTime } = req.body;
 
         if (!user) {
             return res.status(400).json({ errors: [ { msg: "Invalid token." } ] });
         }
+
+        const query = {};
+        // @ts-expect-error any
+        if (author) query.author = author;
+        // @ts-expect-error any
+        if (title) query.title = { $regex: new RegExp(title, "i") }; // Case-insensitive title search
+        // @ts-expect-error any
+        if (description) query.description = { $regex: new RegExp(description, "i") }; // Case-insensitive description search
+        if (ingredients) {
+            const ingredientRegexPatterns = ingredients.map((ingredient) => new RegExp(ingredient, "i"));
+            // @ts-expect-error any
+            query.ingredients = { $all: ingredientRegexPatterns };
+        }
+        // @ts-expect-error any
+        if (cookingTime) query.cookingTime = { $lte: cookingTime }; // cooking time less than or equal to the specified value
+
+
         const result = await User.findOne({ _id: req.user.id });
         const recipeIds = result?.ownRecipes ?? [];
         const recipes = [];
         for (const recipeId of recipeIds) {
-            const recipe = await Recipe.findOne({ _id: recipeId });
+            query._id = recipeId;
+            const recipe = await Recipe.find(query);
             if (recipe) {
                 recipes.push(recipe);
             }

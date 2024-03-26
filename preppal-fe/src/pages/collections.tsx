@@ -27,7 +27,7 @@ const Collections = () => {
 
     // Extract the parameters from the URL
     const [searchParams, setSearchParams] = useSearchParams();
-    const reqBody: RecipeQuery = { publicOnly: false };
+    const reqBody: RecipeQuery = {};
 
     React.useEffect(() => {
         if (searchParams.has("title")) reqBody.title = searchParams.get("title");
