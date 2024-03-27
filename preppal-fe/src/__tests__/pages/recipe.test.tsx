@@ -1,9 +1,11 @@
+/* eslint-disable no-shadow */
+import React from "react";
 import { render, screen } from "@testing-library/react";
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from "react-router-dom";
 import Recipe from "../../pages/recipe";
 
-describe('Recipe tests', () => {
-    test('Render standard component --> headers', async () => {
+describe("Recipe tests", () => {
+    test("Render standard component --> headers", async () => {
         render(<BrowserRouter><Recipe /></BrowserRouter>);
         const author = screen.queryByText("Author:");
         expect(author).toBeTruthy();
@@ -15,7 +17,7 @@ describe('Recipe tests', () => {
         expect(servings).toBeTruthy();
     });
 
-    test('Render standard component --> reviews', async () => {
+    test("Render standard component --> reviews", async () => {
         render(<BrowserRouter><Recipe /></BrowserRouter>);
 
         const leaveReview = screen.queryByText("Leave a review");
@@ -23,4 +25,4 @@ describe('Recipe tests', () => {
         const reviews = screen.queryByText("Reviews");
         expect(reviews).toBeTruthy();
     });
-})
+});

@@ -54,7 +54,6 @@ describe("userApi test", function() {
 
     // update calendar
     it("correct test - updating a users' calendar with missing parts", async () => {
-        const dateIs = "2024-03-22";
         const res = await request(app)
             .post("/api/calendar/updateCalendar")
             .send({
@@ -69,10 +68,10 @@ describe("userApi test", function() {
         const res = await request(app)
             .post("/api/calendar/updateCalendar")
             .send({
-                dateIs: dateIs,
-                recipeOfTheDayID: recipeOfTheDayID,
-                recipeOfTheDayTitle: recipeOfTheDayTitle,
-                recipeOfTheDayIngredients: recipeOfTheDayIngredients,
+                dateIs,
+                recipeOfTheDayID,
+                recipeOfTheDayTitle,
+                recipeOfTheDayIngredients,
             });
         expect(res.statusCode).toEqual(400);
     });
