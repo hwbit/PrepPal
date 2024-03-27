@@ -193,7 +193,7 @@ routerUserApi.post("/unsaveRecipe", auth, async (req, res) => {
 });
 
 /**
- * GET - check if recipe id is in user's savedRecipes
+ * POST - check if recipe id is in user's savedRecipes
  */
 routerUserApi.post("/saveRecipeStatus", auth, async (req, res) => {
     try {
@@ -224,9 +224,9 @@ routerUserApi.post("/saveRecipeStatus", auth, async (req, res) => {
  */
 routerUserApi.post("/savedRecipes", auth, async (req, res) => {
     try {
-        const user = await User.findById(req.user.id).select("-password");
         const { title, author, description, ingredients, cookingTime } = req.body;
 
+        const user = await User.findById(req.user.id).select("-password");
         if (!user) {
             return res.status(400).json({ errors: [ { msg: "Invalid token." } ] });
         }

@@ -237,7 +237,7 @@ describe("userApi test", function() {
     // test saving recipes
     it("correct savedRecipes test - get saved recipes", async () => {
         const res = await request(app)
-            .get("/api/users/savedRecipes")
+            .post("/api/users/savedRecipes")
             .set("x-auth-token", token);
 
         expect(res.statusCode).toEqual(200);
@@ -245,7 +245,7 @@ describe("userApi test", function() {
 
     it("correct ownRecipes test - get own recipes", async () => {
         const res = await request(app)
-            .get("/api/users/savedRecipes")
+            .post("/api/users/savedRecipes")
             .set("x-auth-token", token);
 
         expect(res.statusCode).toEqual(200);
