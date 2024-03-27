@@ -46,7 +46,7 @@ const Collections = () => {
         getSavedRecipes().then(result => setSavedRecipes(result));
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [searchParams, setSearchParams]);
+    }, [showFilterMenu, searchParams]);
 
 
     const toggleFilterMenu = () => {
@@ -61,7 +61,8 @@ const Collections = () => {
                 const req = {
                     method: "POST",
                     headers: {
-                        "x-auth-token": token
+                        "x-auth-token": token,
+                        "Content-Type": "application/json"
                     },
                     body: JSON.stringify(reqBody)
                 };
@@ -83,7 +84,8 @@ const Collections = () => {
                 const req = {
                     method: "POST",
                     headers: {
-                        "x-auth-token": token
+                        "x-auth-token": token,
+                        "Content-Type": "application/json"
                     },
                     body: JSON.stringify(reqBody)
                 };
