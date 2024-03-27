@@ -29,43 +29,47 @@ function Profile() {
     const fillUserContent = async () => {
         const token = sessionStorage.getItem("token");
         const myUsername = sessionStorage.getItem("username") ?? "";
-        try {
-            if (params.username && params.username !== "" && myUsername !== params.username) {
-                    const req = {
-                        method: "GET",
-                        headers: {
-                            "Content-type": "application/json"
-                        }
-                    };
-                    const res = await fetch(backendBaseURL + "/api/users/lookup/" + params.username, req).then(res => res.json());
-                    setUsername(res.username);
-                    setBio(res.bio);
-                    setFollowingCount(res.following.length);
-                    setRecipes(res.recipes);
-                    setImage(res.image);
-                    
-            }
-            else if (token && token !== "undefined") {
-                const req = {
-                    method: "GET",
-                    headers: {
-                        "x-auth-token": token
-                    }
-                };
-                const res = await fetch(backendBaseURL + "/api/auth/", req).then(res => res.json());
-                setUsername(res.username);
-                setBio(res.bio);
-                setFollowing(res.following);
-                setFollowingCount(res.following.length);
-                setImage(res.image);
-                setMyProfile(true);
-                setLoggedIn(true);
 
-                sessionStorage.setItem("username", res.username);
-            }
-        } catch (err) {
-            console.error(err);
-        }
+      if(token && token !== "undefined") {
+        setLoggedIn(true);
+      }
+
+      try {
+          if (params.username && params.username !== "" && myUsername !== params.username) {
+                  const req = {
+                      method: "GET",
+                      headers: {
+                          "Content-type": "application/json"
+                      }
+                  };
+                  const res = await fetch(backendBaseURL + "/api/users/lookup/" + params.username, req).then(res => res.json());
+                  setUsername(res.username);
+                  setBio(res.bio);
+                  setFollowingCount(res.following.length);
+                  setRecipes(res.recipes);
+                  setImage(res.image);
+                  
+          }
+          else if (token && token !== "undefined") {
+              const req = {
+                  method: "GET",
+                  headers: {
+                      "x-auth-token": token
+                  }
+              };
+              const res = await fetch(backendBaseURL + "/api/auth/", req).then(res => res.json());
+              setUsername(res.username);
+              setBio(res.bio);
+              setFollowing(res.following);
+              setFollowingCount(res.following.length);
+              setImage(res.image);
+              setMyProfile(true);
+
+              sessionStorage.setItem("username", res.username);
+          }
+      } catch (err) {
+          console.error(err);
+      }
     };
 
     return (
