@@ -1,22 +1,22 @@
 import { Tabs, Tab } from "react-bootstrap";
 import React from "react";
 import NavBar from "../components/nav-bar/nav-bar";
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from "react-router-dom";
 import RecipeCatalog from "../components/recipe-catalog/recipe-catalog";
-import { Button } from 'react-bootstrap';
-import { FaFilter, FaTimes } from 'react-icons/fa';
-import FilterMenu from '../components/filter-menu/filter-menu';
+import { Button } from "react-bootstrap";
+import { FaFilter, FaTimes } from "react-icons/fa";
+import FilterMenu from "../components/filter-menu/filter-menu";
 
 const backendBaseURL = process.env.REACT_APP_BACKEND_BASE_URL;
 
 interface RecipeQuery {
-  [key: string]: string  | string[]| number | boolean | null | undefined;
-  title?: string | null;
-  author?: string | null;
-  description?: string | null;
-  ingredients?: string[] | null;
-  cookingTime?: number | null;
-  publicOnly?: boolean | null;
+    [key: string]: string  | string[]| number | boolean | null | undefined;
+    title?: string | null;
+    author?: string | null;
+    description?: string | null;
+    ingredients?: string[] | null;
+    cookingTime?: number | null;
+    publicOnly?: boolean | null;
 }
 
 const Collections = () => {
@@ -61,7 +61,7 @@ const Collections = () => {
                 const req = {
                     method: "POST",
                     headers: {
-                        'x-auth-token': token
+                        "x-auth-token": token
                     },
                     body: JSON.stringify(reqBody)
                 };
@@ -83,7 +83,7 @@ const Collections = () => {
                 const req = {
                     method: "POST",
                     headers: {
-                        'x-auth-token': token
+                        "x-auth-token": token
                     },
                     body: JSON.stringify(reqBody)
                 };
@@ -130,7 +130,7 @@ const Collections = () => {
 
     return (
         <><NavBar></NavBar>
-            <div className='page'>
+            <div className="page">
                 <Button variant="outline-dark" className="filter-button" onClick={toggleFilterMenu}>
                     Filter <FaFilter />
                 </Button>
