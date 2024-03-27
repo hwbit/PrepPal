@@ -4,7 +4,10 @@ import '../../styles/global.css';
 import './recipe-card.css';
 
 function RecipeCard(recipe: any): JSX.Element {
-  const recipeImage = require(`../../assets/${recipe.image}`);
+  let recipeImage = require("../../assets/logo.png");
+  if (recipe.image) {
+    recipeImage = require(`../../assets/${recipe.image}`);
+  }
   return (
     <Card className="recipe-card">
       <Link to={"/recipe/" + recipe._id} title="recipe-link">
