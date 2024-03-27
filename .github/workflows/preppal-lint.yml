@@ -17,22 +17,37 @@ jobs:
     name: Run eslint scanning
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      checks: write
+      contents: write
       security-events: write
       actions: read
     steps:
-      - name: Checkout code
+      - name: Check out Git repository
         uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
       - name: Install dependencies (including ESLint)
         run: npm ci
 
-      - name: Run ESLint on backend
-        working-directory: ./preppal-be
-        run: npm run lint
-        continue-on-error: true
-
-      - name: Run ESLint on frontend
+      - name: Install dependencies in frontend
+        run: npm ci
         working-directory: ./preppal-fe
-        run: npm run lint
-        continue-on-error: true
+
+      - name: Install dependencies in backend
+        run: npm ci
+        working-directory: ./preppal-be
+
+      - name: Run linters
+        uses: wearerequired/lint-action@v2
+        with:
+          github_token: ${{ secrets.github_token }}
+          neutral_check_on_warning: true
+          check_name: "${linter} checks"
+          auto_fix: true
+          eslint: true
+          eslint_extensions: js,ts,tsx
+          # stylelint: true

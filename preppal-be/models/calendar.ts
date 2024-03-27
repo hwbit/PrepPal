@@ -10,20 +10,12 @@ const CalendarSchema = new Schema({
     },
     calendarDates: [
         {
-            dateIs: {
-                type: String,
-            },
-            recipeOfTheDayID: {
-                type: String,
-            },
-            recipeOfTheDayTitle: {
-                type: String,
-            },
-            recipeOfTheDayIngredients: {
-                type: String,
-            }
-        }
-    ]
+            dateIs: {type: String},
+            recipeOfTheDayID: {type: String},
+            recipeOfTheDayTitle: {type: String},
+            recipeOfTheDayIngredients: {type: String},
+        },
+    ],
 });
 
 module.exports = mongoose.model("RecipeCalendar", CalendarSchema);

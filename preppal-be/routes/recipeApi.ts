@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-magic-numbers */
 const expressRecipeApi = require("express");
 const Recipe = require("../models/recipe.ts");

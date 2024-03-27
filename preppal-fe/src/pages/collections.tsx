@@ -1,8 +1,8 @@
-import { Tabs, Tab } from 'react-bootstrap';
-import React from 'react';
-import NavBar from '../components/nav-bar/nav-bar';
+import { Tabs, Tab } from "react-bootstrap";
+import React from "react";
+import NavBar from "../components/nav-bar/nav-bar";
 import { useSearchParams } from 'react-router-dom';
-import RecipeCatalog from '../components/recipe-catalog/recipe-catalog';
+import RecipeCatalog from "../components/recipe-catalog/recipe-catalog";
 import { Button } from 'react-bootstrap';
 import { FaFilter, FaTimes } from 'react-icons/fa';
 import FilterMenu from '../components/filter-menu/filter-menu';
@@ -65,7 +65,7 @@ const Collections = () => {
                     },
                     body: JSON.stringify(reqBody)
                 };
-                fetchedRecipes = await fetch(backendBaseURL+"/api/users/ownRecipes/", req).then((res) => res.json());
+                fetchedRecipes = await fetch(`${backendBaseURL}/api/users/ownRecipes/`, req).then((response) => response.json());
             }
             return fetchedRecipes;
         }
@@ -87,7 +87,7 @@ const Collections = () => {
                     },
                     body: JSON.stringify(reqBody)
                 };
-                fetchedRecipes = await fetch(backendBaseURL+"/api/users/savedRecipes/", req).then((res) => res.json());
+                fetchedRecipes = await fetch(`${backendBaseURL}/api/users/savedRecipes/`, req).then((response) => response.json());
             }
             return fetchedRecipes;
         }

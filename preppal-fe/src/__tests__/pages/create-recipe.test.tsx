@@ -1,13 +1,12 @@
-/* eslint-disable testing-library/no-wait-for-empty-callback */
-/* eslint-disable testing-library/no-unnecessary-act */
+/* eslint-disable no-shadow */
+import React from "react";
 import { render, screen } from "@testing-library/react";
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from "react-router-dom";
 import CreateRecipe from "../../pages/create-recipe";
 
-describe('Create recipe tests', () => {
-
+describe("Create recipe tests", () => {
     describe("Unit tests", () => {
-        test('Render standard component --> Buttons', async () => {
+        test("Render standard component --> Buttons", async () => {
             render(<BrowserRouter><CreateRecipe /></BrowserRouter>);
 
             const submitBtn = screen.queryByText("Submit");
@@ -17,7 +16,7 @@ describe('Create recipe tests', () => {
             expect(cancelBtn).toBeTruthy();
         });
 
-        test('Render standard component --> Input title fields', () => {
+        test("Render standard component --> Input title fields", () => {
             render(<BrowserRouter><CreateRecipe /></BrowserRouter>);
 
             const title = screen.queryByText("Title");
@@ -36,7 +35,7 @@ describe('Create recipe tests', () => {
             expect(cookingTime).toBeTruthy();
         });
 
-        test('Render standard component --> Input fields', () => {
+        test("Render standard component --> Input fields", () => {
             render(<BrowserRouter><CreateRecipe /></BrowserRouter>);
 
             const title = screen.queryByTitle("Title");
