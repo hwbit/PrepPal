@@ -220,9 +220,9 @@ routerUserApi.post("/saveRecipeStatus", auth, async (req, res) => {
 });
 
 /**
- * GET - get user's savedRecipes
+ * POST - get user's savedRecipes
  */
-routerUserApi.get("/savedRecipes", auth, async (req, res) => {
+routerUserApi.post("/savedRecipes", auth, async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select("-password");
         const { title, author, description, ingredients, cookingTime } = req.body;
@@ -253,8 +253,8 @@ routerUserApi.get("/savedRecipes", auth, async (req, res) => {
         for (const recipeId of recipeIds) {
             query._id = recipeId;
             const recipe = await Recipe.find(query);
-            if (recipe && recipe.isPublic) {
-                recipes.push(recipe);
+            if (recipe[0]) {
+                recipes.push(recipe[0]);
             }
         }
         res.status(200).json(recipes);
@@ -266,9 +266,9 @@ routerUserApi.get("/savedRecipes", auth, async (req, res) => {
 });
 
 /**
- * GET - get user's ownRecipes
+ * POST - get user's ownRecipes
  */
-routerUserApi.get("/ownRecipes", auth, async (req, res) => {
+routerUserApi.post("/ownRecipes", auth, async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select("-password");
         const { title, author, description, ingredients, cookingTime } = req.body;
@@ -299,8 +299,8 @@ routerUserApi.get("/ownRecipes", auth, async (req, res) => {
         for (const recipeId of recipeIds) {
             query._id = recipeId;
             const recipe = await Recipe.find(query);
-            if (recipe) {
-                recipes.push(recipe);
+            if (recipe[0]) {
+                recipes.push(recipe[0]);
             }
         }
         res.status(200).json(recipes);

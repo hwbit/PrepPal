@@ -46,7 +46,7 @@ const Collections = () => {
         getSavedRecipes().then(result => setSavedRecipes(result));
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [searchParams, setSearchParams]);
 
 
     const toggleFilterMenu = () => {
@@ -59,7 +59,7 @@ const Collections = () => {
         try {
             if (token && token !== "undefined") {
                 const req = {
-                    method: "GET",
+                    method: "POST",
                     headers: {
                         'x-auth-token': token
                     },
@@ -81,7 +81,7 @@ const Collections = () => {
         try {
             if (token && token !== "undefined") {
                 const req = {
-                    method: "GET",
+                    method: "POST",
                     headers: {
                         'x-auth-token': token
                     },
@@ -105,10 +105,10 @@ const Collections = () => {
             const value = searchParams.get(key);
 
             const handleRemoveFilter = () => {
-            if (searchParams.has(key)) {
-                searchParams.delete(key);
-                setSearchParams(searchParams);
-            }
+                if (searchParams.has(key)) {
+                    searchParams.delete(key);
+                    setSearchParams(searchParams);
+                }
             };
 
             return (
