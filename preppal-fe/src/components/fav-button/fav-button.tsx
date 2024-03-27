@@ -6,7 +6,7 @@ const FavouriteButton = (recipe: any) => {
     const [favourite, setFavourite] = React.useState<boolean>();
 
     React.useEffect(() => {
-        saveStatus(recipe.id).then(result => setFavourite(result));
+        saveStatus(recipe.id).then((result) => setFavourite(result));
     }, [recipe.id]);
 
     async function saveStatus(id: string) {
@@ -23,7 +23,7 @@ const FavouriteButton = (recipe: any) => {
 
                 body: JSON.stringify({ recipeId: id }),
             };
-            const res = await fetch(backendBaseURL+"/api/users/saveRecipeStatus", req).then((res) => res.json());
+            const res = await fetch(`${backendBaseURL}/api/users/saveRecipeStatus`, req).then((response) => response.json());
             saved = res?.status ?? false;
         }
         return saved;
@@ -44,7 +44,7 @@ const FavouriteButton = (recipe: any) => {
 
                         body: JSON.stringify({ recipeId: saveRecipeId }),
                     };
-                    await fetch(backendBaseURL+"/api/users/saveRecipe", req).then((res) => res.json());
+                    await fetch(`${backendBaseURL}/api/users/saveRecipe`, req).then((response) => response.json());
                 }
                 else {
                     const req = {
@@ -57,7 +57,7 @@ const FavouriteButton = (recipe: any) => {
 
                         body: JSON.stringify({ recipeId: saveRecipeId }),
                     };
-                    await fetch(backendBaseURL+"/api/users/unsaveRecipe", req).then((res) => res.json());
+                    await fetch(`${backendBaseURL}/api/users/unsaveRecipe`, req).then((response) => response.json());
                 }
             }
         }
@@ -73,22 +73,28 @@ const FavouriteButton = (recipe: any) => {
 
     return (
         favourite
-            ? (<img
+            ? (
+              <img
                 onClick={handleClick}
-                className="saved"
+                className={"saved"}
                 src={require("../../assets/filled-heart.png")}
                 width={40}
                 height={40}
-                alt={"fav"}>
-            </img>)
-            : (<img
+                alt={"fav"}
+              >
+              </img>
+            )
+            : (
+              <img
                 onClick={handleClick}
-                className="unsaved"
+                className={"unsaved"}
                 src={require("../../assets/unfilled-heart.png")}
                 width={40}
                 height={40}
-                alt={"fav"}>
-            </img>)
+                alt={"fav"}
+              >
+              </img>
+            )
     );
 };
 

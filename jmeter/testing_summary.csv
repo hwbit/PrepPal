@@ -1,0 +1,12 @@
+Http Request,Num of Requests,Average Res Time (ms),Min Res Time (ms),Max Res Time (ms),Std. Dev.,Error %,Throughput (req/sec),Received KB/sec,Sent KB/sec,Avg. Res Size (bytes)
+Get recipes for home page,200,203,49,1024,220.42,0.00%,5.33803,57.63,0.83,11055
+Get a recipe by id,200,167,46,796,222.95,0.00%,5.26205,3.82,0.99,744
+Search recipes,200,205,46,804,258.72,0.00%,5.28555,11.81,1.16,2288
+Get reviews by recipe id,200,239,47,812,282.98,0.00%,5.30377,1.86,0.95,360
+Login attempt with valid user,200,200,47,821,250.8,0.00%,5.31745,2.4,1.21,463
+Get calendar,200,144,47,793,208.14,0.00%,5.32708,5.96,1.17,1145
+View own profile,200,153,45,976,235.53,0.00%,5.25127,3.75,1.66,731
+View saved recipes,200,781,198,1887,270.6,0.00%,5.23218,4.36,1.73,854
+View own recipes,200,1705,1102,2725,343.03,0.00%,5.1083,10.96,1.68,2198
+View other user's profile,200,219,46,821,290.09,0.00%,5.35762,2.3,0.97,439
+TOTAL,2000,402,45,2725,537.28,0.00%,49.11109,97.25,11.52,2027.7

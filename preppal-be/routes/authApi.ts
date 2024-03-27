@@ -29,7 +29,7 @@ routerAuthApi.post("/", async (req, res) => {
         const { username, password } = req.body;
         const user = await UserAuth.findOne({ username });
         if (!user || password !== user.password) {
-            return res.status(400).json({ errors: [{ msg: "Invalid username or password!" }] });
+            return res.status(400).json({ errors: [ { msg: "Invalid username or password!" } ] });
         }
 
         const payload = { user: { id: user.id } };
