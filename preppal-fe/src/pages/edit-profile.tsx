@@ -93,7 +93,7 @@ function EditProfile() {
             const formBody = new FormData();
             formBody.append("_id", userID);
             formBody.append("username", userName);
-            formBody.append("password", userPassword);
+            formBody.append("password", userNewPassword);
             formBody.append("bio", userBio);
             formBody.append("imageRaw", uploadedImage);
 
