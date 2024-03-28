@@ -8,10 +8,9 @@ module.exports = {
         browser: true,
         es2021: true,
     },
-    plugins: ["json", "@typescript-eslint"],
+    plugins: ["@typescript-eslint"],
     extends: [
         "eslint:recommended",
-        "plugin:json/recommended",
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
     ],
@@ -22,15 +21,15 @@ module.exports = {
             files: [".eslintrc.{js,cjs,json}"],
             parserOptions: { sourceType: "script" },
         },
-        {
-            files: ["*.css"],
-            plugins: ["css"],
-            extends: ["plugin:css/recommended"],
-            rules: {
-                "css/indent": ["error", INDENT_SHORT],
-                "css/property-casing": ["error", "kebab-case"],
-            },
-        },
+        // {
+        //     files: ["*.css"],
+        //     plugins: ["css"],
+        //     extends: ["plugin:css/recommended"],
+        //     rules: {
+        //         "css/indent": ["error", INDENT_SHORT],
+        //         "css/property-casing": ["error", "kebab-case"],
+        //     },
+        // },
         // {
         //     files: ["*.md"],
         //     plugins: ["md"],
