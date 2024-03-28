@@ -42,14 +42,18 @@ const Recipe = () => {
     const [recipeRatings, setRecipeRatings] = React.useState(0);
     const [recipeRatingTally, setRecipeRatingTally] = React.useState(0);
 
-    const [myRecipe, setMyRecipe] = React.useState(false);
+    const [myRecipe, setMyRecipe] = React.useState(true);
 
     React.useEffect(() => {
         getUser();
         getRecipe();
-        getReviews();
-        renderStars();
-        // eslint-disable-next-line
+         // eslint-disable-next-line
+    },[username])
+
+    React.useEffect(() => {
+      getReviews();
+      renderStars();
+      // eslint-disable-next-line
     }, [recipeRatings, recipeRatingTally]);
 
     const getUser = async () => {
@@ -194,6 +198,12 @@ const Recipe = () => {
         }
     };
 
+    function renderFavButton() {
+      if (loggedIn && !myRecipe) {
+        return <FavouriteButton id={recipeId}></FavouriteButton>
+      }
+    }
+
     return (
       <>
         <NavBar></NavBar>
@@ -230,7 +240,7 @@ const Recipe = () => {
                 </div>
               </div>
               <div className={"recipe-icons"}>
-                {loggedIn && !myRecipe ? (<FavouriteButton id={recipeId}></FavouriteButton>) : <></>}
+                {renderFavButton()}
               </div>
             </div>
             <div className={"recipe-info"}>
