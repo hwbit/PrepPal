@@ -8,7 +8,7 @@ const Uploader = require("../utils/uploader.ts");
 const multer = require("multer");
 
 require("dotenv").config();
-const jwtSecret = process.env.JWT_SECRETS;
+const jwtSecret = process.env.JWT_SECRET;
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage });

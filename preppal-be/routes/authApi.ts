@@ -7,7 +7,7 @@ const UserAuth = require("../models/user.ts");
 const SESSION_EXPIRY = 86400;
 
 require("dotenv").config();
-const jwtSecret = process.env.JWT_SECRETS;
+const jwtSecret = process.env.JWT_SECRET;
 
 /**
  * GET - Get an account
