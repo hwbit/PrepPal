@@ -1,11 +1,13 @@
 const expressAuthApi = require("express");
 const routerAuthApi = expressAuthApi.Router();
 const jwtAuthApi = require("jsonwebtoken");
-const configAuthApi = require("../configs/secrets.ts");
 const authAuthApi = require("../auth/authorization.ts");
 const UserAuth = require("../models/user.ts");
 
 const SESSION_EXPIRY = 86400;
+
+require("dotenv").config();
+const jwtSecret = process.env.JWT_SECRET;
 
 /**
  * GET - Get an account
@@ -34,7 +36,7 @@ routerAuthApi.post("/", async (req, res) => {
 
         const payload = { user: { id: user.id } };
 
-        jwtAuthApi.sign(payload, configAuthApi.jwtSecret, { expiresIn: SESSION_EXPIRY }, (err, token) => {
+        jwtAuthApi.sign(payload, jwtSecret, { expiresIn: SESSION_EXPIRY }, (err, token) => {
             if (err) throw err;
             res.status(200).json({ token });
         });

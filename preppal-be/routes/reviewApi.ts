@@ -1,6 +1,4 @@
 const expressReviewApi = require("express");
-const configReviewApi = require("../configs/secrets.ts");
-
 const Review = require("../models/review.ts");
 const Author = require("../models/user.ts");
 const Recipe = require("../models/recipe.ts");

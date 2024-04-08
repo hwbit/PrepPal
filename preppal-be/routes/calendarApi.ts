@@ -1,6 +1,5 @@
 /* eslint-disable no-magic-numbers */
 const expressRecipeApi = require("express");
-const configRecipeApi = require("../configs/secrets.ts");
 const Calendar = require("../models/calendar.ts");
 
 const calendarApi = expressRecipeApi.Router();

@@ -1,12 +1,14 @@
 const expressUserApi = require("express");
 const routerUserApi = expressUserApi.Router();
 const jwtUserApi = require("jsonwebtoken");
-const configUserApi = require("../configs/secrets.ts");
 const auth = require("../auth/authorization.ts");
 const User = require("../models/user.ts");
 const Recipe = require("../models/recipe.ts");
 const Uploader = require("../utils/uploader.ts");
 const multer = require("multer");
+
+require("dotenv").config();
+const jwtSecret = process.env.JWT_SECRET;
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
@@ -82,7 +84,7 @@ routerUserApi.post("/createUser", async (req, res) => {
         user.save();
 
         const payload = { user: { id: user.id } };
-        jwtUserApi.sign(payload, configUserApi.jwtSecret, { expiresIn: SESSION_EXPIRY }, (err, token) => {
+        jwtUserApi.sign(payload, jwtSecret, { expiresIn: SESSION_EXPIRY }, (err, token) => {
             if (err) throw err;
             res.status(201).json({ token });
         });

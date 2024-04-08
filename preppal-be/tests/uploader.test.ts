@@ -1,4 +1,4 @@
-const { BlobServiceClient, ContainerClient, BlockBlobClient } = require("@azure/storage-blob");
+const { BlobServiceClient } = require("@azure/storage-blob");
 const uploadImage = require("../utils/uploader");
 
 jest.mock("@azure/storage-blob", () => ({
