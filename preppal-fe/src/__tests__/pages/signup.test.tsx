@@ -1,28 +1,30 @@
 /* eslint-disable testing-library/no-unnecessary-act */
+/* eslint-disable no-shadow */
+import React from "react";
 import { act, fireEvent, render, screen } from "@testing-library/react";
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from "react-router-dom";
 import Signup from "../../pages/signup";
 import { mockFetch } from "../../test-utils/mock-fetch";
 import NavBar from "../../components/nav-bar/nav-bar";
 
-describe('Signup component tests', () => {
+describe("Signup component tests", () => {
     beforeEach(() => {
-        jest.spyOn(console, 'error').mockImplementation(jest.fn());
+        jest.spyOn(console, "error").mockImplementation(jest.fn());
     });
 
     afterEach(() => {
-        sessionStorage.removeItem('token');
+        sessionStorage.removeItem("token");
     });
 
     describe("Unit tests", () => {
-        test('Render standard component --> Buttons', () => {
+        test("Render standard component --> Buttons", () => {
             render(<BrowserRouter><Signup /></BrowserRouter>);
 
             const signupBtn = screen.queryByTitle("signup-button");
             expect(signupBtn).toBeTruthy();
         });
 
-        test('Render standard component --> input fields', () => {
+        test("Render standard component --> input fields", () => {
             render(<BrowserRouter><Signup /></BrowserRouter>);
 
             const username = screen.queryByTitle("username");
@@ -33,15 +35,15 @@ describe('Signup component tests', () => {
     });
 
     describe("Integration tests", () => {
-        test('Successful signup updates the navigation bar display', async () => {
+        test("Successful signup updates the navigation bar display", async () => {
             render(<BrowserRouter><Signup /></BrowserRouter>);
-            window.fetch = mockFetch({ "token": "random-token" });
-            expect(screen.queryByTitle('profile-link')).toBeFalsy();
-            expect(screen.queryByTitle('collections-link')).toBeFalsy();
+            window.fetch = mockFetch({ token: "random-token" });
+            expect(screen.queryByTitle("profile-link")).toBeFalsy();
+            expect(screen.queryByTitle("collections-link")).toBeFalsy();
 
-            const username = screen.getByPlaceholderText('Username');
-            const password = screen.getByPlaceholderText('Password');
-            const signupButton = screen.getByTitle('signup-button');
+            const username = screen.getByPlaceholderText("Username");
+            const password = screen.getByPlaceholderText("Password");
+            const signupButton = screen.getByTitle("signup-button");
 
             fireEvent.change(username, { target: { value: "passing user" } });
             fireEvent.change(password, { target: { value: "passing pass" } });
@@ -49,31 +51,31 @@ describe('Signup component tests', () => {
 
             await act(() => render(<BrowserRouter><NavBar /></BrowserRouter>));
 
-            const profileLink = screen.getByTitle('profile-link');
-            const collectionsLink = screen.getByTitle('collections-link');
+            const profileLink = screen.getByTitle("profile-link");
+            const collectionsLink = screen.getByTitle("collections-link");
 
             expect(profileLink).toBeTruthy();
             expect(collectionsLink).toBeTruthy();
         });
 
-        test('Failed signup does not update the navigation bar display', async () => {
+        test("Failed signup does not update the navigation bar display", async () => {
             render(<BrowserRouter><Signup /></BrowserRouter>);
-            window.fetch = mockFetch({ "token": "undefined" });
+            window.fetch = mockFetch({ token: "undefined" });
 
-            const username = screen.getByPlaceholderText('Username');
-            const password = screen.getByPlaceholderText('Password');
-            const signupButton = screen.getByTitle('signup-button');
+            const username = screen.getByPlaceholderText("Username");
+            const password = screen.getByPlaceholderText("Password");
+            const signupButton = screen.getByTitle("signup-button");
 
-            fireEvent.change(username, { target: { value: 'no user' } });
-            fireEvent.change(password, { target: { value: 'incorrect password' } });
+            fireEvent.change(username, { target: { value: "no user" } });
+            fireEvent.change(password, { target: { value: "incorrect password" } });
             await act(() => fireEvent.submit(signupButton));
 
-            const loginLink = screen.getByTitle('login-link');
+            const loginLink = screen.getByTitle("login-link");
 
             expect(loginLink).toBeTruthy();
-            expect(screen.queryByTitle('profile-link')).toBeFalsy();
-            expect(screen.queryByTitle('collections-link')).toBeFalsy();
+            expect(screen.queryByTitle("profile-link")).toBeFalsy();
+            expect(screen.queryByTitle("collections-link")).toBeFalsy();
         });
     });
-})
+});
 

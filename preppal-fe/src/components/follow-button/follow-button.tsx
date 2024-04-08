@@ -1,11 +1,13 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 
+const backendBaseURL = process.env.REACT_APP_BACKEND_BASE_URL;
+
 const FollowButton = (user: any) => {
     const [isFollowing, setFollowing] = React.useState<boolean>();
 
     React.useEffect(() => {
-        followStatus(user.username).then(result => setFollowing(result));
+        followStatus(user.username).then((result) => setFollowing(result));
     }, [user.username]);
 
     async function followStatus(username: string) {
@@ -20,9 +22,9 @@ const FollowButton = (user: any) => {
                     "x-auth-token": token,
                 },
 
-                body: JSON.stringify({ username: username }),
+                body: JSON.stringify({ username }),
             };
-            const res = await fetch("http://localhost:9001/api/users/followingStatus", req).then((res) => res.json());
+            const res = await fetch(`${backendBaseURL}/api/users/followingStatus`, req).then((response) => response.json());
             following = res?.status ?? false;
         }
         return following;
@@ -41,9 +43,9 @@ const FollowButton = (user: any) => {
                             "x-auth-token": token,
                         },
 
-                        body: JSON.stringify({ username: username }),
+                        body: JSON.stringify({ username }),
                     };
-                    await fetch("http://localhost:9001/api/users/followUser", req).then((res) => res.json());
+                    await fetch(`${backendBaseURL}/api/users/followUser`, req).then((response) => response.json());
                 }
                 else {
                     const req = {
@@ -54,9 +56,9 @@ const FollowButton = (user: any) => {
                             "x-auth-token": token,
                         },
 
-                        body: JSON.stringify({ username: username }),
+                        body: JSON.stringify({ username }),
                     };
-                    await fetch("http://localhost:9001/api/users/unfollowUser", req).then((res) => res.json());
+                    await fetch(`${backendBaseURL}/api/users/unfollowUser`, req).then((response) => response.json());
                 }
             }
         }
@@ -72,16 +74,22 @@ const FollowButton = (user: any) => {
 
     return (
         isFollowing
-            ? (<Button
+            ? (
+              <Button
                 onClick={handleClick}
-                style={{ backgroundColor: "#401E01" }}>
+                style={{ backgroundColor: "#401E01" }}
+              >
                 Unfollow
-            </Button>)
-            : (<Button
+              </Button>
+            )
+            : (
+              <Button
                 onClick={handleClick}
-                style={{ backgroundColor: "#401E01" }}>
+                style={{ backgroundColor: "#401E01" }}
+              >
                 Follow
-            </Button>)
+              </Button>
+            )
     );
 };
 

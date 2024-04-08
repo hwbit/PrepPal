@@ -1,11 +1,13 @@
-import React from 'react';
-import { Container, Image, Card, Form, Row, Col, Button } from 'react-bootstrap';
-import { dateToString } from '../utils/date';
-import { useParams, Link } from 'react-router-dom';
-import NavBar from '../components/nav-bar/nav-bar';
-import Review from '../components/review/review';
-import '../styles/recipe.css';
-import FavouriteButton from '../components/fav-button/fav-button';
+import React from "react";
+import { Container, Image as ReactImage, Card, Form, Row, Col, Button } from "react-bootstrap";
+import { dateToString } from "../utils/date";
+import { useParams, Link } from "react-router-dom";
+import NavBar from "../components/nav-bar/nav-bar";
+import Review from "../components/review/review";
+import "../styles/recipe.css";
+import FavouriteButton from "../components/fav-button/fav-button";
+
+const backendBaseURL = process.env.REACT_APP_BACKEND_BASE_URL;
 
 const Recipe = () => {
     const { recipeId } = useParams();
@@ -27,24 +29,31 @@ const Recipe = () => {
     const [loggedIn, setLoggedIn] = React.useState(false);
     const [reviews, setReviews] = React.useState<any[]>([]);
     const [review, setNewReview] = React.useState({
-        'title': "",
-        'comment': "",
+        title: "",
+        comment: "",
     });
     const [rating, setRating] = React.useState(0);
     const [isComplete, setIsComplete] = React.useState(false);
-    const ratings = [1, 2, 3, 4, 5];
+    const ratings = [
+        // eslint-disable-next-line no-magic-numbers
+        1, 2, 3, 4, 5,
+    ];
 
     const [recipeRatings, setRecipeRatings] = React.useState(0);
     const [recipeRatingTally, setRecipeRatingTally] = React.useState(0);
 
-
+    const [myRecipe, setMyRecipe] = React.useState(true);
 
     React.useEffect(() => {
         getUser();
         getRecipe();
-        getReviews();
-        renderStars();
-        // eslint-disable-next-line
+         // eslint-disable-next-line
+    },[username])
+
+    React.useEffect(() => {
+      getReviews();
+      renderStars();
+      // eslint-disable-next-line
     }, [recipeRatings, recipeRatingTally]);
 
     const getUser = async () => {
@@ -53,15 +62,14 @@ const Recipe = () => {
             if (token && token !== "undefined") {
                 const req = {
                     method: "GET",
-                    headers: {
-                        "x-auth-token": token
-                    }
+                    headers: {"x-auth-token": token},
                 };
-                const res = await fetch("http://localhost:9001/api/auth/", req).then(res => res.json());
+                const res = await fetch(`${backendBaseURL}/api/auth/`, req).then((response) => response.json());
                 setUsername(res.username);
                 setLoggedIn(true);
             }
-        } catch (err) {
+        }
+        catch (err) {
             console.error(err);
         }
     };
@@ -70,11 +78,9 @@ const Recipe = () => {
         try {
             const req = {
                 method: "GET",
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+                headers: {"Content-Type": "application/json"},
             };
-            const res = await fetch(`http://localhost:9001/api/recipes/lookupId/${recipeId}`, req).then(res => res.json());
+            const res = await fetch(`${backendBaseURL}/api/recipes/lookupId/${recipeId}`, req).then((response) => response.json());
             setAuthor(res.author);
             setDate(dateToString(new Date(res.creationDate)));
             setTitle(res.title);
@@ -85,7 +91,9 @@ const Recipe = () => {
             setServingSize(res.servingSize);
             setPrepTime(res.prepTime);
             setCookTime(res.cookingTime);
-        } catch (err) {
+            setMyRecipe(res.author === username);
+        }
+        catch (err) {
             console.error(err);
         }
     };
@@ -94,42 +102,57 @@ const Recipe = () => {
         try {
             const req = {
                 method: "GET",
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+                headers: {"Content-Type": "application/json"},
             };
-            const res = await fetch(`http://localhost:9001/api/reviews/${recipeId}`, req).then((res) => res.json());
+            const res = await fetch(`${backendBaseURL}/api/reviews/${recipeId}`, req).then((response) => response.json());
             if (res) {
                 setReviews(res.reviews);
                 calculateRecipeRating(res.reviews);
             }
-        } catch (err) {
+        }
+        catch (err) {
             console.error(err);
         }
     };
 
-    const calculateRecipeRating = (reviews: any) => {
-        var tally = 0;
-        var count = 0;
+    const calculateRecipeRating = (recipeReviews: any) => {
+        let tally = 0;
+        let count = 0;
 
-        for (const review of reviews) {
-            tally += review.rating;
+        for (const recipeReview of recipeReviews) {
+            tally += recipeReview.rating;
             count++;
         }
         setRecipeRatingTally(count);
         // prevent divide by zero
         setRecipeRatings(count === 0 ? 0 : tally / count);
-    }
+    };
 
 
     const renderStars = () => {
         const stars = [];
         // Logic to render stars based on rating
+        // eslint-disable-next-line no-magic-numbers
         for (let i = 1; i <= 5; i++) {
             if (i <= recipeRatings) {
-                stars.push(<span key={i} className="star filled">&#9733;</span>);
-            } else {
-                stars.push(<span key={i} className="star">&#9733;</span>);
+                stars.push(
+                  <span
+                    key={i}
+                    className={"star filled"}
+                  >
+                    &#9733;
+                  </span>,
+                );
+            }
+            else {
+                stars.push(
+                  <span
+                    key={i}
+                    className={"star"}
+                  >
+                    &#9733;
+                  </span>,
+                );
             }
         }
         return stars;
@@ -146,10 +169,11 @@ const Recipe = () => {
         checkCompletion(review.title, value);
     };
 
-    const checkCompletion = (title: any, rating: any) => {
-        if (title.trim() !== '' && rating > 0) {
+    const checkCompletion = (title: any, recipeRating: any) => {
+        if (title.trim() !== "" && recipeRating > 0) {
             setIsComplete(true);
-        } else {
+        }
+        else {
             setIsComplete(false);
         }
     };
@@ -157,130 +181,206 @@ const Recipe = () => {
     const handleNewReview = async () => {
         try {
             const req = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({
-                    'recipeId': recipeId,
-                    'author': username,
-                    'rating': rating,
-                    'title': review.title,
-                    'comment': review.comment,
-                })
+                    recipeId: recipeId,
+                    author: username,
+                    rating: rating,
+                    title: review.title,
+                    comment: review.comment,
+                }),
             };
-            await fetch("http://localhost:9001/api/reviews/post", req).then(res => res.json());
-        } catch (err) {
+            await fetch(`${backendBaseURL}/api/reviews/post`, req).then((response) => response.json());
+        }
+        catch (err) {
             console.error(err);
         }
+    };
+
+    function renderFavButton() {
+      if (loggedIn && !myRecipe) {
+        return <FavouriteButton id={recipeId}></FavouriteButton>
+      }
     }
 
     return (
-        <><NavBar></NavBar>
-            <Container>
-                <div className='form' style={{ width: '700px' }}>
-                    <div className='recipe-header'>
-                        <Image src={require('../assets/' + recipeImage)} width={150} height={120} />
-                        <div style={{ paddingLeft: '100px' }}>
-                            <h1 className='recipe-header-row'>{recipeTitle}</h1>
-                            <div className='recipe-header-row' style={{ paddingLeft: '20px' }}>{renderStars()} {recipeRatings.toFixed(2)} ({recipeRatingTally})</div>
-                            <div className='recipe-header-row' style={{ paddingLeft: '20px' }}>{recipeDescription}</div>
-                        </div>
-                        <div className="recipe-icons">
-                            {loggedIn && (<FavouriteButton id={recipeId}></FavouriteButton>)}
-                        </div>
-                    </div>
-                    <div className='recipe-info'>
-                        <div className='recipe-info-row'>
-                            <div className='author'> Author: <Link to={"/profile/" + recipeAuthor}>{recipeAuthor}</Link></div>
-                            <div className='date-published'>Date published: {recipeDate}</div>
-                        </div>
-                        <div className='recipe-info-row'>
-                            Serving Size: {recipeServingSize}
-                        </div>
-                        <Card className='recipe-info-row' style={{ flexDirection: 'row' }}>
-                            <div className='recipe-info-attr'>
-                                Prep Time: {recipePrepTime} min
-                            </div>
-                            <div className='recipe-info-attr'>
-                                Cooking Time: {recipeCookTime} min
-                            </div>
-                            <div className='recipe-info-attr'>
-                                Total Time: {recipePrepTime + recipeCookTime} min
-                            </div>
-                        </Card>
-                    </div>
-                    <div className='list'>
-                        <h1 className='title-list'>Ingredients</h1>
-                        <ul className='items'>
-                            {recipeIngredients}
-                        </ul>
-                    </div>
-                    <div className='list'>
-                        <h1 className='title-list'>Instructions</h1>
-                        <ol className='items'>
-                            {recipeInstructions}
-                        </ol>
-                    </div>
-
-                    <hr className="divider" />
-
-                    <h1 className='title-leave-comment'>Leave a review</h1>
-                    {!loggedIn ? <Card>Must be logged in to leave a review</Card> :
-                        // review form
-                        <Form onSubmit={handleNewReview}>
-                            <Form.Group controlId="title" style={{ paddingBottom: '24px' }} title="Review Title">
-                                <Form.Label>Review Title (Required)</Form.Label>
-                                <Form.Control
-                                    required
-                                    name='title'
-                                    type='text'
-                                    onChange={(event) => handleChange(event)} />
-                                <Form.Control.Feedback type="invalid">Please enter a title</Form.Control.Feedback>
-                            </Form.Group>
-                            <div className="star-rating" title="Rating">
-                                Rating (Required): {ratings.map((star) => (
-                                    <span
-                                        key={star}
-                                        className={star <= rating ? 'star filled' : 'star'}
-                                        onClick={() => handleStarClick(star)}
-                                    >
-                                        ★
-                                    </span>
-                                ))}
-                            </div>
-                            <Form.Group controlId='comment' style={{ paddingBottom: '24px' }} title="Comment">
-                                <Form.Label>Comment</Form.Label>
-                                <Form.Control
-                                    type='text' as='textarea'
-                                    rows={3}
-                                    name='comment'
-                                    onChange={(event) => handleChange(event)} />
-                            </Form.Group>
-                            <Button
-                                variant='primary'
-                                type='submit'
-                                title='Submit'
-                                size='lg'
-                                disabled={!isComplete}
-                            >
-                                Submit
-                            </Button>
-
-                        </Form>
-                    }
-                    <h1 className='title-view-list'>Reviews</h1>
-                    <Row xs="auto" md="auto" lg="auto">
-                        {reviews.map((review, i) => (
-                            <Col key={i}>
-                                {Review(review)}
-                            </Col>
-                        ))}
-                    </Row>
-
+      <>
+        <NavBar></NavBar>
+        <Container>
+          <div
+            className={"form"}
+            style={{ width: "700px" }}
+          >
+            <div className={"recipe-header"}>
+              <ReactImage
+                src={require(`../assets/${recipeImage}`)}
+                width={150}
+                height={120}
+              />
+              <div style={{ paddingLeft: "100px" }}>
+                <h1 className={"recipe-header-row"}>{recipeTitle}</h1>
+                <div
+                  className={"recipe-header-row"}
+                  style={{ paddingLeft: "20px" }}
+                >
+                  {renderStars()}
+                  {" "}
+                  {recipeRatings.toFixed(2)}
+                  {" "}
+                  (
+                  {recipeRatingTally}
+                  )
                 </div>
-            </Container ></>
-    )
-}
+                <div
+                  className={"recipe-header-row"}
+                  style={{ paddingLeft: "20px" }}
+                >
+                  {recipeDescription}
+                </div>
+              </div>
+              <div className={"recipe-icons"}>
+                {renderFavButton()}
+              </div>
+            </div>
+            <div className={"recipe-info"}>
+              <div className={"recipe-info-row"}>
+                <div className={"author"}>
+                  {" "}
+                  Author:
+                  <Link to={`/profile/${recipeAuthor}`}>{recipeAuthor}</Link>
+                </div>
+                <div className={"date-published"}>
+                  Date published:
+                  {recipeDate}
+                </div>
+              </div>
+              <div className={"recipe-info-row"}>
+                Serving Size:
+                {" "}
+                {recipeServingSize}
+              </div>
+              <Card
+                className={"recipe-info-row"}
+                style={{ flexDirection: "row" }}
+              >
+                <div className={"recipe-info-attr"}>
+                  Prep Time:
+                  {" "}
+                  {recipePrepTime}
+                  {" "}
+                  min
+                </div>
+                <div className={"recipe-info-attr"}>
+                  Cooking Time:
+                  {" "}
+                  {recipeCookTime}
+                  {" "}
+                  min
+                </div>
+                <div className={"recipe-info-attr"}>
+                  Total Time:
+                  {" "}
+                  {recipePrepTime + recipeCookTime}
+                  {" "}
+                  min
+                </div>
+              </Card>
+            </div>
+            <div className={"list"}>
+              <h1 className={"title-list"}>Ingredients</h1>
+              <ul className={"items"}>
+                {recipeIngredients}
+              </ul>
+            </div>
+            <div className={"list"}>
+              <h1 className={"title-list"}>Instructions</h1>
+              <ol className={"items"}>
+                {recipeInstructions}
+              </ol>
+            </div>
+
+            <hr className={"divider"} />
+
+            <h1 className={"title-leave-comment"}>Leave a review</h1>
+            {!loggedIn ? <Card>Must be logged in to leave a review</Card>
+            // review form
+                : (
+                  <Form onSubmit={handleNewReview}>
+                    <Form.Group
+                      controlId={"title"}
+                      style={{ paddingBottom: "24px" }}
+                      title={"Review Title"}
+                    >
+                      <Form.Label>Review Title (Required)</Form.Label>
+                      <Form.Control
+                        required={true}
+                        name={"title"}
+                        type={"text"}
+                        onChange={(ev) => handleChange(ev)}
+                      />
+                      <Form.Control.Feedback type={"invalid"}>Please enter a title</Form.Control.Feedback>
+                    </Form.Group>
+                    <div
+                      className={"star-rating"}
+                      title={"Rating"}
+                    >
+                      Rating (Required):
+                      {" "}
+                      {ratings.map((star) => (
+                        <span
+                          key={star}
+                          className={star <= rating ? "star filled" : "star"}
+                          onClick={() => handleStarClick(star)}
+                        >
+                          ★
+                        </span>
+                      ))}
+                    </div>
+                    <Form.Group
+                      controlId={"comment"}
+                      style={{ paddingBottom: "24px" }}
+                      title={"Comment"}
+                    >
+                      <Form.Label>Comment</Form.Label>
+                      <Form.Control
+                        type={"text"}
+                        as={"textarea"}
+                        rows={3}
+                        name={"comment"}
+                        onChange={(ev) => handleChange(ev)}
+                      />
+                    </Form.Group>
+                    <Button
+                      variant={"primary"}
+                      type={"submit"}
+                      title={"Submit"}
+                      size={"lg"}
+                      disabled={!isComplete}
+                    >
+                      Submit
+                    </Button>
+
+                  </Form>
+                )
+            }
+            <h1 className={"title-view-list"}>Reviews</h1>
+            <Row
+              xs={"auto"}
+              md={"auto"}
+              lg={"auto"}
+            >
+              {reviews.map((theReview, i) => (
+                <Col key={i}>
+                  {Review(theReview)}
+                </Col>
+              ))}
+            </Row>
+
+          </div>
+        </Container>
+      </>
+    );
+};
 
 export default Recipe;

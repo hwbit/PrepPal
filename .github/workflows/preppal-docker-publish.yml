@@ -2,7 +2,7 @@ name: Release to Docker Hub
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ main ]
 
 jobs:
   build:

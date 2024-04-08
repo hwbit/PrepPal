@@ -1,6 +1,5 @@
 /* eslint-disable no-magic-numbers */
 const expressRecipeApi = require("express");
-const configRecipeApi = require("../configs/secrets.ts");
 const Calendar = require("../models/calendar.ts");
 
 const calendarApi = expressRecipeApi.Router();
@@ -22,7 +21,7 @@ calendarApi.post("/getCalendar", async (req, res) => {
         // (new user)If user does not have a calendar, create and return
         if (!thisCalendar) {
             const newCalendar = await new Calendar({
-                username,
+                username: username,
                 calendarDates: [],
             });
             const userCalendar = await newCalendar.save();

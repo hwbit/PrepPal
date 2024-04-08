@@ -6,12 +6,21 @@ on:
   pull_request:
     branches: [ dev, main ]
 
+env:
+  AZURE_KEY: ${{ secrets.AZURE_KEY }}
+  AZURE_CONNECTION_KEY: ${{ secrets.AZURE_CONNECTION_KEY }}
+  MONGO_URI: ${{ secrets.MONGO_URI }}
+  JWT_SECRET: ${{ secrets.JWT_SECRET }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
     defaults: 
       run:
         working-directory: ./preppal-be
+
+    env:
+      MONGO_URI: ${{secrets.MONGO_URI}}
 
     steps:
     - uses: actions/checkout@v4

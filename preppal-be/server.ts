@@ -2,7 +2,7 @@ const expressServer = require("express");
 const connectToDB = require("./configs/db.ts");
 const appServer = require("./app.ts");
 
-const port = process.env.PORT || 9001;
+const port = process.env.PORT || 8080;
 
 connectToDB.connectDB();
 
