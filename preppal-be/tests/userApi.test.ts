@@ -2,8 +2,6 @@ const request = require("supertest");
 const db = require("../configs/db.ts");
 const app = require("../app.ts");
 const UserModel = require("../models/user.ts");
-const Uploader = require("../utils/uploader.ts");
-
 
 describe("userApi test", function() {
     let token;

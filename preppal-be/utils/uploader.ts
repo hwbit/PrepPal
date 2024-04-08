@@ -24,7 +24,6 @@ const uploadImage = async (file, fileName) => {
         return imageUrl;
     }
     catch (error) {
-        console.error(error);
         throw new Error("Internal server error");
     }
 };
