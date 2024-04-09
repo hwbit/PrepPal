@@ -19,6 +19,8 @@
   height: 10rem;
   object-fit: cover;
   border-radius: 5px;
+  border: 2px solid var(--dark-brown);
+  background-color: var(--normal-text);
 }
 
 .recipe-title {

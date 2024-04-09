@@ -1,10 +1,17 @@
 const expressUserApi = require("express");
 const routerUserApi = expressUserApi.Router();
 const jwtUserApi = require("jsonwebtoken");
-const configUserApi = require("../configs/secrets.ts");
 const auth = require("../auth/authorization.ts");
 const User = require("../models/user.ts");
 const Recipe = require("../models/recipe.ts");
+const Uploader = require("../utils/uploader.ts");
+const multer = require("multer");
+
+require("dotenv").config();
+const jwtSecret = process.env.JWT_SECRET;
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 const SESSION_EXPIRY = 86400;
 const PWD_LENGTH = 5;
@@ -33,7 +40,7 @@ routerUserApi.get("/lookup/:username", async (req, res) => {
         const user = await User.findOne({ username }).select("-password");
 
         if (!user) {
-            return res.status(400).json({ errors: [{ msg: "Invalid id for user." }] });
+            return res.status(400).json({ errors: [ { msg: "Invalid id for user." } ] });
         }
         const recipeIds = user.ownRecipes ?? [];
         const publicRecipes = [];
@@ -49,6 +56,7 @@ routerUserApi.get("/lookup/:username", async (req, res) => {
             bio: user.bio,
             following: user.following,
             recipes: publicRecipes,
+            image: user.image,
         });
     }
     catch (error) {
@@ -65,18 +73,18 @@ routerUserApi.post("/createUser", async (req, res) => {
     try {
         const { username, password } = req.body;
         if (!username || !password || password.length < PWD_LENGTH) {
-            return res.status(400).json({ errors: [{ msg: "Invalid username and/or password." }] });
+            return res.status(400).json({ errors: [ { msg: "Invalid username and/or password." } ] });
         }
         let user = await User.findOne({ username });
         if (user) {
-            return res.status(400).json({ errors: [{ msg: "Username already exists." }] });
+            return res.status(400).json({ errors: [ { msg: "Username already exists." } ] });
         }
 
         user = new User({ username, password });
         user.save();
 
         const payload = { user: { id: user.id } };
-        jwtUserApi.sign(payload, configUserApi.jwtSecret, { expiresIn: SESSION_EXPIRY }, (err, token) => {
+        jwtUserApi.sign(payload, jwtSecret, { expiresIn: SESSION_EXPIRY }, (err, token) => {
             if (err) throw err;
             res.status(201).json({ token });
         });
@@ -91,23 +99,33 @@ routerUserApi.post("/createUser", async (req, res) => {
 /**
  * POST - Update user
  */
-routerUserApi.post("/updateUser", async (req, res) => {
+routerUserApi.post("/updateUser", upload.single("imageRaw"), async (req, res) => {
     try {
-        const { _id, username, password, bio, ownRecipes, savedRecipes, following } = req.body;
+        const { _id, username, password, bio } = req.body;
+
+        let image = process.env.DEFAULT_LOGO_URL;
 
         const verifyUser = await User.findOne({ _id, username });
 
         if (!verifyUser) {
-            return res.status(400).json({ errors: [{ msg: "Invalid id for user." }] });
+            return res.status(400).json({ errors: [ { msg: "Invalid id for user." } ] });
         }
 
         if (!username || !password || password.length < PWD_LENGTH) {
-            return res.status(400).json({ errors: [{ msg: "Invalid username and/or password." }] });
+            return res.status(400).json({ errors: [ { msg: "Invalid username and/or password." } ] });
         }
-        const user = await new User({ _id, username, password, bio, ownRecipes, savedRecipes, following });
-        const newUser = await User.findOneAndUpdate({ username }, user);
 
-        if (!newUser) {
+        let user;
+
+        if (req.file) {
+            image = await Uploader.uploadImage(req.file, username);
+            user = await User.findOneAndUpdate({ _id }, { bio, password, image }, { new: true });
+        }
+        else {
+            user = await User.findOneAndUpdate({ _id }, { bio, password }, { new: true });
+        }
+
+        if (!user) {
             return res.status(400).json({ msg: "User was not found" });
         }
 
@@ -119,6 +137,7 @@ routerUserApi.post("/updateUser", async (req, res) => {
     }
 });
 
+
 /**
  * POST - Add recipe to user's savedRecipes
  */
@@ -129,7 +148,7 @@ routerUserApi.post("/saveRecipe", auth, async (req, res) => {
         const user = await User.findById(req.user.id).select("-password");
 
         if (!user) {
-            return res.status(400).json({ errors: [{ msg: "Invalid token." }] });
+            return res.status(400).json({ errors: [ { msg: "Invalid token." } ] });
         }
 
         let recipes = user.savedRecipes;
@@ -157,7 +176,7 @@ routerUserApi.post("/unsaveRecipe", auth, async (req, res) => {
         const user = await User.findById(req.user.id).select("-password");
 
         if (!user) {
-            return res.status(400).json({ errors: [{ msg: "Invalid token." }] });
+            return res.status(400).json({ errors: [ { msg: "Invalid token." } ] });
         }
 
         let recipes = user.savedRecipes;
@@ -176,7 +195,7 @@ routerUserApi.post("/unsaveRecipe", auth, async (req, res) => {
 });
 
 /**
- * GET - check if recipe id is in user's savedRecipes
+ * POST - check if recipe id is in user's savedRecipes
  */
 routerUserApi.post("/saveRecipeStatus", auth, async (req, res) => {
     try {
@@ -185,7 +204,7 @@ routerUserApi.post("/saveRecipeStatus", auth, async (req, res) => {
         const user = await User.findById(req.user.id).select("-password");
 
         if (!user) {
-            return res.status(400).json({ errors: [{ msg: "Invalid token." }] });
+            return res.status(400).json({ errors: [ { msg: "Invalid token." } ] });
         }
         const result = await User.find({ _id: req.user.id, savedRecipes: recipeId });
 
@@ -203,22 +222,41 @@ routerUserApi.post("/saveRecipeStatus", auth, async (req, res) => {
 });
 
 /**
- * GET - get user's savedRecipes
+ * POST - get user's savedRecipes
  */
-routerUserApi.get("/savedRecipes", auth, async (req, res) => {
+routerUserApi.post("/savedRecipes", auth, async (req, res) => {
     try {
-        const user = await User.findById(req.user.id).select("-password");
+        const { title, author, description, ingredients, cookingTime } = req.body;
 
+        const user = await User.findById(req.user.id).select("-password");
         if (!user) {
-            return res.status(400).json({ errors: [{ msg: "Invalid token." }] });
+            return res.status(400).json({ errors: [ { msg: "Invalid token." } ] });
         }
+
+        const query = {};
+        // @ts-expect-error any
+        if (author) query.author = author;
+        // @ts-expect-error any
+        if (title) query.title = { $regex: new RegExp(title, "i") }; // Case-insensitive title search
+        // @ts-expect-error any
+        if (description) query.description = { $regex: new RegExp(description, "i") }; // Case-insensitive description search
+        if (typeof ingredients === "object") {
+            const ingredientRegexPatterns = ingredients.map((ingredient) => new RegExp(ingredient, "i"));
+            // @ts-expect-error any
+            query.ingredients = { $all: ingredientRegexPatterns };
+        }
+        // @ts-expect-error any
+        if (cookingTime) query.cookingTime = { $lte: cookingTime }; // cooking time less than or equal to the specified value
+
+
         const result = await User.findOne({ _id: req.user.id });
         const recipeIds = result?.savedRecipes ?? [];
         const recipes = [];
         for (const recipeId of recipeIds) {
-            const recipe = await Recipe.findOne({ _id: recipeId });
-            if (recipe && recipe.isPublic) {
-                recipes.push(recipe);
+            query._id = recipeId;
+            const recipe = await Recipe.find(query);
+            if (recipe[0]) {
+                recipes.push(recipe[0]);
             }
         }
         res.status(200).json(recipes);
@@ -230,22 +268,41 @@ routerUserApi.get("/savedRecipes", auth, async (req, res) => {
 });
 
 /**
- * GET - get user's ownRecipes
+ * POST - get user's ownRecipes
  */
-routerUserApi.get("/ownRecipes", auth, async (req, res) => {
+routerUserApi.post("/ownRecipes", auth, async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select("-password");
+        const { title, author, description, ingredients, cookingTime } = req.body;
 
         if (!user) {
-            return res.status(400).json({ errors: [{ msg: "Invalid token." }] });
+            return res.status(400).json({ errors: [ { msg: "Invalid token." } ] });
         }
+
+        const query = {};
+        // @ts-expect-error any
+        if (author) query.author = author;
+        // @ts-expect-error any
+        if (title) query.title = { $regex: new RegExp(title, "i") }; // Case-insensitive title search
+        // @ts-expect-error any
+        if (description) query.description = { $regex: new RegExp(description, "i") }; // Case-insensitive description search
+        if (typeof ingredients === "object") {
+            const ingredientRegexPatterns = ingredients.map((ingredient) => new RegExp(ingredient, "i"));
+            // @ts-expect-error any
+            query.ingredients = { $all: ingredientRegexPatterns };
+        }
+        // @ts-expect-error any
+        if (cookingTime) query.cookingTime = { $lte: cookingTime }; // cooking time less than or equal to the specified value
+
+
         const result = await User.findOne({ _id: req.user.id });
         const recipeIds = result?.ownRecipes ?? [];
         const recipes = [];
         for (const recipeId of recipeIds) {
-            const recipe = await Recipe.findOne({ _id: recipeId });
-            if (recipe) {
-                recipes.push(recipe);
+            query._id = recipeId;
+            const recipe = await Recipe.find(query);
+            if (recipe[0]) {
+                recipes.push(recipe[0]);
             }
         }
         res.status(200).json(recipes);
@@ -266,7 +323,7 @@ routerUserApi.post("/followUser", auth, async (req, res) => {
         const user = await User.findById(req.user.id).select("-password");
 
         if (!user) {
-            return res.status(400).json({ errors: [{ msg: "Invalid token." }] });
+            return res.status(400).json({ errors: [ { msg: "Invalid token." } ] });
         }
 
         let following = user.following;
@@ -294,7 +351,7 @@ routerUserApi.post("/unfollowUser", auth, async (req, res) => {
         const user = await User.findById(req.user.id).select("-password");
 
         if (!user) {
-            return res.status(400).json({ errors: [{ msg: "Invalid token." }] });
+            return res.status(400).json({ errors: [ { msg: "Invalid token." } ] });
         }
 
         let following = user.following;
@@ -322,7 +379,7 @@ routerUserApi.post("/followingStatus", auth, async (req, res) => {
         const user = await User.findById(req.user.id).select("-password");
 
         if (!user) {
-            return res.status(400).json({ errors: [{ msg: "Invalid token." }] });
+            return res.status(400).json({ errors: [ { msg: "Invalid token." } ] });
         }
         const result = await User.find({ _id: req.user.id, following: username });
 

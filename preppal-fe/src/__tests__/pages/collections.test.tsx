@@ -1,11 +1,12 @@
-/* eslint-disable testing-library/no-unnecessary-act */
 /* eslint-disable testing-library/no-wait-for-empty-callback */
+/* eslint-disable no-shadow */
+import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from "react-router-dom";
 import Collections from "../../pages/collections";
 import { mockFetch } from "../../test-utils/mock-fetch";
 
-describe('Collections page tests', () => {
+describe("Collections page tests", () => {
     const testRecipe = {
         _id: "recipe-id",
         author: "random author",
@@ -18,19 +19,19 @@ describe('Collections page tests', () => {
         prepTime: 1,
         cookingTime: 1,
         isPublic: false,
-        image: "logo.png"
+        image: "logo.png",
     };
 
     beforeEach(() => {
-        jest.spyOn(console, 'error').mockImplementation(jest.fn());
+        jest.spyOn(console, "error").mockImplementation(jest.fn());
     });
 
     afterEach(() => {
-        sessionStorage.removeItem('token');
+        sessionStorage.removeItem("token");
     });
 
     describe("Unit tests", () => {
-        test('Render standard component --> Buttons', async () => {
+        test("Render standard component --> Buttons", async () => {
             render(<BrowserRouter><Collections /></BrowserRouter>);
 
             const myRecipesBtn = screen.queryByText("My Recipes");

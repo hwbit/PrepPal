@@ -1,16 +1,23 @@
+import React from "react";
 import { Row, Col } from "react-bootstrap";
 import RecipeCard from "../recipe-card/recipe-card";
 
 
 const RecipeCatalog = (recipes: any) => {
     const catalog: any[] = recipes.catalog ?? [];
-    return (<Row xs="auto" md="auto" lg="auto">
+    return (
+      <Row
+        xs={"auto"}
+        md={"auto"}
+        lg={"auto"}
+      >
         {catalog.map((entry) => (
-            <Col key={entry._id}>
-                {RecipeCard(entry)}
-            </Col>
+          <Col key={entry._id}>
+            {RecipeCard(entry)}
+          </Col>
         ))}
-    </Row>);
-}
+      </Row>
+    );
+};
 
-export default RecipeCatalog
+export default RecipeCatalog;
