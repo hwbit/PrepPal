@@ -3,7 +3,7 @@ const db = require("../configs/db.ts");
 const app = require("../app.ts");
 const UserModel = require("../models/user.ts");
 
-describe("userApi test", function () {
+describe("userApi test", function() {
     let token;
     const testId = "65e8ec6b354704617272c231";
     const testAccount = "testApiSandboxAccount";
@@ -195,7 +195,7 @@ describe("userApi test", function () {
         expect(res.statusCode).toEqual(400);
     });
 
-    //test saving recipes
+    // test saving recipes
     it("correct savedRecipes test - get saved recipes", async () => {
         const res = await request(app)
             .get("/api/users/savedRecipes")
@@ -294,7 +294,7 @@ describe("userApi test", function () {
         expect(res._body.status).toBe(false);
     });
 
-    //follow users
+    // follow users
     it("correct followUser test - follow user", async () => {
         const res = await request(app)
             .post("/api/users/followUser")
@@ -336,7 +336,7 @@ describe("userApi test", function () {
     });
 
     it("correct followStatus test - should return true when user is followed", async () => {
-        let res = await request(app)
+        const res = await request(app)
             .post("/api/users/followingStatus")
             .send({ username: "test11" })
             .set("x-auth-token", token);
@@ -382,5 +382,4 @@ describe("userApi test", function () {
         expect(res._body.following).toBeTruthy();
         expect(res._body.following).not.toContain("random-username");
     });
-
 });
