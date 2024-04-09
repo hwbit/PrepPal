@@ -79,7 +79,7 @@ describe("Profile component tests", () => {
             expect(followingCount).toBeTruthy();
         });
 
-        test("Clicking on other's profile should display following", async () => {
+        test("Clicking on other's profile should display recipes", async () => {
             window.fetch = mockFetch(otherProfile);
             await render(
               <MemoryRouter initialEntries={[`/profile/${otherProfile.username}`]}>
